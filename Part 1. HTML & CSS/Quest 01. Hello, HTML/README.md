@@ -30,9 +30,23 @@
 
 ## Checklist
 * HTML 4.x 이후의 HTML 표준의 변천사는 어떻게 되나요?
+   * HTML development by the W3C was abandoned for some time while they were working on XHTML.
+   * XHTML is an XML-based language where proper nesting and some syntactic changes were suggested.
+   * XHTML prodceeds to 2.0 but is dropped for HTML5 in 2014
+   * HTML5 introduces new semantic and media elements
+
 * MS와 IE는 왜 역사의 죄인이 되었을까요?
+   * MS wasn't interested in web standards and focused on wiping out competitors in the OS market
+   * Once everyone was using MS Windows, they didn't update IE
+   * Even when they did release new versions adoption rates were very low leaving everyone with an old and decrepid version of IE.
+
 * `<section>`과 `<div>`, `<header>`, `<footer>`, `<article>` 엘리먼트의 차이점은 무엇인가요?
+   * new elements added in HTML5 like:`<section>`, `<header>`, `<footer>`, `<article>` are semenatic elements that give meaning to what they hold. 
+   * `<div>` is a "dumb" element that can hold anything.
+
 * 블럭 레벨 엘리먼트와 인라인 엘리먼트의 차이는 무엇일까요?
+   * block level elements (ex: `<div>`, `<h1>`, `<p>`) start on a new line, take up the full width of the page, and have a line break after the element.
+   * in-line elements (ex: `<span>`, `<a>`, `<img>`) do not start on a new line and only take up as much width as necessary.
 
 ## Quest
 * [이 그림](github.png)은 github의 웹사이트 레이아웃입니다. 이 레이아웃의 정보를 HTML 문서로 표현해 보세요.
