@@ -9,30 +9,40 @@ body {
 }
 
 .contents {
+   display: flex;
+   height: 100%;
 	/* TODO: 이 곳을 채우세요! */
 }
 
 .main {
 	background-color: skyblue;
+   flex: 1;
 	/* TODO: 이 곳을 채우세요! */
 }
 
 .main header {
+   height: 30px;
 	background-color: lightgray;
 	/* TODO: 이 곳을 채우세요! */
 }
 
 .left {
+   flex: 0 0 200px;
 	background-color: pink;
 	/* TODO: 이 곳을 채우세요! */
 }
 
 .right {
+   flex: 0 0 300px;
 	background-color: greenyellow;
 	/* TODO: 이 곳을 채우세요! */
 }
 
 footer {
+   height: 50px;
+   width:100%;
 	background-color: yellow;
+   position: absolute;
+   bottom:0px;
 	/* TODO: 이 곳을 채우세요! */
 }
