@@ -20,6 +20,13 @@
 
 ## Checklist
 * CSS 퍼블리싱을 할 때, class와 selector들은 어떤 식으로 정리하는 것이 좋을까요?
+   * Might be overkill, but following some sort of object oriented approach might be appropriate for this project.
+   * main useful principles to follow:
+      1. Separate structure and skin
+         * allows clear structure, while also allowing reuse of skins.
+      2. Separate container and content
+         * avoids container specific selectors to child elements and allows more repeated use of content styles.
+   * following OOCSS might lead to some HTML bloat due to multiple classes per element, but not a big issue for this project size.
 
 ## Quest
 * Quest 01에서 만들었던 HTML을 바탕으로, [이 그림](github.png)의 레이아웃과 CSS를 최대한 비슷하게 흉내내 보세요. 꼭 완벽히 정확할 필요는 없으나 align 등의 속성은 일치해야 합니다.
