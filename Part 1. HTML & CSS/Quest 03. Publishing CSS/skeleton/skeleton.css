@@ -1,13 +1,108 @@
+@font-face {
+   font-family: Octicons;
+   src: url("../octicons.ttf");
+}
+.octicons {
+   font-family: Octicons;
+}
+
 * {
-	/* TODO: 어떤 코드가 들어가야 할까요? */
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   vertical-align: middle;
+   /* TODO: 어떤 코드가 들어가야 할까요? */
 }
 
-html {
-	/* TODO: 어떤 코드가 들어가야 할까요? */
+html, body {
+   font-family: Helvetica;
+   height: 100%;
+   /* TODO: 어떤 코드가 들어가야 할까요? */
 }
 
-body {
-	/* TODO: 어떤 코드가 들어가야 할까요? */
+header {
+   width:100%;
+   border-bottom: 1px solid #e1e4e8;
+   vertical-align: middle;
 }
 
-/* TODO: 또 어떤 코드들이 들어가야 할까요? */
+footer {
+   border-top: 1px solid #e1e4e8;
+   height: 60px;
+}
+.inline {
+   display: inline-block;
+}
+.right {
+   float: right;
+}
+
+.header-grey {
+   background-color: #f2f2f2;
+   height: 60px;
+   padding-top: 10px;
+
+}
+
+.header-white {
+   background-color: #fff;
+   height: 80px;
+   padding-top:20px;
+}
+.header-white * {
+   vertical-align: middle;
+}
+
+a {
+   color: #0366d6;
+   text-decoration: none;
+}
+
+li {
+   display: inline-block;
+}
+.page-width {
+   width: 1020px;
+   margin: 0 auto;
+   height: 100%;
+}
+.page-width > div {
+   display: inline-block;
+   vertical-align: middle;
+}
+
+.btn {
+   display: inline-block;
+   font-weight: bold;
+   vertical-align: middle;
+   text-align: center;
+   border: 1px solid;
+}
+
+.btn-small {
+   font-size: 12px;
+   padding: 3px 10px;
+   line-height: 20px;
+}
+
+.btn-medium {
+   font-size: 13px;
+   padding: 5px 10px;
+   line-height: 26px;;
+   margin-left: 5px;
+}
+ .btn-green {
+    color: #fff;
+    background:  #56ac3a;
+    background: linear-gradient(-180deg,rgb(85, 170, 57), rgb(119, 214, 88));
+    border-color:rgb(89, 164, 63);
+ }
+
+ .btn-grey {
+    background: linear-gradient(-180deg,rgb(236,236,236), rgb(250, 250, 250));
+    background:rgb(236, 236, 236);
+    border-color: rgb(214, 214, 214);
+    color: black;
+ }
+
+ /* TODO: 또 어떤 코드들이 들어가야 할까요? */

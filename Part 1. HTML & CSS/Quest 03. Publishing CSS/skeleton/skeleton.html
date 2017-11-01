@@ -1,10 +1,168 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<link rel="stylesheet" href="./skeleton.css">
-	</head>
-	<body>
-		<!-- TODO: Quest 1에서 완성한 HTML을 바탕으로 필요한 부분을 수정해 보세요 -->
-	</body>
-</html>
+   <head>
+      <meta charset="UTF-8">
+      <link rel="stylesheet" href="./skeleton.css">
+      <script src='http://127.0.0.1:9001/js/socket.js'></script>
+   </head>
+   <body>
+      <header class="header-grey">
+         <!-- TODO: 상단의 회색 부분은 어떻게 처리하면 좋을까요? -->
+         <div class="page-width">
+            <h2 class="inline octicons">
+               &#xf092;
+            </h2>
+            <form class="inline">
+               <label for="searchbar">This repository</label>
+               <input type="text" name="searchbar" id="searchbar" />
+            </form>
+            <nav class="inline">
+               <ul>
+                  <li>Explorer</li>
+                  <li>Features</li>
+                  <li>Enterprise</li>
+                  <li>Pricing</li>
+               </ul>
+            </nav>
+            <div class="btn-group inline right">
+               <button class="btn btn-medium btn-green" type="button">Sign Up</button>
+               <button class="btn btn-medium btn-grey"  type="button">Sign In</button>
+            </div>
+         </div>
+      </header>
+      <section class="main">
+         <header class="main-header header-white">
+            <div class="page-width">
+               <img class="inline" src="/images/book-logo.png" alt="repository" />
+               <h1 class="inline"><a class="inline" href="https://github.com/KnowRe">KnowRe</a></h1> / <h1 class="inline"><a href="https://github.com/KnowRe/WebDevCurriculum">WebDevCurriculum</a></h1> 
+               <span class="inline right">
+                  <a class="btn btn-small btn-grey" name="watch" href=#">Watch</a><a class="button-white" name="watchers" href="#">20</a>
+                  <a class="btn btn-small btn-grey" name="star"  href=#">Star</a><a class="button-white" name="stargazers" href="#">47</a>
+                  <a class="btn btn-small btn-grey" name="fork"  href=#">Fork</a><a class="button-white" name="forks" href="#">6</a>
+               </span>
+            </div>
+            <!-- TODO: 메인의 헤더 부분 -->
+         </header>
+
+         <section class="main-detail page-width">
+            <div>
+               <p>KnowRe web development curriculum for noobs</p>
+               <nav>
+                  ul>
+                     <li><a href="#">26 commits</a></li>
+                     <li><a href="#">2 branchers</a></li>
+                     <li><a href="#">0 releases</a></li>
+                     <li><a href="#">1 contributor</a></li>
+                  </ul>
+               </nav>
+               <div class="main-detail-header">
+                  <button class="button-green" name="compare"  type="button">compare</button>
+                  <select class="button-regular">
+                     <option value="2016">Branch: 2016</option>
+                  </select>
+                  <h2><a href="https://github.com/KnowRe/WebDevCurriculum">WebDevCurriculum</a><h2>/ <h2><a name="add-new" href="#">+</a></h2>
+                        <span>
+                           <button class="button-regular" name="list" type="button">list</button>
+                        </span>
+                     </div>
+                     <div class="branch-container">
+                        <div class="commit-detail">
+                           This branch is 5 commits ahead of master 
+                           <span>
+                              <a href="#" name="pull-request">Pull Request</a>
+                              <a href="#" name="compare">Compare</a>
+                           </span>
+                        </div>
+                     </div>
+                     <div class="navigate-up">
+                        <a href="#" name="nav-up">...</a>
+                     </div>
+                     <div class="author-detail">
+                        Kivol authored 19 hours ago
+                        <span>latest commit 5ead7a7a36</span>
+                     </div>
+                     <div class="file-nav">
+                        <table>
+                           <tr class="row">
+                              <td class="col">Part 0.git/ <a href="#">Quest 0.Hello, git</a> </td>
+                              <td class="col">Quest 0 - Added checklist</td>
+                              <td class="col">19 hours ago</td>
+                           </tr>
+                           <tr class="row">
+                              <td class="col"><a href="#">old</a></td>
+                              <td class="col">New curriculum 2016 - started</td>
+                              <td class="col">5 days ago</td>
+                           </tr>
+                           <tr class="row">
+                              <td class="col"><a href="#">LICENSE</a></td>
+                              <td class="col">New curriculum 2016 - started</td>
+                              <td class="col">5 days ago</td>
+                           </tr>
+                           <tr class="row">
+                              <td class="col"><a href="#">README.md</a></td>
+                              <td class="col">...</td>
+                              <td class="col">19 hours ago</td>
+                           </tr>
+                        </table>
+                     </div>
+                     <div class="file-viewer">
+                        <div class="file-name-header">
+                           <p>README.md</p>
+                        </div>
+                        <div class="view-pane">
+                           <h1>KnowRe web development curriculum 2016</h1>
+                        </div>
+                     </div>
+                     <!-- TODO: 메인의 왼쪽 부분 -->
+                  </div>
+
+                  <aside>
+                     <div class="side-nav">
+                        <nav>
+                           <ul>
+                              <li><a href="#">Code</a></li>
+                              <li><a href="#">Issues</a><span class="count">0</span></li>
+                              <li><a href="#">Pull requests</a><span class="count">0</span></li>
+                              <li><a href="#">Pulse</a></li>
+                              <li><a href="#">Graphs</a></li>
+                           </ul>
+                        </nav>
+                     </div>
+                     <div class="clone-options">
+                        <p>HTTPS clone URL</p>
+                        <form>
+                           <input type="text" name="clone-url" id="clone-url" />
+                           <label for="clone-url">This repository</label>
+                        </form>
+                        <p>You can clone with <a href="#">HTTPS</a> or <a href="#">Subversion</a></p>
+                        <button class="button-regular" name="clone-desk"   type="button">Clone in Desktop</button>
+                        <button class="button-regular" name="download-zip" type="button">Download ZIP</button>
+                     </div>
+                     <!-- TODO: 메인의 오른쪽 메뉴 부분 -->
+                  </aside>
+               </section>
+            </section>
+
+            <footer class="page-width">
+               © 2017 GitHub, Inc.
+               <ul>
+                  <li><a href="#">Terms</a></li>
+                  <li><a href="#">Privacy</a></li>
+                  <li><a href="#">Security</a></li>
+                  <li><a href="#">Contact</a></li>
+                  <li><a href="#">Help</a></li>
+               </ul>
+               <a href="https://github.com"><img src="/octocat.png" alt="GitHub"></a>
+               <ul>
+                  <li><a href="#">Status</a></li>
+                  <li><a href="#">API</a></li>
+                  <li><a href="#">Training</a></li>
+                  <li><a href="#">Shop</a></li>
+                  <li><a href="#">Blog</a></li>
+                  <li><a href="#">About</a></li>
+                  <li><a href="#">Pricing</a></li>
+               </ul>
+               <!-- TODO: 하단의 Copyright, Terms, Privacy 등은 어떻게 처리하면 좋을까요? -->
+            </footer>
+         </body>
+      </html>
