@@ -1,7 +1,18 @@
+ /* --- contents ---                */
+ /*   1. general settings           */
+ /*   2. reusable structural items  */
+ /*   3. reusable skins             */
+ /*   4. section specific stylings  */
+ /*      a. header                  */
+ /*      b. side nav                */
+ /*      c. main body               */
+
+/* 1. general settings */
 @font-face {
    font-family: Octicons;
    src: url("../octicons.ttf");
 }
+
 .octicons {
    font-family: Octicons;
 }
@@ -10,47 +21,14 @@
    margin: 0;
    padding: 0;
    box-sizing: border-box;
-   vertical-align: middle;
    /* TODO: 어떤 코드가 들어가야 할까요? */
 }
 
 html, body {
    font-family: Helvetica;
+   color: rgb(38, 38, 38);
    height: 100%;
    /* TODO: 어떤 코드가 들어가야 할까요? */
-}
-
-header {
-   width:100%;
-   border-bottom: 1px solid #e1e4e8;
-   vertical-align: middle;
-}
-
-footer {
-   border-top: 1px solid #e1e4e8;
-   height: 60px;
-}
-.inline {
-   display: inline-block;
-}
-.right {
-   float: right;
-}
-
-.header-grey {
-   background-color: #f2f2f2;
-   height: 60px;
-   padding-top: 10px;
-
-}
-
-.header-white {
-   background-color: #fff;
-   height: 80px;
-   padding-top:20px;
-}
-.header-white * {
-   vertical-align: middle;
 }
 
 a {
@@ -58,17 +36,18 @@ a {
    text-decoration: none;
 }
 
-li {
-   display: inline-block;
+/* 2. reusable structural items */
+.right {
+   float: right;
 }
+
 .page-width {
    width: 1020px;
    margin: 0 auto;
    height: 100%;
 }
-.page-width > div {
-   display: inline-block;
-   vertical-align: middle;
+
+.btn-group {
 }
 
 .btn {
@@ -91,6 +70,8 @@ li {
    line-height: 26px;;
    margin-left: 5px;
 }
+
+/* 3. reusable skins */
  .btn-green {
     color: #fff;
     background:  #56ac3a;
@@ -102,7 +83,95 @@ li {
     background: linear-gradient(-180deg,rgb(236,236,236), rgb(250, 250, 250));
     background:rgb(236, 236, 236);
     border-color: rgb(214, 214, 214);
-    color: black;
+    color: rgb(38, 38, 38);
  }
+
+/* 4. section specific stylings  */ 
+/*    a. header                  */
+header {
+   width:100%;
+   border-bottom: 1px solid #e1e4e8;
+}
+
+.header-grey {
+   background-color: #f2f2f2;
+   height: 60px;
+
+}
+
+.top-nav {
+   display: inline-block;
+   height: 60px;
+   line-height: 60px;
+   vertical-align: middle;
+}
+
+span.top-nav {
+   font-size: 36px;
+   margin-right:10px;
+   height:55px;
+}
+
+form.top-nav {
+   background-color: white;
+   border-radius: 3px;
+   border: 1px solid rgb(173, 173, 173);
+   height: 28px;
+   line-height:28px;
+   width: 340px;
+   vertical-align: middle;
+}
+form.top-nav > label {
+   display: inline-block;
+   padding: 2px;
+   margin: 2px;
+   height: 22px;
+   line-height: 22px;
+   background-color: #f2f2f2;
+   color: rgb(173, 173, 173);
+   font-size: 12px;
+    
+}
+form.top-nav > input {
+    display:inline-block;
+    outline:none !important;
+    width: 232px;
+    height: 24px;
+    line-height:24px;
+    padding: 2px 0;
+    background:none;
+    border: none;
+}
+
+nav.top-nav > ul > li {
+   font-weight: bold;
+   font-size: 15px;
+   padding:0 5px;
+}
+footer {
+   border-top: 1px solid #e1e4e8;
+   height: 60px;
+}
+
+.grey-font {
+   color: rgb(173, 173, 173);
+}
+
+
+
+.header-white {
+   background-color: #fff;
+   height: 80px;
+   padding-top:20px;
+}
+.header-white * {
+   vertical-align: middle;
+}
+
+
+li {
+   display: inline-block;
+}
+
 
  /* TODO: 또 어떤 코드들이 들어가야 할까요? */
