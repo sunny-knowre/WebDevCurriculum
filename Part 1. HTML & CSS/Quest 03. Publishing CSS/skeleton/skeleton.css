@@ -14,6 +14,10 @@
    src: url("../octicons.ttf");
 }
 
+.monofont {
+   font-family: "Monaco";
+}
+
 .octicons {
    font-family: Octicons;
 }
@@ -69,9 +73,10 @@ li {
 }
 
 .btn-small {
-   font-size: 12px;
-   padding: 3px 10px;
-   line-height: 20px;
+   font-size: 16px;
+   font-weight: normal;
+   padding: 3px 11px;
+   line-height: 16px;
 }
 
 .split-btn-frame {
@@ -200,10 +205,10 @@ nav.top-nav > ul > li {
 .header-white {
    background-color: #fff;
    height: 80px;
-   line-height:80px
+   line-height:80px;
+   vertical-align: middle;
 }
 .sub-header {
-   padding: 0 2px;
    font-size: 21px;
 }
 
@@ -237,6 +242,52 @@ span.sub-header-icon {
 }
 .info-item span {
    margin: 0 3px;
+}
+select {
+   background: none;
+   border: 0px;
+   font-size: 12px;
+}
+.main-detail-header { 
+   height: 50px;
+   line-height:50px;
+}
+/*    c. table                      */
+table.file-navigator {
+   margin: 10px 0;
+   border-spacing:0;
+   width: 100%;
+   text-align: left;
+   font-size: 14px;
+   border-radius: 3px;
+   border: 1px solid #e1e4e8;
+}
+span.monofont {
+   font-size: 12px;
+}
+
+tr:last-child td {
+   border-bottom: none;
+}
+
+.col {
+   padding: 5px;
+   height: 35px;
+   border-bottom: 1px solid #e1e4e8;
+}
+tr.active {
+   background-color: rgb(242, 242, 242);
+}
+tr.table-details td {
+   background-color: rgb(242, 242, 242);
+   height:30px;
+}
+td a.octicons {
+   color:rgb(120, 164, 214);
+   font-size:17px;
+}
+tr.nav-up td {
+   background-color: rgb(224, 237, 244)
 }
 
 /*    c. side bar                   */

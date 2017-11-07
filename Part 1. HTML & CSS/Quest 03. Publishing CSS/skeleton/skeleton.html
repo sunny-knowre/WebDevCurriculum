@@ -74,120 +74,148 @@
                </p>
                <nav>
                   <ul class="branch-infobar flexbox-container">
-                     <li class="info-item"><span class="octicons grey-font">&#xf07e</span><span>26</span><a class="grey-font" href="#">commits</a></li>
-                     <li class="info-item"><span class="octicons grey-font">&#xf020</span><span>2</span><a class="grey-font" href="#">branches</a></li>
-                     <li class="info-item"><span class="octicons grey-font">&#xf015</span><span>0</span><a class="grey-font" href="#">releases</a></li>
-                     <li class="info-item"><span class="octicons grey-font">&#xf037</span><span>1</span><a class="grey-font" href="#">contributor</a></li>
+                     <li class="info-item"><span class="octicons grey-font">&#xf07e;</span><span>26</span><a class="grey-font" href="#">commits</a></li>
+                     <li class="info-item"><span class="octicons grey-font">&#xf020;</span><span>2</span><a class="grey-font" href="#">branches</a></li>
+                     <li class="info-item"><span class="octicons grey-font">&#xf015;</span><span>0</span><a class="grey-font" href="#">releases</a></li>
+                     <li class="info-item"><span class="octicons grey-font">&#xf037;</span><span>1</span><a class="grey-font" href="#">contributor</a></li>
                   </ul>
                </nav>
                <div class="main-detail-header">
-                  <button class="button-green" name="compare"  type="button">compare</button>
-                  <select class="button-regular">
-                     <option value="2016">Branch: 2016</option>
-                  </select>
-                  <h2><a href="https://github.com/KnowRe/WebDevCurriculum">WebDevCurriculum</a><h2>/ <h2><a name="add-new" href="#">+</a></h2>
-                        <span>
-                           <button class="button-regular" name="list" type="button">list</button>
-                        </span>
-                     </div>
-                     <div class="branch-container">
-                        <div class="commit-detail">
-                           This branch is 5 commits ahead of master 
-                           <span>
-                              <a href="#" name="pull-request">Pull Request</a>
-                              <a href="#" name="compare">Compare</a>
-                           </span>
-                        </div>
-                     </div>
-                     <div class="navigate-up">
-                        <a href="#" name="nav-up">...</a>
-                     </div>
-                     <div class="author-detail">
-                        Kivol authored 19 hours ago
-                        <span>latest commit 5ead7a7a36</span>
-                     </div>
-                     <div class="file-nav">
-                        <table>
-                           <tr class="row">
-                              <td class="col">Part 0.git/ <a href="#">Quest 0.Hello, git</a> </td>
-                              <td class="col">Quest 0 - Added checklist</td>
-                              <td class="col">19 hours ago</td>
-                           </tr>
-                           <tr class="row">
-                              <td class="col"><a href="#">old</a></td>
-                              <td class="col">New curriculum 2016 - started</td>
-                              <td class="col">5 days ago</td>
-                           </tr>
-                           <tr class="row">
-                              <td class="col"><a href="#">LICENSE</a></td>
-                              <td class="col">New curriculum 2016 - started</td>
-                              <td class="col">5 days ago</td>
-                           </tr>
-                           <tr class="row">
-                              <td class="col"><a href="#">README.md</a></td>
-                              <td class="col">...</td>
-                              <td class="col">19 hours ago</td>
-                           </tr>
-                        </table>
-                     </div>
-                     <div class="file-viewer">
-                        <div class="file-name-header">
-                           <p>README.md</p>
-                        </div>
-                        <div class="view-pane">
-                           <h1>KnowRe web development curriculum 2016</h1>
-                        </div>
-                     </div>
-                     <!-- TODO: 메인의 왼쪽 부분 -->
+                  <button class="btn btn-small btn-green" type="button">
+                     <span class="octicons">&#xf0ac;</span>
+                  </button>
+                  <button class="btn btn-small btn-grey"  type="button">
+                     <select>
+                        <option value="2016">Branch: 2016</option>
+                     </select>
+                  </button>
+                  <a class="sub-header" href="https://github.com/KnowRe/WebDevCurriculum">WebDevCurriculum</a>
+                  <span class="sub-header grey-font">/</span>
+                  <a class="sub-header grey-font" name="add-new" href="#">+</a>
+                  <div class="right">
+                     <button class="btn btn-small btn-grey" name="list" type="button">
+                        <span class="octicons">&#xf061;</span>   
+                     </button>
                   </div>
-
-                  <aside class="flex-side">
-                     <div class="side-nav">
-                        <nav>
-                           <ul>
-                              <li><a href="#">Code</a></li>
-                              <li><a href="#">Issues</a><span class="count">0</span></li>
-                              <li><a href="#">Pull requests</a><span class="count">0</span></li>
-                              <li><a href="#">Pulse</a></li>
-                              <li><a href="#">Graphs</a></li>
-                           </ul>
-                        </nav>
+               </div>
+               <div class="branch-container">
+                  <table class="file-navigator">
+                     <tr class="row table-details">
+                        <td class="col grey-font">This branch is 5 commits ahead of master</td>
+                        <td class="col"></td>
+                        <td class="col">
+                           <div class="right">
+                              <span class="octicons grey-font">&#xf009;</span>   
+                              <a class="grey-font" href="#" name="pull-request">Pull Request </a>
+                              <span class="octicons grey-font"> &#xf04d;</span>   
+                              <a class="grey-font" href="#" name="compare">Compare</a>
+                           </div>
+                        </span>
+                     </td>
+                  </tr>
+                  <tr class="row nav-up">
+                     <td class="col"><a href="#" name="nav-up">...</a></td>
+                     <td class="col"></td>
+                     <td class="col"></td>
+                  </tr>
+                  <tr class="table-details">
+                     <td class="col">
+                        <span>Kivol </span><span class="grey-font">authored 19 hours ago</span>
+                     </td>
+                     <td class="col"></td>
+                     <td class="col">
+                        <div class="right">
+                        <span class="monofont grey-font">latest commit 5ead7a7a36</span>
+                        <a class="octicons" href="#">&#xf035;</a>
                      </div>
-                     <div class="clone-options">
-                        <p>HTTPS clone URL</p>
-                        <form>
-                           <input type="text" name="clone-url" id="clone-url" />
-                           <label for="clone-url">This repository</label>
-                        </form>
-                        <p>You can clone with <a href="#">HTTPS</a> or <a href="#">Subversion</a></p>
-                        <button class="button-regular" name="clone-desk"   type="button">Clone in Desktop</button>
-                        <button class="button-regular" name="download-zip" type="button">Download ZIP</button>
-                     </div>
-                     <!-- TODO: 메인의 오른쪽 메뉴 부분 -->
-                  </aside>
-               </section>
-            </section>
+                     </td>
+                  </tr>
+                  <tr class="row">
+                     <td class="col">
+                        <a class="octicons">&#xf016;</a>   
+                        <span class="grey-font">Part 0.git/</span> <a href="#">Quest 0.Hello, git</a> 
+                     </td>
+                     <td class="col grey-font">Quest 0 - Added checklist</td>
+                     <td class="col grey-font"><span class="right">19 hours ago</span></td>
+                  </tr>
+                  <tr class="row">
+                     <td class="col">
+                        <a class="octicons">&#xf016;</a>   
+                        <a href="#">old</a>
+                     </td>
+                     <td class="col grey-font">New curriculum 2016 - started</td>
+                     <td class="col grey-font"><span class="right">5 days ago</span></td>
+                  </tr>
+                  <tr class="row active">
+                     <td class="col"><a href="#">LICENSE</a></td>
+                     <td class="col grey-font">New curriculum 2016 - started</td>
+                     <td class="col grey-font"><span class="right">5 days ago</span></td>
+                  </tr>
+                  <tr class="row">
+                     <td class="col"><a href="#">README.md</a></td>
+                     <td class="col grey-font">...</td>
+                     <td class="col grey-font"><span class="right">19 hours ago</span></td>
+                  </tr>
+               </table>
+            </div>
+            <div class="file-viewer">
+               <div class="file-name-header">
+                  <p>README.md</p>
+               </div>
+               <div class="view-pane">
+                  <h1>KnowRe web development curriculum 2016</h1>
+               </div>
+            </div>
+            <!-- TODO: 메인의 왼쪽 부분 -->
+         </div>
 
-            <footer class="page-width">
-               <p class="grey-font left">© 2017 GitHub, Inc.</p>
-               <ul class="flex-left2">
-                  <li><a href="#">Terms</a></li>
-                  <li><a href="#">Privacy</a></li>
-                  <li><a href="#">Security</a></li>
-                  <li><a href="#">Contact</a></li>
-                  <li><a href="#">Help</a></li>
-               </ul>
-               <span class="grey-font octicons">&#xf00a;</span>
-               <ul class="right">
-                  <li><a href="#">Status</a></li>
-                  <li><a href="#">API</a></li>
-                  <li><a href="#">Training</a></li>
-                  <li><a href="#">Shop</a></li>
-                  <li><a href="#">Blog</a></li>
-                  <li><a href="#">About</a></li>
-                  <li><a href="#">Pricing</a></li>
-               </ul>
-               <!-- TODO: 하단의 Copyright, Terms, Privacy 등은 어떻게 처리하면 좋을까요? -->
-            </footer>
-         </body>
-      </html>
+            <aside class="flex-side">
+               <div class="side-nav">
+                  <nav>
+                     <ul>
+                        <li><a href="#">Code</a></li>
+                        <li><a href="#">Issues</a><span class="count">0</span></li>
+                        <li><a href="#">Pull requests</a><span class="count">0</span></li>
+                        <li><a href="#">Pulse</a></li>
+                        <li><a href="#">Graphs</a></li>
+                     </ul>
+                  </nav>
+               </div>
+               <div class="clone-options">
+                  <p>HTTPS clone URL</p>
+                  <form>
+                     <input type="text" name="clone-url" id="clone-url" />
+                     <label for="clone-url">This repository</label>
+                  </form>
+                  <p>You can clone with <a href="#">HTTPS</a> or <a href="#">Subversion</a></p>
+                  <button class="button-regular" name="clone-desk"   type="button">Clone in Desktop</button>
+                  <button class="button-regular" name="download-zip" type="button">Download ZIP</button>
+               </div>
+               <!-- TODO: 메인의 오른쪽 메뉴 부분 -->
+            </aside>
+         </section>
+      </section>
+
+      <footer class="page-width">
+         <p class="grey-font left">© 2017 GitHub, Inc.</p>
+         <ul class="flex-left2">
+            <li><a href="#">Terms</a></li>
+            <li><a href="#">Privacy</a></li>
+            <li><a href="#">Security</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Help</a></li>
+         </ul>
+         <span class="grey-font octicons">&#xf00a;</span>
+         <ul class="right">
+            <li><a href="#">Status</a></li>
+            <li><a href="#">API</a></li>
+            <li><a href="#">Training</a></li>
+            <li><a href="#">Shop</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Pricing</a></li>
+         </ul>
+         <!-- TODO: 하단의 Copyright, Terms, Privacy 등은 어떻게 처리하면 좋을까요? -->
+      </footer>
+   </body>
+</html>
