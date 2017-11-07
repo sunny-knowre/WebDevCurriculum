@@ -8,7 +8,7 @@
  /*      c. main body               */
 
 
-/* 1. general settings */
+/* 1. general settings              */
 @font-face {
    font-family: Octicons;
    src: url("../octicons.ttf");
@@ -37,9 +37,21 @@ a {
    text-decoration: none;
 }
 
-/* 2. reusable structural items */
+li {
+   display: inline-block;
+}
+
+/* 2. reusable structural items     */
+.flexbox-container{
+	display: flex;
+	width: 100%;
+}
+
 .right {
    float: right;
+}
+.left {
+   float: left;
 }
 
 .page-width {
@@ -52,7 +64,6 @@ a {
    border-radius: 3px;
    display: inline-block;
    font-weight: bold;
-   vertical-align: middle;
    text-align: center;
    border: 1px solid;
 }
@@ -68,7 +79,6 @@ a {
    line-height: 20px;
    border-radius: 3px;
    display: inline-block;
-   vertical-align: middle;
    text-align: center;
    border: 1px solid;
    border-color: rgb(214, 214, 214);
@@ -103,7 +113,7 @@ a {
    line-height: 26px;
 }
 
-/* 3. reusable skins */
+/* 3. reusable skins                */
  .btn-green {
     color: #fff;
     background:  #56ac3a;
@@ -118,8 +128,12 @@ a {
     color: rgb(38, 38, 38);
  }
 
-/* 4. section specific stylings  */ 
-/*    a. header                  */
+.grey-font {
+   color: rgb(173, 173, 173);
+}
+
+/* 4. section specific stylings     */ 
+/*    a. header                     */
 header {
    width:100%;
    border-bottom: 1px solid #e1e4e8;
@@ -150,7 +164,6 @@ form.top-nav {
    height: 28px;
    line-height:28px;
    width: 340px;
-   vertical-align: middle;
 }
 form.top-nav > label {
    display: inline-block;
@@ -199,25 +212,36 @@ span.sub-header-icon {
    margin-right:10px;
 }
 
+/*    b. main content               */
+.flex-main-left {
+   flex: 1 0 80%;
+}
+/*    c. side bar                   */
+.flex-side {
+   flex 1 auto;
+}
+/*    footer                        */
 footer {
    border-top: 1px solid #e1e4e8;
+   padding-top: 20px;
    height: 60px;
 }
-
-.grey-font {
-   color: rgb(173, 173, 173);
+footer * {
+   display: inline;
 }
+footer .octicons {
+   position:absolute;
+   font-size: 22px;
+   left: 50%;
+   right: 50%;
 
-
-
-.header-white * {
-   vertical-align: middle;
 }
+footer li {
+   padding: 2px;
 
 
-li {
-   display: inline-block;
-}
+
+
 
 
  /* TODO: 또 어떤 코드들이 들어가야 할까요? */
