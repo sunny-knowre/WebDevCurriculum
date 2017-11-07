@@ -129,7 +129,7 @@ li {
  }
 
 .grey-font {
-   color: rgb(173, 173, 173);
+   color: rgb(150, 150, 150);
 }
 
 /* 4. section specific stylings     */ 
@@ -215,7 +215,30 @@ span.sub-header-icon {
 /*    b. main content               */
 .flex-main-left {
    flex: 1 0 80%;
+   padding-right: 1rem;
 }
+
+.repo-description {
+   line-height: 50px;
+}
+
+.branch-infobar {
+   height: 50px;
+   justify-content: space-evenly;
+   border-radius: 3px;
+   border: 1px solid #e1e4e8;
+
+}
+.info-item {
+   flex: 1 auto;
+   text-align: center;
+   line-height: 38px;
+   border-bottom: 10px solid rgb(237, 220, 73);
+}
+.info-item span {
+   margin: 0 3px;
+}
+
 /*    c. side bar                   */
 .flex-side {
    flex 1 auto;
