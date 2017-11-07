@@ -125,9 +125,9 @@
                      <td class="col"></td>
                      <td class="col">
                         <div class="right">
-                        <span class="monofont grey-font">latest commit 5ead7a7a36</span>
-                        <a class="octicons" href="#">&#xf035;</a>
-                     </div>
+                           <span class="monofont grey-font">latest commit 5ead7a7a36</span>
+                           <a class="octicons" href="#">&#xf035;</a>
+                        </div>
                      </td>
                   </tr>
                   <tr class="row">
@@ -158,64 +158,70 @@
                   </tr>
                </table>
             </div>
-            <div class="file-viewer">
-               <div class="file-name-header">
-                  <p>README.md</p>
-               </div>
-               <div class="view-pane">
-                  <h1>KnowRe web development curriculum 2016</h1>
-               </div>
-            </div>
+            <table class="file-navigator">
+               <tr class="row active">
+                  <td class="col">
+                     <span class="octicons">&#xf007;</span><span> README.md</span>
+                  </td>
+               </tr>
+               <tr class="row main-content">
+                  <td class="col">
+                     <div class="content-viewer">
+                        <h1>KnowRe web development curriculum 2016</h1>
+                     </div>
+                  </td>
+               </tr>
+            </table>
             <!-- TODO: 메인의 왼쪽 부분 -->
          </div>
 
-            <aside class="flex-side">
-               <div class="side-nav">
-                  <nav>
-                     <ul>
-                        <li><a href="#">Code</a></li>
-                        <li><a href="#">Issues</a><span class="count">0</span></li>
-                        <li><a href="#">Pull requests</a><span class="count">0</span></li>
-                        <li><a href="#">Pulse</a></li>
-                        <li><a href="#">Graphs</a></li>
-                     </ul>
-                  </nav>
-               </div>
-               <div class="clone-options">
-                  <p>HTTPS clone URL</p>
-                  <form>
-                     <input type="text" name="clone-url" id="clone-url" />
-                     <label for="clone-url">This repository</label>
-                  </form>
-                  <p>You can clone with <a href="#">HTTPS</a> or <a href="#">Subversion</a></p>
-                  <button class="button-regular" name="clone-desk"   type="button">Clone in Desktop</button>
-                  <button class="button-regular" name="download-zip" type="button">Download ZIP</button>
-               </div>
-               <!-- TODO: 메인의 오른쪽 메뉴 부분 -->
-            </aside>
-         </section>
+         <aside class="flex-side">
+            <div class="side-nav">
+               <nav>
+                  <ul>
+                     <li><a href="#">Code</a></li>
+                     <li><a href="#">Issues</a><span class="count">0</span></li>
+                     <li><a href="#">Pull requests</a><span class="count">0</span></li>
+                     <li><a href="#">Pulse</a></li>
+                     <li><a href="#">Graphs</a></li>
+                  </ul>
+               </nav>
+            </div>
+            <div class="clone-options">
+               <p>HTTPS clone URL</p>
+               <form>
+                  <input type="text" name="clone-url" id="clone-url" />
+                  <label for="clone-url">This repository</label>
+               </form>
+               <p>You can clone with <a href="#">HTTPS</a> or <a href="#">Subversion</a></p>
+               <button class="button-regular" name="clone-desk"   type="button">Clone in Desktop</button>
+               <button class="button-regular" name="download-zip" type="button">Download ZIP</button>
+            </div>
+            <!-- TODO: 메인의 오른쪽 메뉴 부분 -->
+         </aside>
       </section>
+   </section>
 
-      <footer class="page-width">
-         <p class="grey-font left">© 2017 GitHub, Inc.</p>
-         <ul class="flex-left2">
-            <li><a href="#">Terms</a></li>
-            <li><a href="#">Privacy</a></li>
-            <li><a href="#">Security</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">Help</a></li>
-         </ul>
-         <span class="grey-font octicons">&#xf00a;</span>
-         <ul class="right">
-            <li><a href="#">Status</a></li>
-            <li><a href="#">API</a></li>
-            <li><a href="#">Training</a></li>
-            <li><a href="#">Shop</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Pricing</a></li>
-         </ul>
-         <!-- TODO: 하단의 Copyright, Terms, Privacy 등은 어떻게 처리하면 좋을까요? -->
-      </footer>
-   </body>
+   <footer class="page-width">
+      <p class="grey-font left">© 2017 GitHub, Inc.</p>
+      <ul class="flex-left2">
+         <li><a href="#">Terms</a></li>
+         <li><a href="#">Privacy</a></li>
+         <li><a href="#">Security</a></li>
+         <li><a href="#">Contact</a></li>
+         <li><a href="#">Help</a></li>
+      </ul>
+      <span class="grey-font octicons">&#xf00a;</span>
+      <ul class="right">
+         <li><a href="#">Status</a></li>
+         <li><a href="#">API</a></li>
+         <li><a href="#">Training</a></li>
+         <li><a href="#">Shop</a></li>
+         <li><a href="#">Blog</a></li>
+         <li><a href="#">About</a></li>
+         <li><a href="#">Pricing</a></li>
+      </ul>
+      <!-- TODO: 하단의 Copyright, Terms, Privacy 등은 어떻게 처리하면 좋을까요? -->
+   </footer>
+</body>
 </html>

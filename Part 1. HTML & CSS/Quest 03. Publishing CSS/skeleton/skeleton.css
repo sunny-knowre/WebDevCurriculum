@@ -289,6 +289,17 @@ td a.octicons {
 tr.nav-up td {
    background-color: rgb(224, 237, 244)
 }
+tr.main-content td {
+   min-height: 150px;
+   padding: 20px;
+}
+.content-viewer {
+   border-bottom: 1px solid #e1e4e8;
+   padding-bottom:10px;
+}
+.content-viewer h1 {
+   font-size: 40px;
+}
 
 /*    c. side bar                   */
 .flex-side {
@@ -297,7 +308,7 @@ tr.nav-up td {
 /*    footer                        */
 footer {
    border-top: 1px solid #e1e4e8;
-   padding-top: 20px;
+   padding-top: 40px;
    height: 60px;
 }
 footer * {
