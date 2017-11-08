@@ -3,7 +3,6 @@
    <head>
       <meta charset="UTF-8">
       <link rel="stylesheet" href="./skeleton.css">
-      <script src='http://127.0.0.1:9001/js/socket.js'></script>
    </head>
    <body>
       <header class="header-grey">
@@ -160,7 +159,7 @@
             </div>
             <table class="file-navigator">
                <tr class="row active">
-                  <td class="col">
+                  <td class="col file-title">
                      <span class="octicons">&#xf007;</span><span> README.md</span>
                   </td>
                </tr>
@@ -181,51 +180,51 @@
                   <ul class="vert-flexbox-container">
                      <li class="active"><span class="octicons">&#xf0a4; &#xf078;</span><span> Code</span></li>
                      <li><span class="octicons grey-font">&#xf026;</span> <a href="#">Issues</a><div class="right count"><span>0</span></li>
-                     <li class="divider"><span class="octicons grey-font">&#xf009;</span> <a href="#">Pull Requests</a><div class="right count"><span>0</span></li>
-                     <li><span class="octicons grey-font">&#xf085;</span> <a href="#">Pulse</a></li>
-                     <li><span class="octicons grey-font">&#xf043;</span> <a href="#">Graphs</a></li>
-                  </ul>
-               </nav>
-            </div>
-            <div class="clone-options">
-               <p><b>HTTPS </b><span class="grey-font">clone URL</span></p>
-               <form class="btn split-btn-frame">
-                  <div class="split-btn-white">
-                     <input type="text" name="clone-url" placeholder="https://github.com" id="clone-url" />
+                        <li class="divider"><span class="octicons grey-font">&#xf009;</span> <a href="#">Pull Requests</a><div class="right count"><span>0</span></li>
+                           <li><span class="octicons grey-font">&#xf085;</span> <a href="#">Pulse</a></li>
+                           <li><span class="octicons grey-font">&#xf043;</span> <a href="#">Graphs</a></li>
+                        </ul>
+                     </nav>
                   </div>
-                  <div class="split-btn-grey">
-                     <span class="octicons">&#xf035;</span>
+                  <div class="clone-options">
+                     <p><b>HTTPS </b><span class="grey-font">clone URL</span></p>
+                     <form class="btn split-btn-frame">
+                        <div class="split-btn-white">
+                           <input type="text" name="clone-url" placeholder="https://github.com" id="clone-url" />
+                        </div>
+                        <div class="split-btn-grey">
+                           <span class="octicons">&#xf035;</span>
+                        </div>
+                     </form>
+                     <p><span class="grey-font">You can clone with </span><a href="#">HTTPS</a> <span class="grey-font"> or </span><a href="#">Subversion</a><span class="octicons"> &#xf02c;</span></p>
+                     <button class="btn btn-small btn-grey side-btn" name="clone-desk"   type="button"><span class="octicons">&#xf0dc;</span> Clone in Desktop </button>
+                     <button class="btn btn-small btn-grey side-btn" name="zip"   type="button"><span class="octicons">&#xf00b;</span> Download ZIP </button>
                   </div>
-               </form>
-               <p><span class="grey-font">You can clone with </span><a href="#">HTTPS</a> <span class="grey-font"> or </span><a href="#">Subversion</a><span class="octicons"> &#xf02c;</span></p>
-               <button class="btn btn-small btn-grey side-btn" name="clone-desk"   type="button"><span class="octicons">&#xf0dc;</span> Clone in Desktop </button>
-               <button class="btn btn-small btn-grey side-btn" name="zip"   type="button"><span class="octicons">&#xf00b;</span> Download ZIP </button>
-            </div>
-            <!-- TODO: 메인의 오른쪽 메뉴 부분 -->
-         </aside>
-      </section>
-   </section>
+                  <!-- TODO: 메인의 오른쪽 메뉴 부분 -->
+               </aside>
+            </section>
+         </section>
 
-   <footer class="page-width">
-      <p class="grey-font left">© 2017 GitHub, Inc.</p>
-      <ul class="flex-left2">
-         <li><a href="#">Terms</a></li>
-         <li><a href="#">Privacy</a></li>
-         <li><a href="#">Security</a></li>
-         <li><a href="#">Contact</a></li>
-         <li><a href="#">Help</a></li>
-      </ul>
-      <span class="grey-font octicons">&#xf00a;</span>
-      <ul class="right">
-         <li><a href="#">Status</a></li>
-         <li><a href="#">API</a></li>
-         <li><a href="#">Training</a></li>
-         <li><a href="#">Shop</a></li>
-         <li><a href="#">Blog</a></li>
-         <li><a href="#">About</a></li>
-         <li><a href="#">Pricing</a></li>
-      </ul>
-      <!-- TODO: 하단의 Copyright, Terms, Privacy 등은 어떻게 처리하면 좋을까요? -->
-   </footer>
-</body>
-</html>
+         <footer class="page-width">
+            <p class="grey-font left">© 2017 GitHub, Inc.</p>
+            <ul>
+               <li><a href="#">Terms</a></li>
+               <li><a href="#">Privacy</a></li>
+               <li><a href="#">Security</a></li>
+               <li><a href="#">Contact</a></li>
+               <li><a href="#">Help</a></li>
+            </ul>
+            <span class="grey-font octicons">&#xf00a;</span>
+            <ul class="right">
+               <li><a href="#">Status</a></li>
+               <li><a href="#">API</a></li>
+               <li><a href="#">Training</a></li>
+               <li><a href="#">Shop</a></li>
+               <li><a href="#">Blog</a></li>
+               <li><a href="#">About</a></li>
+               <li><a href="#">Pricing</a></li>
+            </ul>
+            <!-- TODO: 하단의 Copyright, Terms, Privacy 등은 어떻게 처리하면 좋을까요? -->
+         </footer>
+      </body>
+   </html>
