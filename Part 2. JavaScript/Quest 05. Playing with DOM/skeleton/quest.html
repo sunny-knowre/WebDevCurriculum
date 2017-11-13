@@ -37,6 +37,13 @@
 
 			for(var i = 0; i < row1Squares.length; i++) {
 				var node = row1Squares[i];
+				node.style.backgroundColor = "yellow"
+				node.addEventListener("click", function(){
+					if(this.style.backgroundColor == "yellow")
+						this.style.backgroundColor = "white";
+					else
+						this.style.backgroundColor = "yellow";
+				});
 				/* TODO: node 변수를 어떻게 조작해야 할까요? */
 			}
 
@@ -44,6 +51,9 @@
 
 			for(var i = 0; i < row2Squares.length; i++) {
 				var node = row2Squares[i];
+				node.addEventListener("click", function(){
+					this.classList.toggle("enabled");
+				})
 				/* TODO: node 변수를 어떻게 조작해야 할까요? */
 			}
 		</script>
