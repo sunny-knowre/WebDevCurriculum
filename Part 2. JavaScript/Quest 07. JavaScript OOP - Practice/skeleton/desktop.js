@@ -1,3 +1,9 @@
+/* feedback notes:
+	1. decouple by moving logic to Icon & Folder classes
+	2. use event bubbling to remove desktop context from constructors
+		- research stopPropagation() and preventDefault() on event
+		- how to fix even not firing when mouse events are on individual icons
+*/
 var Desktop = function(dom, iconCount, folderCount) {
 	var uid = 0;
 	var dragging = null;
@@ -33,6 +39,7 @@ var Desktop = function(dom, iconCount, folderCount) {
 	};
 		
 	// event handler
+	
 	function handleEvent(event){
 		var target = event.target;
 		var item = itemList[target.id];
