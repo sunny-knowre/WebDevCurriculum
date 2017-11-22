@@ -1,9 +1,3 @@
-/* feedback notes:
-	* 1. decouple by moving logic to Icon & Folder classes
-	* 2. use event bubbling to remove desktop context from constructors
-		?? - research stopPropagation() and preventDefault() on event
-		* - how to fix even not firing when mouse events are on individual icons
-*/
 var Desktop = function (dom, iconCount, folderCount) {
 	var uid = 0;
 	var dragging = null;
@@ -34,17 +28,18 @@ var Desktop = function (dom, iconCount, folderCount) {
 		self.dom.appendChild(newItem.dom);
 		// add item to desktop	
 	}
-	document.addEventListener('mouseup', function (e) {
+	this.dom.addEventListener('mouseup', function (e) {
 		dragging = null;
 	});
-	document.addEventListener('mousemove', function (e) {
+	this.dom.addEventListener('mousemove', function (e) {
 		if (dragging) {
 			dragging.move(e.pageX, e.pageY);
 		}
 	});
-	document.addEventListener('launchWindow', function (e) {
+	this.dom.addEventListener('launchWindow', function (e) {
+		e.stopPropagation();
 		var winId = e.target.innerHTML;
-		if ( self.windows.indexOf(winId) < 0 ){
+		if (self.windows.indexOf(winId) < 0) {
 			var newWin = new Window(winId);
 			self.windows.push(winId);
 			newWin.titleBar.addEventListener('mousedown', function (e) {
@@ -123,24 +118,25 @@ var Window = function (name) {
 	this.titleBar = null;
 	this.dom = this.makeDom();
 	this.attachEventHandlers();
-	
+	this.dom.style.zIndex = Icon.prototype.zIndex++;
+
 	/* TODO: Window 클래스는 어떤 멤버함수와 멤버변수를 가져야 할까요? */
 };
 Window.prototype = Object.create(Icon.prototype);
 Window.prototype.constructor = Window;
-Window.prototype.makeDom = function (){
-		var newDiv = document.createElement('div');
-		var titleDiv = document.createElement('div');
-		newDiv.style.margin = this.margin + "px";
-		newDiv.classList.add(this.type);
-		newDiv.setAttribute("id", this.name);
-		titleDiv.classList.add("title-bar");
-		titleDiv.innerHTML = this.name;
-		titleDiv.setAttribute("id", "window-" + this.name);
-		newDiv.appendChild(titleDiv);
-		this.titleBar = titleDiv;
-		return newDiv;
+Window.prototype.makeDom = function () {
+	var newDiv = document.createElement('div');
+	var titleDiv = document.createElement('div');
+	newDiv.style.margin = this.margin + "px";
+	newDiv.classList.add(this.type);
+	newDiv.setAttribute("id", this.name);
+	titleDiv.classList.add("title-bar");
+	titleDiv.innerHTML = this.name;
+	titleDiv.setAttribute("id", "window-" + this.name);
+	newDiv.appendChild(titleDiv);
+	this.titleBar = titleDiv;
+	return newDiv;
 };
-Window.prototype.attachEventHandlers = function(){
+Window.prototype.attachEventHandlers = function () {
 	this.titleBar.addEventListener("mousedown", this, false);
 };
