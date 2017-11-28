@@ -1,19 +1,40 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<link rel="stylesheet" href="./pomodoro.css">
-		<script src="./pomodoro.js"></script>
-	</head>
-	<body>
-		<section class="pomodoro">
-            <div class="timer"></div>
-		</section>
 
-		<script>
-			var pomo = document.querySelector(".pomodoro");
-			var app = new PomodoroApp( pomo );
-		</script>
-	</body>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="./pomodoro.css">
+	<script src="./pomodoro.js"></script>
+</head>
+
+<body>
+	<section class="pomodoro">
+		<div class="timer_controls">
+			<form name="addTask" id="addTask">
+				<input class="input-name" type="text" name="name" placeholder="Enter Pomodoro Name">
+				<input class="input-num" type="text" name="poms" placeholder="How many pomodoros?">
+				<input type="submit" />
+			</form>
+		</div>
+		<div id="task-list" class="task_list">
+			
+		</div>
+		<div class="task_list">
+			<div class="timer_controls">
+				<button class="timer_button start">Start</button>
+				<button class="timer_button skip">Skip</button>
+			</div>
+		</div>
+		<div class="display">
+			<div id="info-bar" class="info-bar"></div>
+			<div id="timer-area" class="timer-area"></div>
+		</div>	
+	</section>
+
+	<script>
+		var dom = document.querySelector(".pomodoro");
+		var app = new PomodoroApp(dom);
+	</script>
+</body>
+
 </html>
-
