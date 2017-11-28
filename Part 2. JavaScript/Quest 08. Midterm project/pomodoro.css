@@ -1,144 +1,139 @@
 html {
-    box-sizing: border-box;
-    font-size: 10px;
-    background: rgb(83, 142, 166);
-  }
-  
-  body {
-    margin:0;
-    text-align: center;
-
-  }
- 
-  .pomodoro {
-    display:flex;
-    min-height: 100vh;
-    flex-direction:column;
-  }
- 
-  .task_list {
-      background: rgb(83, 142, 166);
-      display: flex;
-      max-height: 50vh;
-      flex-direction: column;
-      justify-content: top;
-      flex-wrap: wrap;
-  }
-
-  .task_item {
-      flex: 1 0 auto;
-      background: white;
-      border: 1px solid;
-      margin: 5px;
-      padding: 10px;
-      font-size: 1.5rem;
-      position: relative;
-      
-  }
-  .count {
-    position:absolute;
-    top: 0;
-    left: 0;
-    width: 20px;
-    height: 20px;
-    margin: 10px;
-    border-radius:50%;
-    line-height:40px;
-    text-align: center;
-    background: #e1e4e8;
- }
- 
- .count span {
-    font-size:13px;
-    font-weight: bold;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
- 
- }
- .display {
-  display:flex;
-  flex: 1;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  font-weight: 100;
-  margin: 0;
-  background: rgb(242,209,179);
-  color:rgb(45, 95, 115);
-  text-shadow:4px 4px 0 rgba(0,0,0,0.05);
+   box-sizing: border-box;
+   font-size: 10px;
+   background: rgb(83, 142, 166);
 }
 
+body {
+   margin:0;
+   text-align: center;
+
+}
+
+.pomodoro {
+   display:flex;
+   min-height: 100vh;
+   flex-direction:column;
+}
+
+.task_list {
+   background: rgb(83, 142, 166);
+   display: flex;
+   max-height: 50vh;
+   flex-direction: column;
+   justify-content: top;
+   flex-wrap: wrap;
+}
+
+.task_item {
+   flex: 1 0 auto;
+   background: white;
+   border: 1px solid;
+   margin: 5px;
+   padding: 10px;
+   font-size: 1.5rem;
+   position: relative;
+
+}
+.count {
+   position:absolute;
+   top: 0;
+   left: 0;
+   width: 20px;
+   height: 20px;
+   margin: 10px;
+   border-radius:50%;
+   line-height:40px;
+   text-align: center;
+   background: #e1e4e8;
+}
+.count span {
+   font-size:13px;
+   font-weight: bold;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+
+}
+
+.display {
+   display:flex;
+   flex: 1;
+   flex-direction: column;
+   align-items: center;
+   justify-content: space-around;
+   font-weight: 100;
+   margin: 0;
+   background: rgb(242,209,179);
+   color:rgb(45, 95, 115);
+   text-shadow:4px 4px 0 rgba(0,0,0,0.05);
+}
+
+.timer-area {
+   display: flex;
+   flex:2;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   font-size: 10rem;
+}
 .info-bar {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+   display: flex;
+   flex: 1;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
    font-size: 5rem;
 }
-.timer-area {
-  display: flex;
-  flex:1;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 
-  font-size: 10rem;
+
+.timer_controls {
+   display: flex;
+}
+.timer_controls > * {
+   flex:1;
+}
+.timer_controls form {
+   flex:1;
+   display:flex;
+}
+.timer_controls input {
+   flex:4;
+   font-size: 12px;
+   border:0;
+   margin: 5px;
+   padding:1rem;
+   outline:none !important;
+}
+.timer_controls input.input-num {
+   flex:1;
+}
+input[type="submit"] {
+   position: absolute;
+   top: -1000px
+}
+.timer_button {
+   background:none;
+   border:0;
+   cursor: pointer;
+   color:white;
+   font-size: 1.5rem;
+   background:rgb(45, 95, 115);
+   border-bottom:3px solid rgba(0,0,0,0.2);
+   border-right:1px solid rgba(0,0,0,0.2);
+   margin: 5px;
+   padding:0.5rem;
+   outline:none !important;
 }
 
-  .highlight {
-      background: rgb(252, 252, 186);
-  }
-
-
-  .timer_controls {
-    display: flex;
-  }
-  
-  .timer_controls > * {
-    flex:1;
-  }
-  
-  .timer_controls form {
-    flex:1;
-    display:flex;
-  }
-  
-  .timer_controls input {
-    flex:4;
-    font-size: 12px;
-    border:0;
-    margin: 5px;
-    padding:1rem;
-    outline:none !important;
-  }
-  .timer_controls input.input-num {
-    flex:1;
-  }
-  input[type="submit"] {
-    position: absolute;
-    top: -1000px
+.highlight {
+   background: rgb(252, 252, 186);
 }
-  
-  .timer_button {
-    background:none;
-    border:0;
-    cursor: pointer;
-    color:white;
-    font-size: 1.5rem;
-    background:rgb(45, 95, 115);
-    border-bottom:3px solid rgba(0,0,0,0.2);
-    border-right:1px solid rgba(0,0,0,0.2);
-    margin: 5px;
-    padding:0.5rem;
-    outline:none !important;
-  }
-  .notice {
-    background: rgb(182, 240, 182);
-  }
-  .error {
-    background: rgba(240, 70, 61, 0.452);
-    color: white;
+.notice {
+   background: rgb(182, 240, 182);
+}
+.error {
+   background: rgba(240, 70, 61, 0.452);
+   color: white;
 }

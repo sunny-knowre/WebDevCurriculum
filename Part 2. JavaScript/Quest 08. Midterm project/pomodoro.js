@@ -199,7 +199,6 @@ PomodoroApp.prototype = {
     clearBg : function(){
         this.dom.style.background = "red";
     }
-
 };  
 
 var ListItem = function(id, name, count){
