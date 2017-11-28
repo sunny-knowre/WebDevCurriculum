@@ -25,6 +25,15 @@
 
 ## Checklist
 * 인터넷은 어떻게 동작하나요? OSI 7 Layer에 입각하여 설명해 보세요.
+  * The **Open Systems Interconnection** model (OSI) standardizes communication function of telecommunication or computing systems regardless of their internal structure. In terms of internet, the layers work together as follows:
+    1. Physical: is the electrical specifications of the data connection. (ex: electrical cable, fiber cable, pin and voltage specs). Bit rate for any transmitting signals is also controlled at this layer.
+    2. Data link: this layer provides the link between two directly connected nodes. It detecs errors in the Layer 1 and defines a protocol to communicate between connected devices. (ex: Ethernet, 802.11 Wi-Fi, PPP).
+    3. Network: Once data has travelled from a device to a connected "hub" it needs to be transmitted to a *different network*. A network where many other nodes 
+    4. Transport
+    5. Session
+    6. Presentation
+    7. Application
+
 * 우리가 브라우저의 주소 창에 www.knowre.com 을 쳤을 때, 어떤 과정을 통해 노리의 서버 주소를 알게 되나요?
 
 ## Quest
