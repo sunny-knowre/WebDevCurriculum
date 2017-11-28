@@ -62,7 +62,8 @@ var PomodoroApp = function(dom){
     this.currentTimer = null;
     this.isPaused = false;
     this.tasksDom = document.getElementById("task-list");
-    this.addTask("new Pomodoro", 2);
+    this.addTask("Task 1", 2);
+    this.addTask("Task 2", 1);
 
     var startBtn = document.querySelector("button.start");
     var skip = document.querySelector("button.skip");
@@ -123,10 +124,10 @@ var PomodoroApp = function(dom){
 
 };
 PomodoroApp.prototype = {
-    work       : 25 * 60,
-    smBreak    : 5  * 60,
-    lgBreak    : 15 * 60,
-    lgInterval : 4  * 60,
+    work       : 25 * 60,   //25 min
+    smBreak    : 5  * 60,   //5 min
+    lgBreak    : 15 * 60,   //15 min 
+    lgInterval : 4,         // take long break every 4th break
     addTask    : function( name , num){
         if(isNaN(num) || num < 1 || num > 50){
             _pubsub.pub('notification',{ type: "form-error", message:"not a valid number of pomodoros"} )
@@ -192,12 +193,6 @@ PomodoroApp.prototype = {
         this.isPaused = false;
         var button = document.querySelector('button.start');
         button.innerHTML = 'Start';
-    },
-    breaktimeBg : function(){
-        this.dom.style.background = "blue";
-    },
-    clearBg : function(){
-        this.dom.style.background = "red";
     }
 };  
 
