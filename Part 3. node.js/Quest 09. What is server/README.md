@@ -69,8 +69,8 @@
           
 * Wireshark를 통해 www.google.com으로 요청을 날렸을 떄 어떤 TCP 패킷이 오가는지 확인해 보세요
   * TCP 패킷을 주고받는 과정은 어떻게 되나요?
-    ![wireshark](https://www.dropbox.com/s/hya2sd6gde82dqh/Screenshot%202017-11-30%2014.44.35.png?dl=1)
-    
+
+    ![wireshark](screenshots/wireshark.png)
     * **Connection Establishment**
       * **Frame 413** (SYN): client requests active open, sends sequence number *S*
       * **Frame 414~415** (SYN-ACK): In response server sends acknowledgement number *S+1* and also own number *A*
@@ -86,7 +86,7 @@
      2. Ethernet: Source Destination info (MAC address), Type info (IPv4) 
      3. TCP packet / HTTP Data (where applicable)
         
-        ![packet breakdown](https://www.dropbox.com/s/x8duk5u209n3kfr/Screenshot%202017-11-30%2015.15.51.png?dl=1)
+        ![packet breakdown](screenshots/tcp.png)
           
            *[source](https://en.wikipedia.org/wiki/Transmission_Control_Protocol)*
     
