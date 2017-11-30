@@ -15,8 +15,25 @@
 
 ## Checklist
 * HTTP의 GET과 POST 메소드는 어떻게 다른가요?
+  * `GET` requests data from a specified resource
+  * `POST` submits data to be processed to a specified resource
   * 다른 HTTP 메소드에는 무엇이 있나요?
+    * `DELETE`, `HEAD`, `OPTIONS`
 * HTTP 서버에 GET과 POST를 통해 데이터를 보내려면 어떻게 해야 하나요?
+  * Compose correct header and send to host ([source](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Sending_and_retrieving_form_data))
+  * `GET`:
+  
+        GET /?say=Hi&to=Mom HTTP/1.1
+        Host: foo.com
+
+  * `POST` (include data in request body):  
+
+        POST / HTTP/1.1
+        Host: foo.com
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 13
+
+        say=Hi&to=Mom
 
 ## Quest
 * 다음의 동작을 하는 서버를 만들어 보세요.
