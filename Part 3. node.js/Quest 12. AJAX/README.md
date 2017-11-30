@@ -17,8 +17,23 @@
 
 ## Checklist
 * 어떠한 자바스크립트 코드가 HTTP 응답이나 사용자의 이벤트등에 종속되어 언제 실행되어야 할 지 알기 어려울 때엔 어떻게 해야 할까요?
+  * Use some sort of pub/sub pattern to run functions "on" some type of event fire. 
 * 브라우저의 `XMLHttpRequest` 객체는 무엇이고 어떻게 동작하나요?
+  * an object that can be used to request data from a web server.
+  * main utility is to request data from a server after the page has loaded and to send data in the background.
 * `fetch` API는 무엇이고 어떻게 동작하나요?
+  * provides and interface for fetching resources, and is more powerful and flexible than `XMLHttpRequest`
+  * uses promises, which allows developers to avoid callback hell.
+  * basic usage:
+    ```javascript
+    fetch(url) // Call the fetch function with url
+    .then(function(data) {
+        // Handle data from the server 
+    })
+    .catch(function(error) {
+        // Handle any errors
+    });
+    ```
 
 ## Quest
 * 자바스크립트를 이용하여 간단한 웹브라우저 기반의 텍스트 파일 메모장을 만들어 보겠습니다.
