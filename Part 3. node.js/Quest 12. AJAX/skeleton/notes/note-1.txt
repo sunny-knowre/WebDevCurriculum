@@ -1,0 +1,3 @@
+How to use
+
+Start an empty note and cmd+enter to save.
