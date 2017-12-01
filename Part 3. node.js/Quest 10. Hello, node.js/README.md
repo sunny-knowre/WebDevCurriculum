@@ -32,6 +32,7 @@
 * npm이 무엇인가요?
   * npm 패키지를 `-g` 옵션을 통해 Global로 저장하는 것과 그렇지 않은 것은 어떻게 다른가요?
     * some modules provide command line utilities (ex: mocha, express, etc..), since these utilities are used outside of the project scope they need to be installed with the global flag `-g`
+    * `npx` no need to install with -g 
 
 ## Quest
 * node.js를 PC에 설치해 보세요. 버전은 5.x 버전이 적당합니다!

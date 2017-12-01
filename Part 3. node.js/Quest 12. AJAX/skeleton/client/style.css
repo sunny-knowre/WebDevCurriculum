@@ -1,3 +1,92 @@
+/* TODO: 필요한 CSS를 채워넣어 보세요! */
+
 * {
-	/* TODO: 필요한 CSS를 채워넣어 보세요! */
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    max-width: 70em;
+    height: 100vh;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid black;
+}
+
+nav {
+    background: seagreen;
+		padding-top: 0.5em;
+		min-height: 42px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+nav>h1{
+	display: none;
+	color: white;
+	padding: 0.2em;
+	text-decoration: overline;
+}
+nav>a {
+		display: block;
+    color: white;
+		padding: 0.5em;
+		text-decoration: none;
+		border-bottom:3px solid rgba(0,0,0,0.2);
+		white-space: nowrap;
+		overflow: hidden;
+		o-text-overflow: ellipsis;
+		text-overflow: ellipsis;
+}
+nav>a.active {
+	color: seagreen;	
+	background: white;
+	border: none;
+}
+
+main {
+		display: flex;
+		flex-direction: column;
+    flex-grow: 1;
+    padding: 1em;
+}
+form {
+	display: flex;
+	flex-grow: 1;
+}
+.editor {
+		flex: 1;
+    outline: none;
+    padding: 10px;
+		font-size: 14px;
+		resize: none;
+		overflow: auto;
+}
+
+@media screen and (min-width: 900px) {
+    .container {
+        flex-direction: row;
+    }
+    main {
+        flex: 1;
+    }
+    nav {
+				width: 180px;
+				flex-direction: column;
+		}
+		nav>h1 {
+			display: block;
+		}
 }

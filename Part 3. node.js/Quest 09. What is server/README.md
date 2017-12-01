@@ -44,28 +44,29 @@
 * tracert(Windows가 아닌 경우 traceroute) 명령을 통해 www.google.com까지 가는 경로를 찾아 보세요.
   * 어떤 IP주소들이 있나요?
   * 그 IP주소들은 어디에 위치해 있나요?
-
-        traceroute to google.com (172.217.25.238), 64 hops max, 52 byte packets
-        1  10.210.1.1 (10.210.1.1)  1.104 ms  1.314 ms  1.480 ms // local
-        2  10.96.6.1 (10.96.6.1)  1.207 ms  1.540 ms  0.993 ms // local
-        3  220.85.58.254 (220.85.58.254)  1.684 ms  1.427 ms  1.299 ms //hop to router
-        4  * * *
-        5  * * * // start of hops around telecom network (KT)
-        6  112.189.28.245 (112.189.28.245)  2.346 ms    
-            112.189.28.241 (112.189.28.241)  1.541 ms
-            112.189.28.245 (112.189.28.245)  1.564 ms
-        7  * * * 
-        8  112.174.7.154 (112.174.7.154)  9.392 ms
-            112.174.7.142 (112.174.7.142)  2.142 ms
-            112.174.7.146 (112.174.7.146)  1.949 ms
-        9  72.14.194.194 (72.14.194.194)  32.842 ms   // hit google servers in California
-            72.14.194.106 (72.14.194.106)  37.083 ms  
-            72.14.194.194 (72.14.194.194)  32.917 ms
-        10  * 108.170.242.97 (108.170.242.97)  32.895 ms 
-        11  108.170.233.19 (108.170.233.19)  32.567 ms
-            108.170.233.21 (108.170.233.21)  32.393 ms  33.405 ms
-        12  nrt12s14-in-f238.1e100.net (172.217.25.238)  36.684 ms  32.718 ms  33.493 ms 
-            // google finally sent me to one of their viable IP addresses
+    * IP addresses are found the router using [Routing tables](https://en.wikipedia.org/wiki/Routing_table). These store information about the toplology of the network around it. In case of an attack or bug in routers that causes and indefinite loop of routing, the [TTL](https://en.wikipedia.org/wiki/Time_to_live) value is used to limit the number of hops a packet has to reach its destination.
+  
+          traceroute to google.com (172.217.25.238), 64 hops max, 52 byte packets
+          1  10.210.1.1 (10.210.1.1)  1.104 ms  1.314 ms  1.480 ms // local
+          2  10.96.6.1 (10.96.6.1)  1.207 ms  1.540 ms  0.993 ms // local
+          3  220.85.58.254 (220.85.58.254)  1.684 ms  1.427 ms  1.299 ms //hop to router
+          4  * * *
+          5  * * * // start of hops around telecom network (KT)
+          6  112.189.28.245 (112.189.28.245)  2.346 ms    
+              112.189.28.241 (112.189.28.241)  1.541 ms
+              112.189.28.245 (112.189.28.245)  1.564 ms
+          7  * * * 
+          8  112.174.7.154 (112.174.7.154)  9.392 ms
+              112.174.7.142 (112.174.7.142)  2.142 ms
+              112.174.7.146 (112.174.7.146)  1.949 ms
+          9  72.14.194.194 (72.14.194.194)  32.842 ms   // hit google servers in California
+              72.14.194.106 (72.14.194.106)  37.083 ms  
+              72.14.194.194 (72.14.194.194)  32.917 ms
+          10  * 108.170.242.97 (108.170.242.97)  32.895 ms 
+          11  108.170.233.19 (108.170.233.19)  32.567 ms
+              108.170.233.21 (108.170.233.21)  32.393 ms  33.405 ms
+          12  nrt12s14-in-f238.1e100.net (172.217.25.238)  36.684 ms  32.718 ms  33.493 ms 
+              // google finally sent me to one of their viable IP addresses
           
 * Wireshark를 통해 www.google.com으로 요청을 날렸을 떄 어떤 TCP 패킷이 오가는지 확인해 보세요
   * TCP 패킷을 주고받는 과정은 어떻게 되나요?

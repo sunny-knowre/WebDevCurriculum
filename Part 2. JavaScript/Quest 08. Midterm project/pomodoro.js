@@ -1,4 +1,3 @@
-
 var _pubsub = (function(){
     var cache = {};
     return {
@@ -53,6 +52,9 @@ var _pubsub = (function(){
         }
     };
 })();
+/* feedback: 
+    1. move timer inside PomodoroApp 
+*/
 
 var PomodoroApp = function(dom){
     var self = this;
