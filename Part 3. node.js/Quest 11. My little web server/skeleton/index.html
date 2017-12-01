@@ -1,0 +1,30 @@
+<html>
+<body>
+    <p id="mytext">Hello World!</p>
+    <script type="text/JavaScript">
+        console.log('start');
+        var xhttp = new XMLHttpRequest();
+        
+        xhttp.onreadystatechange = function() {
+            if(xhttp.readyState == 4 && xhttp.status == 200){
+                var mytext = document.getElementById('mytext').innerHTML = xhttp.responseText;
+            }
+        }
+        
+        var count = 0;
+        var timer = setInterval(function(){
+            count++;
+            var params = 'bar=ajax-post-' + count;
+            console.log('sending post: [' + params + ']');
+            xhttp.open("POST", "http://localhost:8080", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send(params);
+            if(count > 2){
+                clearInterval(timer);
+                console.log('end');
+            }
+        },2000);
+    </script>
+
+</body>
+</html>
