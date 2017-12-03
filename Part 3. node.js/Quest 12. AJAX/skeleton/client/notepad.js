@@ -1,66 +1,163 @@
-var Notepad = function() {
-	var uid = 0;
-	var editor = document.querySelector('.editor');
-	var filenav = document.querySelector('.file-list');
-	
-	editor.addEventListener('keydown', function(e) {
-		if(e.keyCode == 13 && e.metaKey) {
-			var note = new Note("note-"+uid++, this.value);
-		}
-	});
+var _ajax = (function(){
+	var baseurl = 'http://localhost:8080';
+	var makeNewRequest = function(){
+		var xhttp  = new XMLHttpRequest();
+		return xhttp;
+	}
 
-	document.addEventListener('documentSave', function(e) {
-		console.log('saved!');
-	});
-	document.addEventListener('documentSaveError', function(e) {
-		console.log('something went wrong');
-	});
+	var req = function(path, params, callback, method){
+		var xhttp = makeNewRequest();		
+		xhttp.open(method, baseurl + '/' + path, true);
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send(JSON.stringify(params));
+		xhttp.onload = callback;
+	}	
+
+	return {
+		get  : function(){
+			var args = [].slice.call( arguments ); 
+			args.push( "GET");
+			return req.apply( this, args );
+		},
+		post : function(){
+			var args = [].slice.call( arguments ); 
+			args.push( "POST");
+			return req.apply( this, args );
+		}
+	};
+
+})();
+
+var Notepad = function() {
+	var self = this;
+	this.uid = 0;
+	this.noteList = {};
+	this.currentNote = null;
+	this.editor = document.querySelector('.editor');
+
+	this.init();
+
+
+	
 	/* TODO: 그 외에 또 어떤 클래스와 메소드가 정의되어야 할까요? */
 };
+
 Notepad.prototype.init = function(){
+	var self = this;
 	
+	_ajax.get('navlist',{}, function(){
+		var data = JSON.parse(this.responseText);
+		data.forEach(file => {
+			var note = new Tab(file.id, file.title, file.body);
+			self.noteList[file.id] = note;
+			var re = new RegExp('note-(\\d+)','g');
+			var max = re.exec(file.id)[1];
+
+			if(self.uid <= max){
+				self.uid = ++max;
+			}
+				
+		});
+		self.noteList[data[0].id].emitLoad();
+	});
+
+	document.myForm.addEventListener('submit', function (e) {
+		e.preventDefault();
+		self.saveNote();
+	});
+
+	document.addEventListener('emitload', function (e) {
+		e.stopPropagation();
+		e.preventDefault();
+		var note_id = e.target.id;
+		self.currentNote = self.noteList[note_id];
+	});
+
+	document.getElementById("new-note").addEventListener('click', function(e) {
+		self.newNote();
+	});
+
+	self.editor.addEventListener('keydown', function(e) {
+		if(e.keyCode == 13 && e.metaKey ) {
+			e.stopPropagation();
+			e.preventDefault();
+			self.saveNote();
+		}
+	});
 }
-Notepad.prototype.getAllNotes = function(){
+Notepad.prototype.newNote = function(){
+	var id = "note-" + this.uid++;
+	var newNote = new Tab(id, "new note", "");
+	this.noteList[id] = newNote;
+	newNote.emitLoad();
+
 
 }
+Notepad.prototype.saveNote = function(){
+	if(this.currentNote)
+		this.currentNote.save(this.editor.value);
+}
 
-var Note = function(id,data){
+var Tab = function(id,title,body){
+	var self = this;
 	this.id = id;
-	this.state = null;
-	this.title = this.getTitle(data);
-	this.sendData(data);
-	
-}
+	this.title = title;
+	this.body = body;
+	this.dom = this.createDom();
 
-Note.prototype.createDom = function(){
-
+	this.dom.addEventListener('click', function(e) {
+		e.preventDefault();
+		self.emitLoad();
+	});
 }
-Note.prototype.getTitle = function(data){
+Tab.prototype = Object.create(Notepad.prototype);
+Tab.prototype.constructor = Tab;
+
+Tab.prototype.createDom = function(){
+	var template = document.getElementById("note-template");
+	var dom = template.cloneNode(true);
+	dom.setAttribute("id", this.id);
+	dom.innerHTML = this.title;
+	dom.classList.toggle('hidden');
+	document.querySelector('.file-list').appendChild(dom);
+	return dom;
+}
+Tab.prototype.emitLoad = function(){
+	var self = this;
+    var editor = document.querySelector('.editor');
+
+	// turn on active class
+	[].map.call(document.querySelectorAll('.note'), function(n) {
+		n.classList.remove('active');
+	});
+	this.dom.classList.add("active");
+
+	// load text body to main editor
+	editor.value = this.body;
+	// trigger event
+	var event = document.createEvent('Event');
+	event.initEvent('emitload', true, true);
+	this.dom.dispatchEvent(event);
+}
+Tab.prototype.save = function(newData){
+	var newtitle = this.getTitle(newData);
+	this.title = newtitle;
+	this.body = newData;
+	this.dom.innerHTML = newtitle;
+	var params = {
+		id: this.id,
+		title: this.title,
+		body : this.body
+	};
+
+	_ajax.post('save',params, function(){
+		console.log(this.responseText);
+	});
+}
+Tab.prototype.getTitle = function(data){
 	var title = data.split('\n')[0];
 	if(title.length > 70)
 		title = title.substring(0,70);
 
 	return title;
-}
-Note.prototype.sendData = function(data){
-	var xhttp  = new XMLHttpRequest();
-	var params = {
-		id   : this.id,
-		title: this.title,
-		data : data
-	};
-
-	xhttp.onreadystatechange = function() {
-		var event = document.createEvent('Event');		
-		if(xhttp.readyState == 4 && xhttp.status == 200)
-			event.initEvent('documentSave', true, true);
-		else
-			event.initEvent('documentSaveError', true, true);	
-
-		document.dispatchEvent(event);
-	}
-	
-	xhttp.open("POST", "http://localhost:8080/newfile", true);
-	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhttp.send(JSON.stringify(params));
 }
