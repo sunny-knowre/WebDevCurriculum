@@ -1,0 +1,6 @@
+How to use
+
+1. Click on new note to create a new note.
+2. Click on tabs to switch notes
+3. Save with Cmd + enter or clicking save the button
+4. Delete with the delete button

@@ -31,14 +31,14 @@ var _ajax = (function(){
 var Notepad = function() {
 	var self = this;
 	this.uid = 0;
-	this.noteList = {};
+	this.noteList = [];
 	this.currentNote = null;
-	this.editor = document.querySelector('.editor');
+	this.editorDOM = document.querySelector('.editor');
+	this.fileListDOM = document.querySelector('.file-list');
+	this.saveBtn = document.getElementById('save');
+	this.deleteBtn = document.getElementById('delete');
 
 	this.init();
-
-
-	
 	/* TODO: 그 외에 또 어떤 클래스와 메소드가 정의되어야 할까요? */
 };
 
@@ -48,7 +48,7 @@ Notepad.prototype.init = function(){
 	_ajax.get('navlist',{}, function(){
 		var data = JSON.parse(this.responseText);
 		data.forEach(file => {
-			var note = new Tab(file.id, file.title, file.body);
+			var note = new Note(file.id, file.title, file.body);
 			self.noteList[file.id] = note;
 			var re = new RegExp('note-(\\d+)','g');
 			var max = re.exec(file.id)[1];
@@ -58,47 +58,89 @@ Notepad.prototype.init = function(){
 			}
 				
 		});
-		self.noteList[data[0].id].emitLoad();
+		if(data.length > 0){
+			self.noteList[data[0].id].emitLoad();
+		}
+			
 	});
 
 	document.myForm.addEventListener('submit', function (e) {
 		e.preventDefault();
 		self.saveNote();
 	});
-
+	document.getElementById('delete').addEventListener('click', function (e) {
+			self.deleteNote();
+	});
 	document.addEventListener('emitload', function (e) {
 		e.stopPropagation();
 		e.preventDefault();
 		var note_id = e.target.id;
 		self.currentNote = self.noteList[note_id];
+		self.updateButtonStatus();
 	});
 
 	document.getElementById("new-note").addEventListener('click', function(e) {
 		self.newNote();
 	});
 
-	self.editor.addEventListener('keydown', function(e) {
+	self.editorDOM.addEventListener('keydown', function(e) {
 		if(e.keyCode == 13 && e.metaKey ) {
 			e.stopPropagation();
 			e.preventDefault();
 			self.saveNote();
 		}
 	});
+
 }
 Notepad.prototype.newNote = function(){
 	var id = "note-" + this.uid++;
-	var newNote = new Tab(id, "new note", "");
+	var newNote = new Note(id, "new note", "");
 	this.noteList[id] = newNote;
+	this.updateButtonStatus();
 	newNote.emitLoad();
 
 
 }
+Notepad.prototype.updateButtonStatus = function(){
+	if(Object.keys(this.noteList).length === 0 || this.currentNote === null ) {
+		this.saveBtn.setAttribute('disabled', true);
+		this.deleteBtn.setAttribute('disabled', true);
+	}else{
+		this.saveBtn.removeAttribute('disabled');
+		this.deleteBtn.removeAttribute('disabled');
+	}
+}
 Notepad.prototype.saveNote = function(){
 	if(this.currentNote)
-		this.currentNote.save(this.editor.value);
+		this.currentNote.save(this.editorDOM.value);
+}
+Notepad.prototype.deleteNote = function(){
+	if(this.currentNote){
+		var result = confirm("Are you sure you want to delete?");
+		if (result){		
+			var note_id = this.currentNote.id;	
+			this.fileListDOM.removeChild(this.currentNote.dom);	
+			this.editorDOM.value = '';
+			delete this.noteList[note_id];
+			this.currentNote = null;
+			var next = Object.keys(this.noteList).pop();
+			if(next)
+				this.noteList[next].emitLoad();
+
+			this.updateButtonStatus();
+			
+	
+			_ajax.post('delete',{id: note_id}, function(){
+				console.log(this.responseText);
+			});
+
+			//Logic to delete the item
+		}
+	}
 }
 
-var Tab = function(id,title,body){
+
+var Note = function(id,title,body){
 	var self = this;
 	this.id = id;
 	this.title = title;
@@ -110,19 +152,18 @@ var Tab = function(id,title,body){
 		self.emitLoad();
 	});
 }
-Tab.prototype = Object.create(Notepad.prototype);
-Tab.prototype.constructor = Tab;
 
-Tab.prototype.createDom = function(){
+Note.prototype.createDom = function(){
 	var template = document.getElementById("note-template");
 	var dom = template.cloneNode(true);
 	dom.setAttribute("id", this.id);
 	dom.innerHTML = this.title;
+
 	dom.classList.toggle('hidden');
 	document.querySelector('.file-list').appendChild(dom);
 	return dom;
 }
-Tab.prototype.emitLoad = function(){
+Note.prototype.emitLoad = function(){
 	var self = this;
     var editor = document.querySelector('.editor');
 
@@ -139,7 +180,7 @@ Tab.prototype.emitLoad = function(){
 	event.initEvent('emitload', true, true);
 	this.dom.dispatchEvent(event);
 }
-Tab.prototype.save = function(newData){
+Note.prototype.save = function(newData){
 	var newtitle = this.getTitle(newData);
 	this.title = newtitle;
 	this.body = newData;
@@ -154,7 +195,7 @@ Tab.prototype.save = function(newData){
 		console.log(this.responseText);
 	});
 }
-Tab.prototype.getTitle = function(data){
+Note.prototype.getTitle = function(data){
 	var title = data.split('\n')[0];
 	if(title.length > 70)
 		title = title.substring(0,70);

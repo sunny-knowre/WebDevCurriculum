@@ -6,23 +6,35 @@ var express = require('express'),
 var notesDir = './notes/';
 var cache = {};
 
-var sendJson = function(res,json){
-	res.writeHead(200, {'Content-Type': 'application/json'});
-	res.end(json);
-}
-var sendInvalid = function(res){
-	res.writeHead(400, {'Content-Type': 'text/plain'});
-	res.end();
-}
-var updateCache = function(id,title,body){
+var _updateCache = function(id,title,body){
 	var entry = {
 		title: title,
 		body : body
 	}
-	
 	cache[id] = entry;
 }
 
+var _saveToDisk = function(filename, data, res){
+	fs.writeFile(notesDir+filename, data, function(err) {
+		if(err) {
+			return console.log(err);
+		}
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+		res.end('saved "' + filename + '"');
+	}); 
+}
+
+var _deleteFromDisk = function(filename, res){
+	fs.unlink(notesDir+filename, function(err) {
+		if(err) {
+			res.writeHead(500, {'Content-Type': 'text/plain'});
+			res.end('no file "' + filename + '" on disk');
+			return;
+		}
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+		res.end('deleted "' + filename + '"');
+	}); 	
+}
 var init = function(){	
 	var files = fs.readdirSync(notesDir);
 	var junk = function(t){ return t.match('.*\\.txt') }; // need for things like .DS_Store
@@ -34,7 +46,7 @@ var init = function(){
 		if(title.length > 70)
 			title = title.substring(0,70);
 		
-		updateCache(id,title,file);
+		_updateCache(id,title,file);
 	});
 }();
 
@@ -54,15 +66,8 @@ app.get('/navlist', function (req, res) {
 		}
 		list.push(item);
 	}
-	sendJson(res, JSON.stringify(list));
-});
-
-app.get('/file/:id', function (req, res) {
-	var id = req.params.id;
-	if(cache[id])
-		sendJson(res, JSON.stringify(cache[id].body));
-	else
-		sendInvalid(res);
+	res.writeHead(200, {'Content-Type': 'application/json'});
+	res.end(JSON.stringify(list));
 });
 
 app.post('/save', function (req,res){
@@ -73,20 +78,23 @@ app.post('/save', function (req,res){
 	
 	req.on('end', function () {
 		var data = JSON.parse(jsonString);
-		updateCache(data.id, data.title, data.body);
-		saveToDisk(data.id+".txt",data.body,res);
+		_updateCache(data.id, data.title, data.body);
+		_saveToDisk(data.id+".txt",data.body,res);
 	});
 });
 
-var saveToDisk = function(filename, data, res){
-	fs.writeFile(notesDir+filename, data, function(err) {
-		if(err) {
-			return console.log(err);
-		}
-		res.writeHead(200, {'Content-Type': 'text/plain'});
-		res.end('save sucess');
-	}); 
-}
+app.post('/delete', function (req, res){
+	var jsonString = '';
+	req.on('data', function (data) {
+		jsonString += data;
+	});
+	
+	req.on('end', function () {
+		var data = JSON.parse(jsonString);
+		delete cache[data.id];
+		_deleteFromDisk(data.id+".txt", res);
+	});
+});
 
 /* TODO: 여기에 처리해야 할 요청의 주소별로 동작을 채워넣어 보세요..! */
 
