@@ -33,8 +33,13 @@
   
 
 * 웹 어플리케이션의 세션이란 무엇일까요?
+  * An application's session is a place to store data so that it can be accessed across multiple requests. Each user will get a seperate session so that their state will be known to the application. 
   * 세션의 내용은 어디에, 어떤 식으로 저장되나요?
-
+    * A session is just a way to store application state, so it can be implemented in multiple ways:
+      1. In a cookie: convenient, but only small amounts of data (4KB) can be stored. 
+      2. In memory: The server will still use cookies, but only to store a session identifier that is used to retrive data from the memory cache.
+      3. Database: Same as memory cache with the session id now used to retrieve from a database, but database lookups will be slower than memory.
+      
 ## Quest
 * Quest 12에서 수행했던 메모장에 로그인 기능을 넣고자 합니다.
   * 사용자는 딱 세 명만 존재한다고 가정하고, 아이디와 비밀번호, 사용자의 닉네임은 하드코딩해도 무방합니다.
