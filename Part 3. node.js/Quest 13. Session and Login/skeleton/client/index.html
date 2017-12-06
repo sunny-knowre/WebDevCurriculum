@@ -2,8 +2,8 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="/style.css">
-	<script src="/notepad.js"></script>
+	<link rel="stylesheet" href="/client/style.css">
+	<script src="/client/notepad.js"></script>
 </head>
 
 <body>
@@ -14,11 +14,14 @@
 			<a id="note-template" class="note hidden" href="#"></a>
 		</nav>
 		<main>
+         
 			<form name="myForm">
 				<div class="header">
-					<div class="notification"></div>
 					<input id="save" class="btn" type="submit" disabled="disabled" value="Save" />
 					<input id="delete" class="btn" type="button" disabled="disabled" value="Delete" />
+               <div class="notification">
+                  <a id="logout" href="/logout">logout</a>
+               </div>
 				</div>
 				<textarea class="editor">
 				</textarea>

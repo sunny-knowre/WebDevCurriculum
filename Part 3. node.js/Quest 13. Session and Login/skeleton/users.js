@@ -1,19 +1,40 @@
 var users = {
 	"1": {
 		"email": "sunny@note.com",
-		"nickname": "sunny",
+		"id": "sunny",
 		"password": "1234"
 	},
 	"2": {
 		"email": "root@note.com",
-		"nickname": "Admin",
-		"password": "1234"
+		"id": "root",
+		"password": ""
 	},
 	"3": {
 		"email": "kurt@note.com",
-		"nickname": "Kurt",
+		"id": "kurt",
 		"password": "1234"
 	}
+};
+
+var checkUser = function(nick, pass){
+   var found = false;
+	for (var key in users) {
+		if (users.hasOwnProperty(key)) {
+			var user = users[key];
+         if(user.id === nick && user.password === pass)
+            found = user;
+		}
+	}
+   return found;
 }
 
-module.exports = users;
+var getAllUsers = function(){
+   return users;
+}
+
+
+module.exports =  {
+		check: checkUser,
+		getAll: getAllUsers
+	
+}

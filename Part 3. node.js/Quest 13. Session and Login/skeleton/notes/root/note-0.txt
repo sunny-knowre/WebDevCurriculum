@@ -1,4 +1,4 @@
-How to use
+How to use guide for root
 
 1. Click on new note to create a new note.
 2. Click on tabs to switch notes

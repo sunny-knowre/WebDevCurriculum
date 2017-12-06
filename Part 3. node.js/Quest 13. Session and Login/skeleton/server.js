@@ -1,101 +1,88 @@
-var express = require('express'),
-	session = require('express-session'),
-	path = require('path'),
-	fs = require('fs'),
-	app = express(),
-	users = require('./users');
+var express    = require('express'),
+    session    = require('express-session'),
+    bodyParser = require('body-parser'),
+    path       = require('path'),
+    app        = express();
 
-var notesDir = './notes/';
-var cache = {};
-
-var _updateCache = function (id, title, body) {
-	var entry = {
-		title: title,
-		body: body
+var users = require('./users');
+var DataStore = require('./storage');
+var store = new DataStore('./notes/');
+var auth = function (req, res, next) {
+	if ((req.session && req.session.userId) || req.path === '/login') {
+		return next();
+	} else {
+		return res.redirect('/login');
 	}
-	cache[id] = entry;
 }
-
-var _saveToDisk = function (filename, data, res) {
-	fs.writeFile(notesDir + filename, data, function (err) {
-		if (err) {
-			return console.log(err);
-		}
-		res.writeHead(200, { 'Content-Type': 'text/plain' });
-		res.end('saved "' + filename + '"');
-	});
-}
-
-var _deleteFromDisk = function (filename, res) {
-	fs.unlink(notesDir + filename, function (err) {
-		if (err) {
-			res.writeHead(500, { 'Content-Type': 'text/plain' });
-			res.end('no file "' + filename + '" on disk');
-			return;
-		}
-		res.writeHead(200, { 'Content-Type': 'text/plain' });
-		res.end('deleted "' + filename + '"');
-	});
-}
-var init = function () {
-	var files = fs.readdirSync(notesDir);
-	var junk = function (t) { return t.match('.*\\.txt') }; // need for things like .DS_Store
-	files.filter(junk).forEach(filename => {
-		var file = fs.readFileSync(notesDir + filename).toString();
-		var re = new RegExp('(note-\\d+)\\.txt', 'g');
-		var id = re.exec(filename)[1];
-		var title = file.split('\n')[0];
-		if (title.length > 70)
-			title = title.substring(0, 70);
-	
-		_updateCache(id, title, file);
-	});
-}();
-
-app.use(express.static('client'));
+app.use(session({
+	secret: 'mvemjsun',
+	resave: false,
+	saveUninitialized: false,
+	cookie: {
+		maxAge: 1000 * 60 * 10
+	}
+}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/client', express.static('client'));
+app.use(auth);
 
 app.get('/', function (req, res) {
-	res.sendFile(path.join(__dirname, 'index.html'));
+	res.sendFile(path.join(__dirname, '/client/index.html'));
+});
+
+app.get('/login', function (req, res) {
+	res.sendFile(path.join(__dirname, '/client/login.html'));
+});
+
+app.post('/login', function (req, res) {
+	var user = req.body;
+	var found = users.check(user.nick, user.pass);
+	if (found) {
+		req.session.userId = found.id;
+		req.session.userEmail = found.email;
+		req.session.current_tab = found.current;
+		res.redirect('/');
+	} else {
+		res.redirect('/login');
+	}
+});
+
+app.get('/logout', function (req, res) {
+	req.session.destroy(function (err) {
+		if (err)
+			console.log(err)
+		else
+			res.redirect('/login');
+	});
 });
 
 app.get('/navlist', function (req, res) {
-	var list = [];
-	for (var key in cache) {
-		var item = {
-			id: key,
-			title: cache[key].title,
-			body: cache[key].body
-		}
-		list.push(item);
+	var data = store.getAll(req.session.userId);
+	var current_tab = data.current;
+	req.session.current_tab = data.current;
+	var result = {
+		user: req.session.userId,
+		tabs: data.tabs,
+		current: current_tab
 	}
-	res.writeHead(200, { 'Content-Type': 'application/json' });
-	res.end(JSON.stringify(list));
+	res.setHeader('Content-Type', 'application/json');
+	res.end(JSON.stringify(result));
+});
+
+app.get('/note/:noteid', function (req, res) {
+	req.session.current_tab = req.params.noteid;
+	var result = store.get(req.session.userId, req.params.noteid, res);
+	res.setHeader('Content-Type', 'application/json');
+	res.end(JSON.stringify(result));
 });
 
 app.post('/save', function (req, res) {
-	var jsonString = '';
-	req.on('data', function (data) {
-		jsonString += data;
-	});
-
-	req.on('end', function () {
-		var data = JSON.parse(jsonString);
-		_updateCache(data.id, data.title, data.body);
-		_saveToDisk(data.id + ".txt", data.body, res);
-	});
+	store.save(req.session.userId, req.body, res);
 });
 
 app.post('/delete', function (req, res) {
-	var jsonString = '';
-	req.on('data', function (data) {
-		jsonString += data;
-	});
-
-	req.on('end', function () {
-		var data = JSON.parse(jsonString);
-		delete cache[data.id];
-		_deleteFromDisk(data.id + ".txt", res);
-	});
+	store.delete(req.session.userId, req.body, res);
 });
 
 /* TODO: 여기에 처리해야 할 요청의 주소별로 동작을 채워넣어 보세요..! */
