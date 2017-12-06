@@ -21,12 +21,12 @@
     * `DELETE`, `HEAD`, `OPTIONS`
 * HTTP 서버에 GET과 POST를 통해 데이터를 보내려면 어떻게 해야 하나요?
   * Compose correct header and send to host ([source](https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Sending_and_retrieving_form_data))
-  * `GET`:
+  * `GET`: Encodes query data in key=value pairs into the URL, so it is visible to everyone and saved in browser history. The length of the request is also limited by the URL length (Max 2048 characters)
   
         GET /?say=Hi&to=Mom HTTP/1.1
         Host: foo.com
 
-  * `POST` (include data in request body):  
+  * `POST`: Submits data in the body with aplication/x-www-form-urlencoded(for shorter data) or multipart/form-data(for longer / encoded binary data). The parameters are not visible in the url so nothing saved in the browser history.
 
         POST / HTTP/1.1
         Host: foo.com
