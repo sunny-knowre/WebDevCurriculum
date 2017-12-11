@@ -19,7 +19,14 @@
 
 ## Checklist
 * ORM을 사용하는 것은 사용하지 않는 것에 비해 어떤 장단점을 가지고 있나요?
+  * Advantages: reduces cost and time for development, abstracts away vendor specific SQL code
+  * Disadvantages: ORM can be slow, especially for complex queries; Developers lose understanding of underlying SQL.
+
 * 모델간의 1:1, 1:N, N:M 관계는 각각 무엇이고 어떨 때 사용하나요?
+  * `1:1`: one-to-one relationship, means a primary key must match only one row in another table, or the 1:1 is enforced within the same table.
+  * `1:N`: one-to-many relationship, usually represented by a primary key and foreign key defines a foreign key column that stores the primary key of another table. Multiple rows of the same primary key can exist in the secondary table. (ex: user_id is the primary key for the Users table, the Notes table has multiple rows that have user_id 1 as the "owner" stored as a foreign key).
+  * `N:M`: many-to-many relationships require three tables where an "intersection table" sits between two tables and stores their primary keys to represent relationships. 
+    * Use cases are when there are two normalized tables with varying number of dependent columns such as a `Notes` table and a `Hashtags` table where multiple notes can have multiple hashtags. In this case a notes-hashtages intersection table would contain rows for each notes_id and associated hashtag_id.
 
 ## Quest
 * 이제 Quest 12~13의 결과물을 Quest 14의 MySQL 테이블과 연동해 보고자 합니다.

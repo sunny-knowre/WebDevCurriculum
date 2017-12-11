@@ -80,4 +80,26 @@
 * 주어진 MySQL 서버에서 Quest 12~13의 결과물을 MySQL 기반으로 만들어 보고자 합니다.
   * 먼저 테이블이 어떻게 설계되어야 할지, 어떤 정보를 담고 있어야 할지 생각해 보세요
   * 사용자의 암호는 어떤 식으로 저장해야 할까요?
+  * Tables:
+    * **Users**
+
+      | Column      | type                | key type                 |
+      |-------------|---------------------|--------------------------|
+      | user_id     | AUTOINCREMENT (INT) | primary                  |
+      | name        | VARCHAR             |                          |
+      | nickname    | VARCHAR             |                          |
+      | email       | VARCHAR             |                          |
+      | password    | CHAR                |                          |
+      | salt        | CHAR                |                          |
+      | last_tab_id | VARCHAR             | foreign to `Notes` table |
+
+    * **Notes**
+
+      | Column  | type                | key type                 |
+      |---------|---------------------|--------------------------|
+      | note_id | AUTOINCREMENT (INT) | primary                  |
+      | user_id | INT                 | foreign to `Users` table |
+      | title   | VARCHAR             |                          |
+      | body    | MEDIUMTEXT          |                          |    
+
 * **주의: 실제 node.js 프로그래밍을 할 필요는 없습니다. 알맞는 테이블만 생성하시면 됩니다!**
