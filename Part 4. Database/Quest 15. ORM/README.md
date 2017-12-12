@@ -32,3 +32,30 @@
 * 이제 Quest 12~13의 결과물을 Quest 14의 MySQL 테이블과 연동해 보고자 합니다.
   * Sequelize를 통해 Quest 14에서 설계한 테이블을 모델로 만들어 보세요.
   * 로그인을 지원하는 메모장 어플리케이션을 파일이 아닌 DB기반으로 바꾸어 보세요.
+    * run application:
+    ```
+    cd skeleton
+    docker-compose up -d
+    // wait for mysql instance to spin up
+    node server.js
+    ```
+    * login info:
+    ```
+    [
+      {
+        name: "root",
+        password: "password"
+      },
+      {
+        name: "sunny",
+        password: "1234"
+      },
+      {
+        name: "kurt",
+        password: "1234"
+      }
+    ]
+
+    ```
+
+

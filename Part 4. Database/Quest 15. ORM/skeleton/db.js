@@ -1,11 +1,3 @@
-/*
-	Assuming you have a mysql server running
-	If docker is available, run:
-		
-		docker run --name mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=notepad -p 3306:3306 -d mysql
-
-*/
-const db = {};
 const Sequelize = require('sequelize');
 const crypto = require('crypto');
 
@@ -32,16 +24,22 @@ const User = sequelize.define('user', {
 	nickname: Sequelize.STRING,
 	email   : Sequelize.STRING,
 	password: Sequelize.STRING,
-	salt    : Sequelize.STRING
+	salt    : Sequelize.STRING,
+	last_note: {
+		type     : Sequelize.STRING,
+		allowNull: true
+	}
 });
-User.prototype.validatePassword = function(pass){
-	var answer = this.password;
-	crypto.pbkdf2(pass, this.salt, 100000, 64, 'sha512', (err, derivedKey) => {
-		if(err) throw err;
-		if(derivedKey === answer)
-			return true;
+User.prototype.verifyPass = function(username, pass, callback){
+	var answer = this.get('password');
+	if(this.get('nickname') !== username ){
+		callback.call(null, false);
+		return;
+	}
 		
-		return false;
+	crypto.pbkdf2(pass, this.get('salt'), 100000, 64, 'sha512', (err, derivedKey) => {
+		if(err) throw err;
+		callback.call(null, answer === derivedKey.toString('hex'));
 	});
 };
 
@@ -54,11 +52,44 @@ const Note = sequelize.define('note', {
 	},
 	title: Sequelize.STRING,
 	body : Sequelize.TEXT
-});
-
+})
+Note.getAllUserTitles = function(user, callback){
+	Note.findAll({
+		where: {userId: user },
+		raw: true
+	}).then(function(data){
+		var tabs = [];
+		data.forEach(function(note){
+			tabs.push({
+				id: note.id,
+				title: note.title
+			});
+		});
+		callback.call(null, tabs);
+	}).catch(function(err){
+		return err;
+	});
+}
+Note.getNoteContents = function(noteid, callback){
+	Note.findOne({where: {id: noteid} })
+	.then(function(note){
+		return note.get();
+	})
+	.then(function(noteData){
+		var result = {};
+		result.title = noteData.title;
+		result.body  = noteData.body;
+		callback.call(null, result);
+		return User.findOne({where: {id: noteData.userId} });
+	})
+	.then(function(user){
+		user.update({last_note: noteid});
+	})
+	.catch(function(err) {
+		return err;
+	});
+}
 Note.belongsTo(User);
-Note.hasOne(User, { as: 'Last', foreignKey: 'last_note', constraints: false });
-
 	
 module.exports = {
 		sequelize: sequelize,

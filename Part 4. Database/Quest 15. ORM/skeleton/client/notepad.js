@@ -30,8 +30,7 @@ var _ajax = (function () {
 
 var Notepad = function () {
 	var self = this;
-	this.uid = 0;
-	this.noteList    = [];
+	this.noteList    = {};
 	this.currentNote = null;
 	this.editorDOM   = document.querySelector('.editor');
 	this.fileListDOM = document.querySelector('.file-list');
@@ -55,11 +54,6 @@ Notepad.prototype.init = function () {
 		tabs.forEach(file => {
 			var note = new Note(file.id, file.title);
 			self.noteList[file.id] = note;
-			var re = new RegExp('note-(\\d+)', 'g');
-			var max = re.exec(file.id)[1];
-			if (self.uid <= max) {
-				self.uid = ++max;
-			}
 		});
 		if (tabs.length > 0) {
 			if (!current)
@@ -96,13 +90,19 @@ Notepad.prototype.init = function () {
 
 }
 Notepad.prototype.newNote = function () {
-	var id = "note-" + this.uid++;
-	var newNote = new Note(id, "new note");
-	this.noteList[id] = newNote;
-	this.updateButtonStatus();
-	newNote.emitLoad();
+	var self = this;
+	var params = {
+		title: "new note",
+		body: ""
+	};
 
-
+	_ajax.post('new', params, function () {
+		var id = parseInt(this.responseText);
+		var newNote = new Note(id, "new note");
+		self.noteList[id] = newNote;
+		self.updateButtonStatus();
+		newNote.emitLoad();
+	});
 }
 Notepad.prototype.updateButtonStatus = function () {
 	if (Object.keys(this.noteList).length === 0 || this.currentNote === null) {
@@ -127,6 +127,7 @@ Notepad.prototype.deleteNote = function () {
 			delete this.noteList[note_id];
 			this.currentNote = null;
 			var next = Object.keys(this.noteList).pop();
+			console.log(next);
 			if (next)
 				this.noteList[next].emitLoad();
 
@@ -196,7 +197,6 @@ Note.prototype.save = function (newData) {
 		title: this.title,
 		body: this.body
 	};
-
 	_ajax.post('save', params, function () {
 		console.log(this.responseText);
 	});
