@@ -34,27 +34,22 @@ app.get('/login', function (req, res) {
 	res.sendFile(path.join(__dirname, '/client/login.html'));
 });
 
-app.post('/login', function (req, res) {
-	db.user.findOne({
-		where: { nickname: req.body.nick }
-	}).then(function (u) {
-		if (u) {
-			u.verifyPass(req.body.nick,req.body.pass, function (isVerfied) {
-				if (isVerfied) {
-					req.session.userId = u.id;
-					req.session.username = u.nickname;
-					req.session.userEmail = u.email;
-					req.session.current_tab = u.last_note;
-					res.redirect('/');
-				} else {
-					res.redirect('/login');
-				}
-
-			});
+app.post('/login', async (req, res) => {
+	try{
+		const verified = await db.user.verifyPass(req.body.nick,req.body.pass);
+		if (verified) {
+			req.session.userId = verified.get('id');
+			req.session.username = verified.get('nickname');
+			req.session.userEmail = verified.get('email');
+			req.session.current_tab = verified.get('last_note');
+			res.redirect('/');
 		} else {
 			res.redirect('/login');
 		}
-	});
+	} catch (err) {
+		console.log(err);
+	}
+	
 });
 
 app.get('/logout', function (req, res) {
@@ -66,26 +61,29 @@ app.get('/logout', function (req, res) {
 	});
 });
 
-app.get('/navlist', function (req, res) {
-
-	db.note.getAllUserTitles(req.session.userId, function (tabs) {
-		var result = {
+app.get('/navlist', async (req, res) => {
+	try {
+		const tabs = await db.note.getAllUserTitles(req.session.userId);
+		const result = {
 			user: req.session.username,
 			tabs: tabs,
 			current: req.session.current_tab
 		};
 		res.setHeader('Content-Type', 'application/json');
 		res.end(JSON.stringify(result));
-	});
+	} catch (err) {
+		console.log(err);
+	}
 });
 
-app.get('/note/:noteid', function (req, res) {
+app.get('/note/:noteid', async (req, res) => {
 	req.session.current_tab = req.params.noteid;
-	db.note.getNoteContents(req.params.noteid, function(result) {
-		res.setHeader('Content-Type', 'application/json');
-		res.end(JSON.stringify(result));
-	}); 
+	const result = await db.note.getNoteContents(req.params.noteid);
+
+	res.setHeader('Content-Type', 'application/json');
+	res.end(JSON.stringify(result));
 });
+
 app.post('/new', function (req, res) {
 	var newnote = {
 		title: req.body.title,
@@ -103,31 +101,27 @@ app.post('/new', function (req, res) {
 	});
 });
 
-app.post('/save', function (req, res) {
-	db.note.update({
-			title: req.body.title,
-			body: req.body.body
-	},{
-		where: { id: req.body.id }
-	})
-	.then(function(){
+app.post('/save', async (req, res) => {
+	try {
+		await db.note.update(
+			{ title: req.body.title, body: req.body.body },
+			{ where: { id: req.body.id } }
+		);
 		res.writeHead(200, { 'Content-Type': 'text/plain' });
 		res.end('saved "' + req.body.id + '"');
-	})
-	.catch(function(err){
-		return err;
-	});
+	} catch (err) {
+		console.log(err);
+	}
 });
 
-app.post('/delete', function (req, res) {
-	db.note.destroy({ where: {id: req.body.id} })
-	.then(function(){
+app.post('/delete', async (req, res) => {
+	try {
+		await db.note.destroy({ where: {id: req.body.id} });
 		res.writeHead(200, { 'Content-Type': 'text/plain' });
 		res.end('deleted "' + req.body.id + '"');
-	})
-	.catch(function(err){
-		return err;
-	});
+	} catch (err) {
+		console.log(err);
+	}
 });
 
 /* TODO: 여기에 처리해야 할 요청의 주소별로 동작을 채워넣어 보세요..! */

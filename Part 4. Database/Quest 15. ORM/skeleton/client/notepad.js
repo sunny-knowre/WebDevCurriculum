@@ -3,7 +3,7 @@ var _ajax = (function () {
 	var makeNewRequest = function () {
 		var xhttp = new XMLHttpRequest();
 		return xhttp;
-	}
+	};
 
 	var req = function (path, params, callback, method) {
 		var xhttp = makeNewRequest();
@@ -11,7 +11,7 @@ var _ajax = (function () {
 		xhttp.setRequestHeader("Content-type", "application/json");
 		xhttp.send(JSON.stringify(params));
 		xhttp.onload = callback;
-	}
+	};
 
 	return {
 		get: function () {
@@ -29,7 +29,6 @@ var _ajax = (function () {
 })();
 
 var Notepad = function () {
-	var self = this;
 	this.noteList    = {};
 	this.currentNote = null;
 	this.editorDOM   = document.querySelector('.editor');
@@ -88,7 +87,7 @@ Notepad.prototype.init = function () {
 		}
 	});
 
-}
+};
 Notepad.prototype.newNote = function () {
 	var self = this;
 	var params = {
@@ -103,7 +102,7 @@ Notepad.prototype.newNote = function () {
 		self.updateButtonStatus();
 		newNote.emitLoad();
 	});
-}
+};
 Notepad.prototype.updateButtonStatus = function () {
 	if (Object.keys(this.noteList).length === 0 || this.currentNote === null) {
 		this.saveBtn.setAttribute('disabled', true);
@@ -112,11 +111,11 @@ Notepad.prototype.updateButtonStatus = function () {
 		this.saveBtn.removeAttribute('disabled');
 		this.deleteBtn.removeAttribute('disabled');
 	}
-}
+};
 Notepad.prototype.saveNote = function () {
 	if (this.currentNote)
 		this.currentNote.save(this.editorDOM.value);
-}
+};
 Notepad.prototype.deleteNote = function () {
 	if (this.currentNote) {
 		var result = confirm("Are you sure you want to delete?");
@@ -127,7 +126,6 @@ Notepad.prototype.deleteNote = function () {
 			delete this.noteList[note_id];
 			this.currentNote = null;
 			var next = Object.keys(this.noteList).pop();
-			console.log(next);
 			if (next)
 				this.noteList[next].emitLoad();
 
@@ -138,7 +136,7 @@ Notepad.prototype.deleteNote = function () {
 			//Logic to delete the item
 		}
 	}
-}
+};
 
 var Note = function (id, title) {
 	var self = this;

@@ -4,5 +4,6 @@ bower_components/*
 **/bower_components/*
 
 **/.DS_Store
+**/.vscode
 **/Thumbs.db
 npm-debug.log
