@@ -59,3 +59,8 @@
 * **이제는 개발이 익숙해졌기 때문에 Skeleton code를 제공하지 않습니다!**
   * 이제부터의 퀘스트는 디렉토리 내에 `submit` 폴더를 만들어 제출해 주시면 됩니다.
   * 서버쪽 코드가 필요할 경우 적절한 `package.json` 파일을 포함하여 제출해 주세요!
+    ```
+    cd submit
+    npm install
+    npm start
+    ```
