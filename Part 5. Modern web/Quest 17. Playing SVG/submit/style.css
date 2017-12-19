@@ -1,0 +1,28 @@
+#app {
+    display: flex;
+    width: 90vw;
+    margin: 10px auto;
+    flex-direction: column;
+    height: 90vh;
+}
+#sandbox {
+    position: relative;
+    padding: 5px;
+    flex: 10;
+    border: 1px solid black;
+}
+#controller {
+    display: flex;
+    flex: 1;
+    border: 1px solid blue;
+}
+.shape-container {
+    margin: 5px;
+}
+.svg-shape {
+    fill: #ccdf23;
+}
+
+.active {
+    border: 1px solid yellow;
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>VueJS</title>
+	<link rel="stylesheet" href="style.css">
+	<script type="text/javascript" src="vue.js"></script>
+</head>
+
+<body>
+
+	<!-- template for shape-box component -->
+	<script type="text/x-template" id="shape-box-template">
+		<div class="shape-container" :style="styleObject">
+			<svg :height="size" :width="size">
+				<component :is="type" :id="id"></component>
+			</svg>
+		</div>
+	</script>
+
+	<div id="app">
+		<div id="sandbox">
+			<shape-box v-for="(shape, key, index) in shapes"
+				:key="index"
+				:id=shape.id
+				:type="shape.type">
+			</shape-box>
+		</div>
+		<div id="controller">
+		</div>
+	</div>
+	<script src="draw.js"></script>
+</body>
+
+</html>

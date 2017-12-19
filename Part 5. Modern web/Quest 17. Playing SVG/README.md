@@ -17,8 +17,16 @@
 
 ## Checklist
 * SVG 포맷은 JPG, PNG 등의 포맷과 어떤 점이 다른가요?
+  * `JPG`: is a lossy format generally useful for diplaying photos where compression is usually not noticed. Because it is a rasterized image file, it doesn't scale well.
+  * `PNG`: also a rasterized image formage that supports transparency and is lossless. Good for situations where scaling is not important but transparency is needed.
+  * `SVG`: A vector graphic that stores information using gemetric data. Good for simple 2-dimentional elements that need to scale, but things like photographs may be too complex to handle.
+
 * SVG 포맷은 HTML 포맷과 어떤 점이 다른가요?
+  * While HTML deals with text objects, SVG is an XML-based markup language used to describe graphics.
 * 브라우저 상의 키보드 이벤트에서 keyCode는 어떤 역할을 하나요?
+  * the `keyCode` property returns two types of codes depending on the event that triggered it:
+    1. `onkeypress` event: will return the actual ASCII charactor code (ex: `w` will return `119`, `W` will return `87`)
+    2. `onkeydown` or `onkeyup` events: will return a number key code for the key.
 
 ## Quest
 * 간단한 스케치보드를 만들어 보려고 합니다.
