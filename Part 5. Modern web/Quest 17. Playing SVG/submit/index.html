@@ -11,11 +11,17 @@
 
 <body>
 
+	<script type="text/x-template" id="shape-generator-template">
+		<div class="shape-generator-btn" v-on:click="generate" >
+			<span>{{ name }}</span>
+		</div>
+	</script>
+
 	<!-- template for shape-box component -->
 	<script type="text/x-template" id="shape-box-template">
 		<div class="shape-container" :style="styleObject">
-			<svg :height="size" :width="size">
-				<component :is="type" :id="id"></component>
+			<svg :height="boxSize" :width="boxSize" :viewBox="viewBox">
+				<component :is="type" :id="id" :type="type" :activeStatus="activeStatus"></component>
 			</svg>
 		</div>
 	</script>
@@ -25,10 +31,18 @@
 			<shape-box v-for="(shape, key, index) in shapes"
 				:key="index"
 				:id=shape.id
-				:type="shape.type">
+				:type="shape.type"
+				:moving="moving"
+				:boundary="boundary">
 			</shape-box>
 		</div>
 		<div id="controller">
+			<h3>click one to generate:</h2>
+			<shape-generator v-for="(shapeConfig, key, index) in types"
+				:key="index"
+				:type="shapeConfig.id"
+				:name="shapeConfig.name">
+			</shape-generator>
 		</div>
 	</div>
 	<script src="draw.js"></script>

@@ -1,10 +1,29 @@
-let size = 100;
+const size = 70;
+const stroke = 5;
 let counter = 0;
-var bus = new Vue();
+let bus = new Vue();
+Vue.component("shape-generator", {
+  template: "#shape-generator-template",
+  props: ["type", "name"],
+  data() {
+    return {
+      uid: 0
+    };
+  },
+  methods: {
+    generate(){
+      let item = {
+        id: this.type + "-" + this.uid++,
+        type: this.type
+      };
+      bus.$emit('fireMake', item);
+    }
+  }
+});
 
-Vue.component('shape-box', {
-  template: '#shape-box-template',
-  props: ["type","id","moving"],
+Vue.component("shape-box", {
+  template: "#shape-box-template",
+  props: ["type", "id", "moving", "boundary"],
   data() {
     return {
       size,
@@ -12,109 +31,156 @@ Vue.component('shape-box', {
       y: 0
     };
   },
-  created(){
-    bus.$on("fireMove", movement => this.handleMove(movement) );
+  created() {
+    bus.$on("fireMove", movement => this.handleMove(movement));
   },
   computed: {
-    styleObject(){
+    styleObject() {
       return {
-        position: "absolute",
-        top:  (10+size)*counter++ + 'px'
+        position: "fixed",
+        height: size + stroke * 2 + "px",
+        top: ((size + stroke*2) * counter++) + 10 + "px",
       };
+    },
+    boxSize() {
+      return size + stroke * 2;
+    },
+    viewBox() {
+      return (-stroke + " ").repeat(2) + (size + stroke * 2 + " ").repeat(2);
+    },
+    activeStatus() {
+      return this.id === this.moving;
     }
   },
   methods: {
-    handleMove(movement){
-      if(movement.id === this.id){
-        console.log(movement.keyCode);
+    handleMove(movement) {
+      if (movement.id === this.id && ["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown", "Delete"].includes(movement.keyCode)) {
+        let rect = this.$el.getBoundingClientRect();
+        switch (movement.keyCode) {
+          case "ArrowRight":
+            if( rect.left + 15 < this.boundary.x.max - size - stroke*2)
+              this.$el.style.left = rect.left + 10 + "px";
+            break;
+          case "ArrowLeft":
+            if( rect.left - 15 > this.boundary.x.min)
+              this.$el.style.left = rect.left - 20  + "px";
+            break;
+          case "ArrowUp":
+            if( rect.top - 15 > this.boundary.y.min)  
+              this.$el.style.top = rect.top - 20 + "px";
+            break;
+          case "ArrowDown":
+            if( rect.top + 15 < this.boundary.y.max - size - stroke*2)
+              this.$el.style.top = rect.top + 10 + "px";
+            break;
+          case "Delete":
+            bus.$emit('fireDelete', this.id);
+            break;
+        }
       }
     }
   }
 });
 
-Vue.component('square', {
-  props: ["id"],
-  template: `<rect class="svg-shape" x="0" y="0" v-on:click="select" :width="sideLength" :height="sideLength" />`,
+Vue.component("square", {
+  props: ["id", "activeStatus"],
+  template: `<rect class="svg-shape" v-bind:style="activeBorder" x="0" y="0" v-on:click="select" :width="sideLength" :height="sideLength" />`,
   computed: {
-    sideLength(){
+    sideLength() {
       return size;
+    },
+    activeBorder() {
+      if (this.activeStatus)
+        return "stroke: #52bbf8; stroke-width:" + stroke + "px;";
+      else return "stroke: none";
     }
   },
   methods: {
-    select(){
+    select() {
       bus.$emit("fireSelect", this.id);
     }
   }
 });
 
-Vue.component('triangle', {
-  props: ["id"],
-  template: `<polygon class="svg-shape" v-on:click="select" :points="computedPoints" ></polygon>`,
+Vue.component("triangle", {
+  props: ["id", "activeStatus"],
+  template: `<polygon class="svg-shape" v-bind:style="activeBorder" v-on:click="select" :points="computedPoints" ></polygon>`,
   computed: {
     computedPoints() {
-      return "0 " + (size + " ").repeat(3) + size/2 + " 0";
+      return "0 " + (size + " ").repeat(3) + size / 2 + " 0";
+    },
+    activeBorder() {
+      if (this.activeStatus)
+        return "stroke: #52bbf8; stroke-width:" + stroke + "px;";
+      else return "stroke: none";
     }
   },
   methods: {
-    select(){
+    select() {
       bus.$emit("fireSelect", this.id);
     }
   }
 });
 
-Vue.component('circ', {
-  props: ["id"],
-  template: `<circle class="svg-shape" v-on:click="select" :cx="midpoint" :cy="midpoint" :r="midpoint"/>`,
+Vue.component("circ", {
+  props: ["id", "activeStatus"],
+  template: `<circle class="svg-shape" v-bind:style="activeBorder" v-on:click="select" :cx="midpoint" :cy="midpoint" :r="midpoint"/>`,
   computed: {
-    midpoint(){
-      return size/2;
+    midpoint() {
+      return size / 2;
+    },
+    activeBorder() {
+      if (this.activeStatus)
+        return "stroke: #52bbf8; stroke-width:" + stroke + "px;";
+      else return "stroke: none";
     }
   },
   methods: {
-    select(){
+    select() {
       bus.$emit("fireSelect", this.id);
     }
   }
-
 });
 
-new Vue({
+var myapp = new Vue({
   el: "#app",
   data: {
-    moving: '',
+    moving: "",
     title: "Hello World!",
-    shapes: [
-      {
-        id: 1,
-        type: "square"
-      },
-      {
-        id: 2,
-        type: "triangle"
-      },
-      {
-        id: 3,
-        type: "circ"
-      },
-      {
-        id: 4,
-        type: "square"
-      }
-    ]
+    shapes: [],
+    types: [ {id: "square", name: "Square" }, 
+             {id: "triangle", name: "Triangle" },
+             {id: "circ", name: "Circle" } ],
+    boundary: {},
+    sandbox: {}
   },
-  created() {
-    document.addEventListener('keydown', this.keyHander);
-    bus.$on('fireSelect', id => this.handleSelect(id) );
+  mounted(){
+    document.addEventListener("keydown", this.keyHander);
+    bus.$on("fireSelect", id => this.handleSelect(id));
+    bus.$on("fireDelete", id => this.handleDelete(id));
+    bus.$on("fireMake", item => this.handleMake(item));
+    let bounds = this.$el.childNodes[0].getBoundingClientRect();
+    this.boundary = {
+      x: { min: bounds.x, max: bounds.x + bounds.width  },
+      y: { min: bounds.y, max: bounds.y + bounds.height }
+    };
   },
   methods: {
-    keyHander(e){
-      if(this.moving){
-        bus.$emit("fireMove", {id: this.moving, keyCode: e.key, });
+    keyHander(e) {
+      if (this.moving) {
+        bus.$emit("fireMove", { id: this.moving, keyCode: e.key });
       }
-        
     },
-    handleSelect(id){
+    handleSelect(id) {
       this.moving = id;
+    },
+    handleDelete(id) {
+      this.moving = '';
+      this.shapes = this.shapes.filter( shape => {return shape.id !== id;} );
+      
+    },
+    handleMake(item) {
+      this.shapes.push(item);
     }
   }
 });
