@@ -1,0 +1,39 @@
+#app {
+    box-sizing: "border-box";
+    display: flex;
+    width: 90vw;
+    margin: 10px auto;
+    flex-direction: column;
+    height: 90vh;
+}
+#sandbox {
+    padding: 5px;
+    flex: 12;
+    border: 1px solid black;
+}
+#controller {
+    display: flex;
+    padding: 5px;
+    flex: 1;
+    border: 1px solid grey;
+    background: grey;
+    justify-content: left;
+    align-items: center;
+}
+.shape-container {
+    margin: 5px;
+}
+.svg-shape {
+    fill: rgb(124, 184, 124, 0.8);
+}
+.shape-generator-btn {
+    margin: 0 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: white;
+    background: rgba(146, 218, 146, 0.5);
+    text-align: center;
+    vertical-align: middle;
+    min-height: 20px;
+    border-radius: 5px;
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="stylesheet" href="/client/style.css">
+	<script src="/client/vue.js"></script>
+</head>
+
+<body>
+
+	<script type="text/x-template" id="shape-generator-template">
+		<div class="shape-generator-btn" v-on:click="generate" >
+			<span>{{ name }}</span>
+		</div>
+	</script>
+
+	<!-- template for shape-box component -->
+	<script type="text/x-template" id="shape-box-template">
+		<div class="shape-container" :style="styleObject">
+			<svg :height="boxSize" :width="boxSize" :viewBox="viewBox">
+				<component :is="type" :id="id" :type="type" :activeStatus="activeStatus"></component>
+			</svg>
+		</div>
+	</script>
+
+	<div id="app">
+		<div id="sandbox">
+			<shape-box v-for="(shape, key, index) in shapes"
+				:key="index"
+				:id=shape.id
+				:type="shape.type"
+				:moving="moving"
+				:boundary="boundary">
+			</shape-box>
+		</div>
+		<div id="controller">
+			<h3>click one to generate:</h2>
+			<shape-generator v-for="(shapeConfig, key, index) in types"
+				:key="index"
+				:type="shapeConfig.id"
+				:name="shapeConfig.name">
+			</shape-generator>
+		</div>
+	</div>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/client/draw.js"></script>
+</body>
+
+</html>
