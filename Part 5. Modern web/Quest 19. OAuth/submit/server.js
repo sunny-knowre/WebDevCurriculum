@@ -1,12 +1,17 @@
-var express = require("express"),
-  session = require("express-session"),
-  bodyParser = require("body-parser"),
-  path = require("path"),
-  app = express();
+const express = require("express"),
+      session = require("express-session"),
+      bodyParser = require("body-parser"),
+      path = require("path"),
+      passport = require('./passport'),
+      db = require("./db"),
+      app = express();
 
-var db = require("./db");
+app.use(passport.initialize());
+app.use(passport.session());
+
 var auth = function(req, res, next) {
-  if ((req.session && req.session.userId) || req.path === "/login") {
+  if ((req.session && req.session.userId) || 
+    ["/login", "/auth/login", "/auth/google/callback"].includes(req.path)) {
     return next();
   } else {
     return res.redirect("/login");
@@ -23,14 +28,32 @@ app.use(
     }
   })
 );
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/client", express.static("client"));
 app.use(auth);
+app.get('/auth/login', (req, res, next) => {
+    if (req.query.return) {
+      req.session.oauth2return = req.query.return;
+    }
+    next();
+  },
+  passport.authenticate('google', { scope: ['email', 'profile'] })
+);
 
-app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "/client/index.html"));
-});
+app.get('/auth/google/callback', passport.authenticate('google'),
+  (req, res) => {
+    const redirect = req.session.oauth2return || '/';
+    delete req.session.oauth2return;
+    req.session.userId = req.user.id;
+    req.session.username = req.user.nickname;
+    req.session.userEmail = req.user.email;
+    req.session.current_tab = req.user.last_note;
+    res.redirect(redirect);
+  }
+);
 
 app.get("/login", function(req, res) {
   res.sendFile(path.join(__dirname, "/client/login.html"));
@@ -52,6 +75,11 @@ app.post("/login", async (req, res) => {
     console.log(err);
   }
 });
+
+app.get("/", function(req, res) {
+  res.sendFile(path.join(__dirname, "/client/index.html"));
+});
+
 
 app.get("/logout", function(req, res) {
   req.session.destroy(function(err) {

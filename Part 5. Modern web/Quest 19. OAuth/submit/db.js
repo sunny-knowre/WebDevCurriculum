@@ -50,6 +50,31 @@ User.verifyPass = async (name, pass) => {
   }
 };
 
+User.verifyEmail = async (name, email) => {
+  try {
+    const foundUser = await User.findOne({ where: { email: email } });
+    let result = false;
+    if (foundUser && foundUser.get("nickname") === name) {
+        result = foundUser;
+        return result;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+User.addGoogleUser = async(googleUser) => {
+  try {
+    const newUser = await User.build({ 
+        nickname: googleUser.name, 
+        email: googleUser.email
+      }).save();
+    return newUser;
+  } catch (err) {
+    console.log(err);
+  }
+}
 const Note = sequelize.define("note", {
   id: {
     type         : Sequelize.INTEGER,

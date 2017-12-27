@@ -186,7 +186,7 @@ form {
 #login-form {
         border-radius: 10px;
         width: 300px;
-        height: 200px;
+        height: 250px;
         padding: 20px;
       
         position: absolute;
@@ -207,4 +207,15 @@ form {
     margin: 10px;
     padding:5px;
     outline: none;
+}
+
+.google_btn {
+    margin: 5px auto;
+      background: url('/client/google_signin.png');
+      width:220px; 
+      height: 50px;
+      border: 0;
+      background-size: 100%; /* To fill the dimensions of container (button), or */
+      display: inline-block;
+      vertical-align: middle;
 }

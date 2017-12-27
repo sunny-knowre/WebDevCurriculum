@@ -34,31 +34,34 @@
 
 ## Quest
 * Quest 12~15에서 만든 메모장 시스템에 구글 로그인 버튼을 추가하고자 합니다.
-  *  
-  
-    cd skeleton
-    docker-compose up -d
-    // wait for mysql instance to spin up
-    node server.js
-    ```
-    * login info:
-    ```
-    [
-      {
-        name: "root",
-        password: "password"
-      },
-      {
-        name: "sunny",
-        password: "1234"
-      },
-      {
-        name: "kurt",
-        password: "1234"
-      }
-    ]
+  * startup: 
+      ```  
+      cd skeleton
+      docker-compose up -d
+      // wait for mysql instance to spin up
+      node server.js
+      ```
+  * default users:
+      ```
+      [
+        {
+          name: "root",
+          password: "password",
+          email: root@note.com
+        },
+        {
+          name: "sunny",
+          password: "1234",
+          email: sunny@note.com
+        },
+        {
+          name: "kurt",
+          password: "1234",
+          email: kurt@note.com
+        }
+      ]
 
-    ```
+      ```
   * 구글 버튼을 통해 로그인을 할 수 있어야 합니다.
     * 처음 로그인했을 경우, 해당하는 유저 테이블에 이메일 주소와 해당하는 사람의 이름이 추가되게 됩니다.
     * 두 번째 로그인부터는 일치하는 이메일 주소를 찾아 그 유저의 이름으로 모든 것이 저장되어야 합니다.
