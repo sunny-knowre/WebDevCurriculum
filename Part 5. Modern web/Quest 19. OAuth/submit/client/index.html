@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="/client/style.css">
+	<script src="/client/notepad.js"></script>
+</head>
+
+<body>
+	<div class="container">
+		<nav class="file-list">
+			<h1>Notepad</h1>
+			<button class="btn" id="new-note">new note</button>
+			<a id="note-template" class="note hidden" href="#"></a>
+		</nav>
+		<main>
+         
+			<form name="myForm">
+				<div class="header">
+					<input id="save" class="btn" type="submit" disabled="disabled" value="Save" />
+					<input id="delete" class="btn" type="button" disabled="disabled" value="Delete" />
+               <div class="notification">
+                  <a id="logout" href="/logout">logout</a>
+               </div>
+				</div>
+				<textarea class="editor">
+				</textarea>
+			</form>
+
+		</main>
+
+	</div>
+	<!-- TODO: 이 곳을 채워 클라이언트를 만들어 보세요 -->
+	<script>
+		var notepad = new Notepad();
+	</script>
+</body>
+</html>
