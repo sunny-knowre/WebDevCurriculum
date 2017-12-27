@@ -3,6 +3,7 @@ const stroke = 5;
 let counter = 0;
 let bus = new Vue();
 var socket = io();
+
 Vue.component("shape-generator", {
   template: "#shape-generator-template",
   props: ["type", "name"],
@@ -17,6 +18,21 @@ Vue.component("shape-generator", {
       let type = this.type;
 
       bus.$emit('fireMake', id, type);
+    }
+  }
+});
+
+Vue.component("room-selector", {
+  template: "#room-selector-template",
+  props: ["current", "name"],
+  methods: {
+    changeroom(){
+      bus.$emit('fireChangeRoom', this.name);
+    }
+  },
+  computed: {
+    isActive(){
+      return this.current === this.name;
     }
   }
 });
@@ -115,28 +131,45 @@ var myapp = new Vue({
              {id: "triangle", name: "Triangle" },
              {id: "circ", name: "Circle" } ],
     boundary: {},
+    currentRoom: '',
+    rooms: [],
     sandbox: {}
   },
   mounted(){
-    document.addEventListener("keydown", this.keyHander);
-    socket.on ('test', data => {
-      console.log(data);
+    socket.emit('join');
+    socket.on('connectToRoom', data => {
+      this.rooms = data.rooms;
+      this.currentRoom = data.myroom;
     });
-    bus.$on("fireSelect", id => this.handleSelect(id));
-    bus.$on("fireMake", (id, type) => this.handleMake(id, type));
+    socket.on('paint', data => {
+      if(data)
+        this.shapes = data;
+      else
+        this.shapes = [];
+    });
+
+    document.addEventListener("keydown", this.keyHander);
     let sandbox = this.$el.childNodes[0];
     let bounds = sandbox.getBoundingClientRect();
     this.boundary = {
       x: { min: 5, max: bounds.width-5  },
       y: { min: 5, max: bounds.height-5 }
     };
-    socket.emit('test2', {hello: 'from client'});
+
+    bus.$on("fireSelect", id => this.handleSelect(id));
+    bus.$on("fireMake", (id, type) => this.handleMake(id, type));
+    bus.$on('fireChangeRoom', room => this.handleChangeRoom(room));
+
+    
+
   },
   methods: {
     keyHander(e) {
-      if (this.moving && ["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown", "Delete"].includes(e.key) ) {
+      if (this.moving && ["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"].includes(e.key) ) {
         this.handleMove( this.moving, e.key);
       }
+      else if( this.moving && e.key === 'Delete')
+        this.handleDelete( this.moving );
     },
     handleSelect(id) {
       this.moving = id;
@@ -144,6 +177,7 @@ var myapp = new Vue({
     handleDelete(id) {
       this.moving = '';
       this.shapes = this.shapes.filter( shape => {return shape.id !== id;} );
+      socket.emit('delete', id);
       
     },
     handleMake(id, type) {    
@@ -156,31 +190,40 @@ var myapp = new Vue({
         }
       };
       this.shapes.push(item);
+      socket.emit('create', item);
     },
     handleMove(id, keyCode) {
       const index = this.shapes.findIndex(shape => shape.id === id);
-      const shape = this.shapes[index];
+      const coords = this.shapes[index].coords;
       switch (keyCode) {
         case "ArrowRight":
-          if( shape.coords.x + 10 < this.boundary.x.max - size - stroke*2)
-            this.shapes[index].coords.x = shape.coords.x + 10;
+          if( coords.x + 10 < this.boundary.x.max - size - stroke*2)
+            coords.x += 10;
+            this.shapes[index].coords = coords;
           break;
         case "ArrowLeft":
-          if( shape.coords.x - 10 > this.boundary.x.min)
-            this.shapes[index].coords.x = shape.coords.x - 10;
+          if( coords.x - 10 > this.boundary.x.min)
+            coords.x -=10;
+            this.shapes[index].coords = coords;
           break;
         case "ArrowUp":
-          if( shape.coords.y - 10 > this.boundary.y.min)  
-            this.shapes[index].coords.y = shape.coords.y - 10;
+          if( coords.y - 10 > this.boundary.y.min)  
+            coords.y -= 10;
+            this.shapes[index].coords = coords;
           break;
         case "ArrowDown":
-          if( (shape.coords.y + 10) < (this.boundary.y.max - size - stroke*2) )
-            this.shapes[index].coords.y = shape.coords.y + 10;
-          break;
-        case "Delete":
-          this.handleDelete(id);
+          if( (coords.y + 10) < (this.boundary.y.max - size - stroke*2) )
+            coords.y += 10;
+            this.shapes[index].coords = coords;
           break;
       }
+      socket.emit('movement', { id, coords });
+    },
+    handleChangeRoom(room){
+      const old = this.currentRoom;
+      this.currentRoom = room;
+      socket.emit('leave', old);
+      socket.emit('join', room);
     }
   }
 });

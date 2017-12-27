@@ -10,12 +10,17 @@
 
 <body>
 	<!-- template for shape-generator component -->
+	<script type="text/x-template" id="room-selector-template">
+		<span class="room-select" v-bind:class="{ active: isActive }" v-on:click="changeroom" >
+			{{ name }}
+		</span>
+	</script>
+	<!-- template for shape-generator component -->
 	<script type="text/x-template" id="shape-generator-template">
 		<div class="shape-generator-btn" v-on:click="generate" >
 			<span>{{ name }}</span>
 		</div>
 	</script>
-
 	<!-- template for shape-box component -->
 	<script type="text/x-template" id="shape-box-template">
 		<div class="shape-container" :style="styleObject">
@@ -37,12 +42,22 @@
 			</shape-box>
 		</div>
 		<div id="controller">
-			<h3>click one to generate:</h2>
-			<shape-generator v-for="(shapeConfig, key, index) in types"
-				:key="index"
-				:type="shapeConfig.id"
-				:name="shapeConfig.name">
-			</shape-generator>
+			<div class="control-area-box">
+				<h3>click one to generate:</h2>
+				<shape-generator v-for="(shapeConfig, key, index) in types"
+					:key="index"
+					:type="shapeConfig.id"
+					:name="shapeConfig.name">
+				</shape-generator>
+			</div>
+			<div class="control-area-box">
+				<h3> select a room:</h3>
+				<room-selector v-for="(room, key, index) in rooms"
+					:key="index"
+					:current="currentRoom"
+					:name="room">
+				</room-selector>
+			</div>
 		</div>
 	</div>
 	<script src="/socket.io/socket.io.js"></script>
