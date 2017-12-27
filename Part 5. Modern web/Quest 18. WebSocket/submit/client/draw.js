@@ -13,34 +13,24 @@ Vue.component("shape-generator", {
   },
   methods: {
     generate(){
-      let item = {
-        id: this.type + "-" + this.uid++,
-        type: this.type
-      };
-      bus.$emit('fireMake', item);
+      let id = this.type + "-" + this.uid++;
+      let type = this.type;
+
+      bus.$emit('fireMake', id, type);
     }
   }
 });
 
 Vue.component("shape-box", {
   template: "#shape-box-template",
-  props: ["type", "id", "moving", "boundary"],
-  data() {
-    return {
-      size,
-      x: 0,
-      y: 0
-    };
-  },
-  created() {
-    bus.$on("fireMove", movement => this.handleMove(movement));
-  },
+  props: ["type", "id", "moving", "boundary", "coords"],
   computed: {
     styleObject() {
       return {
-        position: "fixed",
+        position: "absolute",
         height: size + stroke * 2 + "px",
-        top: ((size + stroke*2) * counter++) + 10 + "px",
+        top: this.coords.y + "px",
+        left: this.coords.x + "px"
       };
     },
     boxSize() {
@@ -51,34 +41,6 @@ Vue.component("shape-box", {
     },
     activeStatus() {
       return this.id === this.moving;
-    }
-  },
-  methods: {
-    handleMove(movement) {
-      if (movement.id === this.id && ["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown", "Delete"].includes(movement.keyCode)) {
-        let rect = this.$el.getBoundingClientRect();
-        switch (movement.keyCode) {
-          case "ArrowRight":
-            if( rect.left + 15 < this.boundary.x.max - size - stroke*2)
-              this.$el.style.left = rect.left + 10 + "px";
-            break;
-          case "ArrowLeft":
-            if( rect.left - 15 > this.boundary.x.min)
-              this.$el.style.left = rect.left - 20  + "px";
-            break;
-          case "ArrowUp":
-            if( rect.top - 15 > this.boundary.y.min)  
-              this.$el.style.top = rect.top - 20 + "px";
-            break;
-          case "ArrowDown":
-            if( rect.top + 15 < this.boundary.y.max - size - stroke*2)
-              this.$el.style.top = rect.top + 10 + "px";
-            break;
-          case "Delete":
-            bus.$emit('fireDelete', this.id);
-            break;
-        }
-      }
     }
   }
 });
@@ -161,19 +123,19 @@ var myapp = new Vue({
       console.log(data);
     });
     bus.$on("fireSelect", id => this.handleSelect(id));
-    bus.$on("fireDelete", id => this.handleDelete(id));
-    bus.$on("fireMake", item => this.handleMake(item));
-    let bounds = this.$el.childNodes[0].getBoundingClientRect();
+    bus.$on("fireMake", (id, type) => this.handleMake(id, type));
+    let sandbox = this.$el.childNodes[0];
+    let bounds = sandbox.getBoundingClientRect();
     this.boundary = {
-      x: { min: bounds.x, max: bounds.x + bounds.width  },
-      y: { min: bounds.y, max: bounds.y + bounds.height }
+      x: { min: 5, max: bounds.width-5  },
+      y: { min: 5, max: bounds.height-5 }
     };
     socket.emit('test2', {hello: 'from client'});
   },
   methods: {
     keyHander(e) {
-      if (this.moving) {
-        bus.$emit("fireMove", { id: this.moving, keyCode: e.key });
+      if (this.moving && ["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown", "Delete"].includes(e.key) ) {
+        this.handleMove( this.moving, e.key);
       }
     },
     handleSelect(id) {
@@ -184,8 +146,41 @@ var myapp = new Vue({
       this.shapes = this.shapes.filter( shape => {return shape.id !== id;} );
       
     },
-    handleMake(item) {
+    handleMake(id, type) {    
+      const item = {
+        id: id,
+        type: type,
+        coords: {
+          x: 10,
+          y: ((size + stroke*2) * counter++) + 10
+        }
+      };
       this.shapes.push(item);
+    },
+    handleMove(id, keyCode) {
+      const index = this.shapes.findIndex(shape => shape.id === id);
+      const shape = this.shapes[index];
+      switch (keyCode) {
+        case "ArrowRight":
+          if( shape.coords.x + 10 < this.boundary.x.max - size - stroke*2)
+            this.shapes[index].coords.x = shape.coords.x + 10;
+          break;
+        case "ArrowLeft":
+          if( shape.coords.x - 10 > this.boundary.x.min)
+            this.shapes[index].coords.x = shape.coords.x - 10;
+          break;
+        case "ArrowUp":
+          if( shape.coords.y - 10 > this.boundary.y.min)  
+            this.shapes[index].coords.y = shape.coords.y - 10;
+          break;
+        case "ArrowDown":
+          if( (shape.coords.y + 10) < (this.boundary.y.max - size - stroke*2) )
+            this.shapes[index].coords.y = shape.coords.y + 10;
+          break;
+        case "Delete":
+          this.handleDelete(id);
+          break;
+      }
     }
   }
 });

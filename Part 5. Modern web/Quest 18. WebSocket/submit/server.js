@@ -1,8 +1,8 @@
 var express = require("express"),
-  app = express(),
-  path = require("path"),
-  http = require('http').Server(app),
-  io = require('socket.io')(http);
+    app     = express(),
+    path    = require("path"),
+    http    = require('http').Server(app),
+    io      = require('socket.io')(http);
 
 app.use("/client", express.static("client"));
 app.use("/", express.static(__dirname + '/node_modules'));

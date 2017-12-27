@@ -9,7 +9,7 @@
 </head>
 
 <body>
-
+	<!-- template for shape-generator component -->
 	<script type="text/x-template" id="shape-generator-template">
 		<div class="shape-generator-btn" v-on:click="generate" >
 			<span>{{ name }}</span>
@@ -31,6 +31,7 @@
 				:key="index"
 				:id=shape.id
 				:type="shape.type"
+				:coords="shape.coords"
 				:moving="moving"
 				:boundary="boundary">
 			</shape-box>
