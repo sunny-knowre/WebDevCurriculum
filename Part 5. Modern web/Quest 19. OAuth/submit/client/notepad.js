@@ -36,6 +36,7 @@ var Notepad = function () {
 	this.saveBtn     = document.getElementById('save');
 	this.deleteBtn   = document.getElementById('delete');
 	this.logoutDOM   = document.getElementById('logout');
+	this.profileDOM  = document.getElementById('profile');
 
 	this.init();
 	/* TODO: 그 외에 또 어떤 클래스와 메소드가 정의되어야 할까요? */
@@ -46,10 +47,15 @@ Notepad.prototype.init = function () {
 
 	_ajax.get('navlist', {}, function () {
 		var data    = JSON.parse(this.responseText);
+		var user 	= data.user;
 		var tabs    = data.tabs;
 		var current = data.current;
 
-		self.logoutDOM.innerHTML = 'logout ' + data.user;
+		self.logoutDOM.innerHTML = 'logout ' + user.name;
+		if(user.img){
+			self.profileDOM.style.backgroundImage = 'url("' +user.img + '")';
+			self.profileDOM.classList.remove('hidden');
+		}
 		tabs.forEach(file => {
 			var note = new Note(file.id, file.title);
 			self.noteList[file.id] = note;

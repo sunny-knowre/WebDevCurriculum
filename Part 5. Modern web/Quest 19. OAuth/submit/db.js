@@ -26,6 +26,7 @@ const User = sequelize.define("user", {
   email   : Sequelize.STRING,
   password: Sequelize.STRING,
   salt    : Sequelize.STRING,
+  img_url : Sequelize.STRING,
   last_note: {
     type: Sequelize.STRING,
     allowNull: true
@@ -68,7 +69,8 @@ User.addGoogleUser = async(googleUser) => {
   try {
     const newUser = await User.build({ 
         nickname: googleUser.name, 
-        email: googleUser.email
+        email: googleUser.email,
+        img_url: googleUser.image
       }).save();
     return newUser;
   } catch (err) {

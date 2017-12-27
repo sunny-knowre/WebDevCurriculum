@@ -6,10 +6,7 @@ const express = require("express"),
       db = require("./db"),
       app = express();
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-var auth = function(req, res, next) {
+const auth = function(req, res, next) {
   if ((req.session && req.session.userId) || 
     ["/login", "/auth/login", "/auth/google/callback"].includes(req.path)) {
     return next();
@@ -28,12 +25,13 @@ app.use(
     }
   })
 );
-
-
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/client", express.static("client"));
 app.use(auth);
+
 app.get('/auth/login', (req, res, next) => {
     if (req.query.return) {
       req.session.oauth2return = req.query.return;
@@ -48,6 +46,7 @@ app.get('/auth/google/callback', passport.authenticate('google'),
     const redirect = req.session.oauth2return || '/';
     delete req.session.oauth2return;
     req.session.userId = req.user.id;
+    req.session.userImage = req.user.img_url;
     req.session.username = req.user.nickname;
     req.session.userEmail = req.user.email;
     req.session.current_tab = req.user.last_note;
@@ -92,7 +91,7 @@ app.get("/navlist", async (req, res) => {
   try {
     const tabs = await db.note.getAllUserTitles(req.session.userId);
     const result = {
-      user: req.session.username,
+      user: { name: req.session.username, img: req.session.userImage },
       tabs: tabs,
       current: req.session.current_tab
     };

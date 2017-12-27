@@ -36,12 +36,12 @@
 * Quest 12~15에서 만든 메모장 시스템에 구글 로그인 버튼을 추가하고자 합니다.
   * startup: 
       ```  
-      cd skeleton
+      cd submit
       docker-compose up -d
       // wait for mysql instance to spin up
-      node server.js
+      npm start
       ```
-  * default users:
+  * default users for regular login:
       ```
       [
         {
