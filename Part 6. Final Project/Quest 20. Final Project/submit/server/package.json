@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.16.2",
+    "gremlin": "^2.6.0",
     "nodemon": "^1.14.7",
     "path": "^0.12.7",
     "socket.io": "1.7.4"
