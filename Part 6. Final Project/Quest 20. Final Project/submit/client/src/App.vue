@@ -1,27 +1,23 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                
-                <app-header></app-header>
-                <hr>
-                <router-view></router-view>
-            </div>
-        </div>
-    </div>
+<div class="container">
+    <app-header></app-header>  
+    <router-view></router-view>
+</div>
 </template>
 
 <script>
-    import Header from './components/Header.vue'
-    export default {
-        components: {
-            'app-header': Header
-        }
-    }
+import Header from "./components/Header.vue";
+export default {
+  created() {
+    this.$store.dispatch('initActivities');
+  },
+  components: {
+    "app-header": Header
+  }
+};
 </script>
 
 <style>
-    body { 
-        padding: 20px;
-    }
+  body { padding-top: 70px; }
+
 </style>
