@@ -1,8 +1,8 @@
 
 const { createClient, statics } = require("gremlin");
 
-// const client = createClient(8182, "nv-lcn-green-u.knowreinc.com", {
-const client = createClient(8182, "localhost", {
+const client = createClient(8182, "nv-lcn-green-u.knowreinc.com", {
+//const client = createClient(8182, "localhost", {
   accept: "application/vnd.gremlin-v2.0+json"
 });
 
@@ -17,7 +17,8 @@ const fetchByName2 = name => {
   // let query = "g.V().hasLabel('name').values().toList()";
 // let query = "g.V('d6b06ccc-4f64-700c-7d08-0d3a0a7de1c2').values()";
   //let query = "g.V().has('name','Alice').id().as('a').select('a')";
-  let query = "g.V('0').sideEffect(id().store('a')).out().hasId(within('2','4','5')).as('b').select('a','b')"
+  //let query = "g.V('0').sideEffect(id().store('a')).out().hasId(within('2','4','5')).as('b').select('a','b')";
+  let query = "g.V('KR-PR-0000000002').sideEffect(id().store('a')).outE('has_curriculum').inV().id().as('c').select('a','c')";
   // let query = `g.addV('product').property('code','AUS').as('aus').
   // addV('curriculum').property('code','DFW').as('dfw').
   // addV('curriculum').property('code','LAX').as('lax').
@@ -39,7 +40,6 @@ client.execute(query, {}, (err, results) => {
   });
 
 };
-
 
 fetchByName2("lee");
 

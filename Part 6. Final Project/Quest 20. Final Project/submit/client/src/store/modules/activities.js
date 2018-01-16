@@ -1,4 +1,5 @@
-import data from '../../data/db'
+import data from '../../data/db';
+import _ from 'lodash';
 
 const state = {
     activities:  [],
@@ -22,8 +23,8 @@ const mutations = {
     'SAVE_CURRENT_EDIT' (state, payload){
         Object.keys(state.activities).forEach( (key) => {
             let obj = state.activities[key];
-            if(payload.activity.id === obj.id ){
-                state.activities[key] = payload.activity;
+            if(payload.id === obj.id ){
+                state.activities[key] = payload;
             }
           });
     },
@@ -35,13 +36,13 @@ const mutations = {
 
 const actions = { 
     initActivities: ({commit}) => {
-        commit('SET_ACTIVITIES', data)
+        commit('SET_ACTIVITIES', data);
     },
     toggleModal: ({commit}) => {
         if(state.showModal)
-            commit('HIDE_MODAL')
+            commit('HIDE_MODAL');
         else
-            commit('SHOW_MODAL')
+            commit('SHOW_MODAL');
     },
     setCurrentEdit({commit}, payload) {
         commit('SET_CURRENT_EDIT', payload);
@@ -63,6 +64,10 @@ const getters = {
     },
     currentEdit: state => {
         return state.currentEdit;
+    },
+    getClonedActivity: (state) => (id) => {
+        const record = state.activities.find(act => act.id == id);
+        return _.cloneDeep(record);
     }
 };
 

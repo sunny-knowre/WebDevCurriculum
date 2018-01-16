@@ -5,8 +5,8 @@
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav>
         <b-nav-item to="/" activeClass="active" exact>Home</b-nav-item>
-        <b-nav-item to="/activities" activeClass="active" exact>Activities</b-nav-item>
-        <b-nav-item to="/progress" activeClass="active" exact>Progress</b-nav-item>
+        <b-nav-item to="/activities" activeClass="active">Activities</b-nav-item>
+        <b-nav-item to="/progress" activeClass="active">Progress</b-nav-item>
       </b-navbar-nav>
   </b-collapse>
 </b-navbar>

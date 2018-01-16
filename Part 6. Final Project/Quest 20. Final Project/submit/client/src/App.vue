@@ -1,7 +1,7 @@
 <template>
 <div class="container">
     <app-header></app-header>  
-    <router-view></router-view>
+      <router-view></router-view>
 </div>
 </template>
 
@@ -9,7 +9,7 @@
 import Header from "./components/Header.vue";
 export default {
   created() {
-    this.$store.dispatch('initActivities');
+    this.$store.dispatch("initActivities");
   },
   components: {
     "app-header": Header
@@ -18,6 +18,7 @@ export default {
 </script>
 
 <style>
-  body { padding-top: 70px; }
-
+body {
+  padding-top: 70px;
+}
 </style>
