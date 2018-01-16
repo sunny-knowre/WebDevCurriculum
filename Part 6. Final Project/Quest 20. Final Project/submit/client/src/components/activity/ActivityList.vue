@@ -1,10 +1,7 @@
 <template>
 <b-container>
-    <div>
-        <b-modal title="Edit Activity" v-model="showModal" ok-title="save" @ok="saveModal" @cancel="cancelModal">
-            <slot name="modal-title"> {{ currentEdit }}</slot>
-        </b-modal>
-    </div>
+    <app-edit-activity :showModal="showModal">
+    </app-edit-activity>
     <b-row class="mb-4">
         <b-input-group left="Filter">
             <b-form-input placeholder="Search"
@@ -23,31 +20,22 @@
 </template>
 <script>
 import Activity from './Activity.vue'
+import ActivityEdit from './ActivityEdit.vue'
 import { mapGetters } from 'vuex'
 export default {
     components: {
-        'appActivity' : Activity
+        'appActivity' : Activity,
+        'appEditActivity': ActivityEdit
     },    
     data() {
         return {
             filterKey: ''
         }
     },
-    methods: {
-        cancelModal() {
-             this.$store.dispatch('toggleModal');
-            console.log('cancel');
-        },
-        saveModal() {
-             this.$store.dispatch('toggleModal');
-            console.log('save');
-        }
-    },
     computed: {
         ...mapGetters([
             'showModal',
-            'activities',
-            'currentEdit'
+            'activities'
         ]),
         filteredData() {
             var filterKey = this.filterKey && this.filterKey.toLowerCase()
