@@ -1,26 +1,15 @@
-import data from '../../data/db';
+import data from '../../data/activity_types';
 import _ from 'lodash';
 
 const state = {
-    activities:  [],
-    currentEdit: {},
-    showModal: false
-
+    activities:  []
 };
+
 const mutations = {
     'SET_ACTIVITIES' (state, activities) {
-        state.activities = activities
+        state.activities = activities;
     },
-    'SHOW_MODAL' (state) {
-        state.showModal = true;
-    },
-    'HIDE_MODAL' (state) {
-        state.showModal = false;
-    },
-    'SET_CURRENT_EDIT' (state, payload){
-        state.currentEdit = payload.activity;
-    },
-    'SAVE_CURRENT_EDIT' (state, payload){
+    'SAVE_ACTIVITY' (state, payload){
         Object.keys(state.activities).forEach( (key) => {
             let obj = state.activities[key];
             if(payload.id === obj.id ){
@@ -37,33 +26,12 @@ const mutations = {
 const actions = { 
     initActivities: ({commit}) => {
         commit('SET_ACTIVITIES', data);
-    },
-    toggleModal: ({commit}) => {
-        if(state.showModal)
-            commit('HIDE_MODAL');
-        else
-            commit('SHOW_MODAL');
-    },
-    setCurrentEdit({commit}, payload) {
-        commit('SET_CURRENT_EDIT', payload);
-    },
-    saveCurrentEdit({commit}, payload) {
-        commit('SAVE_CURRENT_EDIT', payload);
-    },
-    deleteActivity({commit}, id){
-        commit('DELETE_ACTIVITY', id);
     }
 };
 
 const getters = {  
     activities: state => {
         return state.activities;
-    },
-    showModal: state => {
-        return state.showModal;
-    },
-    currentEdit: state => {
-        return state.currentEdit;
     },
     getClonedActivity: (state) => (id) => {
         const record = state.activities.find(act => act.id == id);
@@ -73,7 +41,7 @@ const getters = {
 
 export default {
     state,
-    mutations,
     actions,
+    mutations,
     getters
 };

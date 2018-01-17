@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import activities from './modules/activities'
+import activities from './modules/activities';
 
 Vue.use(Vuex);
 

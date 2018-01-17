@@ -31,19 +31,15 @@
           <b-form-input id="input1" type="text" v-model="activity.name" required placeholder="Enter name">
           </b-form-input>
         </b-form-group>
-        <b-form-group v-for="(val, key, index) in activity.values" horizontal :label="key" :label-for="key" :label-cols="2" label-size="sm" :key="index">
-          <b-form-input :id="key" type="text" v-model="activity.values[key]"></b-form-input>
+        <b-form-group id="desc" horizontal :label-cols="2" label-size="sm" label="Description" label-for="desc">
+          <b-form-input id="input3" type="text" v-model="activity.description" required placeholder="Enter description">
+          </b-form-input>
+        </b-form-group>
+        <b-form-group id="metric" horizontal :label-cols="2" label-size="sm" label="Metric" label-for="metric">
+          <b-form-input id="input2" type="text" v-model="activity.metric" required placeholder="Enter units to measure by">
+          </b-form-input>
         </b-form-group>
       </b-form>
-       <b-row class="mb-3" v-for="(field, key, index) in extraValues"
-              :key="index">
-         <b-col class="col-md-2">
-           <b-form-input v-model="field.label" placeholder="Property"></b-form-input>
-         </b-col>
-         <b-col>
-           <b-form-input v-model="field.value" placeholder="new value"></b-form-input>
-         </b-col>
-       </b-row>
     </div>
   </b-container>
 </template>
@@ -57,7 +53,6 @@
         activity: null,
         error: null,
         showTool: false,
-        extraValues: []
       };
     },
     created() {
@@ -65,16 +60,7 @@
     },
     methods: {
       onSave(){
-        if(this.extraValues.length){
-          this.extraValues.forEach(element => {
-            if(element.label && element.value){
-              const item = { [element.label]: element.value  };
-              this.activity.values = Object.assign({}, this.activity.values, item);
-            }
-          });
-          this.extraValues = [];
-        }
-        this.$store.commit('SAVE_CURRENT_EDIT', this.activity);
+        this.$store.commit('SAVE_ACTIVITY', this.activity);
         this.showTool = true;
         setTimeout(() => {this.showTool = false;}, 700);
         
@@ -82,9 +68,6 @@
       cancelForm() {
         this.activity = this.$store.getters.getClonedActivity(this.id);
         this.$router.go(-1);
-      },
-      addField() {
-        this.extraValues.push({label:'', value:''});
       },
       fetchActivity() {
         this.error = this.activity = null;
