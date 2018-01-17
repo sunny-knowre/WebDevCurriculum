@@ -36,6 +36,6 @@ export default {
 }
 #deleteBtn:hover {
   color: grey;
-  background: rgba(243, 105, 105, 0.2);
+  background: rgba(170, 135, 135, 0.2);
 }
 </style>
