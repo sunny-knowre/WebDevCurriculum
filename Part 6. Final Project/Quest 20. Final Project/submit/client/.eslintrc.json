@@ -1,0 +1,28 @@
+{
+  "extends": ["eslint:recommended", "plugin:vue/recommended", "standard"],
+  "rules": {
+    "import/no-unresolved": 0,
+    "import/no-unassigned-import": 0,
+    "vue/html-no-self-closing": "off",
+    "semi": ["error", "never"],
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "always",
+        "named": "always",
+        "asyncArrow": "always"
+      }
+    ],
+    "vue/require-default-prop": false,
+    "vue/max-attributes-per-line": [
+      1,
+      {
+        "singleline": 2,
+        "multiline": {
+          "max": 1,
+          "allowFirstLine": true
+        }
+      }
+    ]
+  }
+}

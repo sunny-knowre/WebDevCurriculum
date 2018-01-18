@@ -1,5 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
   entry: './src/main.js',
@@ -15,7 +16,7 @@ module.exports = {
         use: [
           'vue-style-loader',
           'css-loader'
-        ],
+        ]
       },
       {
         test: /\.scss$/,
@@ -23,7 +24,7 @@ module.exports = {
           'vue-style-loader',
           'css-loader',
           'sass-loader'
-        ],
+        ]
       },
       {
         test: /\.sass$/,
@@ -31,7 +32,7 @@ module.exports = {
           'vue-style-loader',
           'css-loader',
           'sass-loader?indentedSyntax'
-        ],
+        ]
       },
       {
         test: /\.vue$/,
@@ -103,6 +104,7 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
-    })
+    }),
+    new BundleAnalyzerPlugin()
   ])
 }

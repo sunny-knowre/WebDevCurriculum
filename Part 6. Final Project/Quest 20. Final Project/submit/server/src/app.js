@@ -18,7 +18,13 @@ const fetchByName2 = name => {
 // let query = "g.V('d6b06ccc-4f64-700c-7d08-0d3a0a7de1c2').values()";
   //let query = "g.V().has('name','Alice').id().as('a').select('a')";
   //let query = "g.V('0').sideEffect(id().store('a')).out().hasId(within('2','4','5')).as('b').select('a','b')";
-  let query = "g.V('KR-PR-0000000002').sideEffect(id().store('a')).outE('has_curriculum').inV().id().as('c').select('a','c')";
+  let query = `g.V("KR-PR-0000000002").match(
+                      __.as('pr').sideEffect(__.out('has_map').store('map')).id().as('prod_id'),
+                      __.as('pr').values('name').as('prod_name'), 
+                      __.as('pr').outE('has_curriculum').as('pr-cu').values('seq').as('cu_seq'),
+                      __.as('pr-cu').inV().as('cur').values('name').as('cur_name'),
+                      __.as('cur').outE().as('cu-ch').values('seq').as('ch_seq'),
+                      __.as('cu-ch').inV().as('ch').values('name').as('ch_name')).select('map','ch_name' ,'ch_seq','cur_name','cu_seq','prod_name','prod_id').toList()`
   // let query = `g.addV('product').property('code','AUS').as('aus').
   // addV('curriculum').property('code','DFW').as('dfw').
   // addV('curriculum').property('code','LAX').as('lax').
