@@ -1,6 +1,7 @@
 
 const { createClient, statics } = require("gremlin");
 
+
 const client = createClient(8182, "nv-lcn-green-u.knowreinc.com", {
 //const client = createClient(8182, "localhost", {
   accept: "application/vnd.gremlin-v2.0+json"

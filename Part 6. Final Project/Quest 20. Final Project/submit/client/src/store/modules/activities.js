@@ -1,4 +1,5 @@
 import data from '../../data/activity_types'
+import tags from '../../data/tags'
 
 const state = {
   activities: []
@@ -25,6 +26,7 @@ const mutations = {
 const actions = {
   initActivities: ({commit}) => {
     commit('SET_ACTIVITIES', data)
+    commit('SET_ACTIVITY_TYPES', tags, {root: true})
   }
 }
 

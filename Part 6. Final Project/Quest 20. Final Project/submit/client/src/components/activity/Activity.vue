@@ -1,7 +1,7 @@
 <template>
   <b-card no-body
-          :border-variant="typeColor"
-          :header-bg-variant="typeColor"
+          :border-variant="bsColor"
+          :header-bg-variant="bsColor"
           header-text-variant="white">
     <b-row slot="header"
            class="text-center">
@@ -16,22 +16,24 @@
       <b-list-group-item v-if="activity.description"> {{ activity.description }}</b-list-group-item>
       <b-list-group-item> Metric: {{ activity.metric }}</b-list-group-item>
       <b-list-group-item>
-        <router-link :to="{ name: 'edit',
-                            params: {id: activity.id }}"
-                     tag="button"
-                     class="btn btn-secondary">edit</router-link>
+        <router-link tag="button"
+                     class="btn btn-secondary"
+                     :to="{ name: 'edit',
+                            params: {id: activity.id }}">edit</router-link>
       </b-list-group-item>
     </b-list-group>
   </b-card>
 </template>
 <script>
+import { bootstrapColor } from '../../mixins'
 export default {
+  mixins: [bootstrapColor],
   props: {
     activity: Object
   },
   computed: {
-    typeColor () {
-      return this.$store.getters.activityColor(this.activity.id)
+    bsColor () {
+      return this.getBootstrapColor(this.activity.type)
     }
   },
   methods: {

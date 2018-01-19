@@ -7,8 +7,8 @@
       {{ error }}
     </div>
     <div v-if="activity">
-      <b-row class="mb-4">
-        <b-col class="pl-2 col-md-10 offset-md-2">
+      <b-row class="mb-3">
+        <b-col class="pl-3">
           <b-button-toolbar>
             <b-button-group class="mx-1">
               <b-btn to="/activities">&lsaquo;</b-btn>
@@ -26,64 +26,71 @@
           </b-button-toolbar>
         </b-col>
       </b-row>
-      <b-form>
-        <b-form-group id="name"
-                      horizontal
-                      :label-cols="2"
-                      label-size="sm"
-                      label="Name"
-                      label-for="name">
-          <b-form-input id="input1"
-                        type="text"
-                        v-model="activity.name"
-                        required
-                        placeholder="Enter name"/>
-        </b-form-group>
-        <b-form-group id="desc"
-                      horizontal
-                      :label-cols="2"
-                      label-size="sm"
-                      label="Description"
-                      label-for="desc">
-          <b-form-input id="input3"
-                        type="text"
-                        v-model="activity.description"
-                        required
-                        placeholder="Enter description"/>
-        </b-form-group>
-        <b-form-group id="metric"
-                      horizontal
-                      :label-cols="2"
-                      label-size="sm"
-                      label="Metric"
-                      label-for="metric">
-          <b-form-input id="input2"
-                        type="text"
-                        v-model="activity.metric"
-                        required
-                        placeholder="Enter units to measure by"/>
-        </b-form-group>
-        <b-form-group id="type"
-                      horizontal
-                      :label-cols="2"
-                      label-size="sm"
-                      label="Type"
-                      label-for="type">
-          <b-form-select v-model="selected"
-                         :options="options"
-                         class="mb-3"/>
-        </b-form-group>
+      <b-card :border-variant="bsColor"
+              :header-bg-variant="bsColor"
+              :header="activity.name"
 
-      </b-form>
+              header-text-variant="white"
+              align="center">
+        <b-form>
+          <b-form-group id="name"
+                        horizontal
+                        :label-cols="2"
+                        label-size="sm"
+                        label="Name"
+                        label-for="name">
+            <b-form-input id="input1"
+                          type="text"
+                          v-model="activity.name"
+                          required
+                          placeholder="Enter name"/>
+          </b-form-group>
+          <b-form-group id="desc"
+                        horizontal
+                        :label-cols="2"
+                        label-size="sm"
+                        label="Description"
+                        label-for="desc">
+            <b-form-input id="input3"
+                          type="text"
+                          v-model="activity.description"
+                          required
+                          placeholder="Enter description"/>
+          </b-form-group>
+          <b-form-group id="metric"
+                        horizontal
+                        :label-cols="2"
+                        label-size="sm"
+                        label="Metric"
+                        label-for="metric">
+            <b-form-input id="input2"
+                          type="text"
+                          v-model="activity.metric"
+                          required
+                          placeholder="Enter units to measure by"/>
+          </b-form-group>
+          <b-form-group id="type"
+                        horizontal
+                        :label-cols="2"
+                        label-size="sm"
+                        label="Type"
+                        label-for="type">
+            <b-form-select v-model="activity.type"
+                           :options="types"
+                           class="mb-3"/>
+          </b-form-group>
+
+        </b-form>
+      </b-card>
     </div>
   </b-container>
 </template>
 
 <script>
+import { bootstrapColor } from '../../mixins'
 export default {
-  props: {
-    id: String // id: param from route
-  },
+  mixins: [bootstrapColor],
+  props: ['id'],
   data () {
     return {
       loading: false,
@@ -92,11 +99,22 @@ export default {
       showTool: false
     }
   },
+  computed: {
+    selected () {
+      return this.activity.type
+    },
+    types () {
+      return this.$store.getters.activityTypes.map(el => { return {value: el.id, text: el.name} })
+    },
+    cardColor () {
+      return this.$store.getters.activityColor(this.activity.id)
+    },
+    bsColor () {
+      return this.getBootstrapColor(this.activity.type)
+    }
+  },
   created () {
     this.fetchActivity()
-  },
-  typeColor () {
-    return this.$store.getters.activityColor(this.activity.id)
   },
   methods: {
     onSave () {
