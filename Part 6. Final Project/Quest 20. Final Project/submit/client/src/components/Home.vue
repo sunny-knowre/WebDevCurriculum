@@ -1,9 +1,23 @@
 <template>
-  <div>
-    <h1>The Home Page</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab asperiores, aut autem, blanditiis consequuntur
-    dolore excepturi laborum maiores minima nihil non nulla obcaecati quas quibusdam quod sed suscipit vero
-    voluptatem.</p>
-
+  <div class="container">
+    <div class="item"/>
+    <div class="item"/>
+    <div class="item"/>
+    <div class="item"/>
+    <div class="item"/>
+    <div class="item"/>
+    <div class="item"/>
+    <div class="item"/>
+    <div class="item"/>
+    <div class="item"/>
   </div>
 </template>
+<style scoped>
+  .container {
+    display: grid;
+    grid-template-columns: 100px 200px;
+  }
+  .item {
+    background: "red";
+  }
+</style>
