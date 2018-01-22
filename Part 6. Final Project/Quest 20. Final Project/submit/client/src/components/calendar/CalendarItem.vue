@@ -9,7 +9,7 @@
 </template>
 <script>
 import moment from 'moment'
-import { bootstrapColor } from '../mixins'
+import { bootstrapColor } from '../../mixins'
 export default {
   mixins: [bootstrapColor],
   data () {
@@ -41,11 +41,11 @@ export default {
 .day-container {
   display: grid;
   grid-gap: 2px;
-align-content: flex-start;
+  align-content: flex-start;
   color: white;
   margin: 0 auto;
-  height: 400px;
-  width: 200px;
+  min-width: 0;
+  width: 100%;
   background: rgb(232, 255, 27);
 }
 .event {
