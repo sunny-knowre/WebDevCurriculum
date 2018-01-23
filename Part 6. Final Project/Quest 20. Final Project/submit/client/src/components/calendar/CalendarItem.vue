@@ -1,10 +1,14 @@
 <template>
-  <div class="day-container">
+  <div :class="['grid-item', 'event-container', isToday ? 'today' : '' ]"
+       @click="triggerAddEvent">
     <div v-for="(val, key) in events"
-         :class="[colorClass(val.type), structureClass]"
-         :key="key">
-      {{ val.name }}
+         :class="[colorClass(val.type), 'event']"
+         :key="key"
+         @click.prevent.stop>
+      <div> {{ val.name }}</div>
+      <a @click.prevent.stop="deleteEvent(val.id)" id="deleteEvnt">x</a>
     </div>
+
   </div>
 </template>
 <script>
@@ -12,69 +16,89 @@ import moment from 'moment'
 import { bootstrapColor } from '../../mixins'
 export default {
   mixins: [bootstrapColor],
-  data () {
-    return {
-      day: moment(),
-      structureClass: 'event',
-      events: [
-        { name: '4x4 boulder', type: 4 },
-        { name: 'ARC', type: 1 },
-        { name: 'x-on x-off', type: 1 },
-        { name: '4x4 route', type: 1 },
-        { name: 'one/min', type: 3 },
-        { name: 'deadhang', type: 1 },
-        { name: 'plank', type: 6 },
-        { name: 'pull up', type: 6 }
-      ]
+  props: ['day'],
+  computed: {
+    isToday () {
+      return moment().isSame(this.day, 'day')
+    },
+    events () {
+      let data = this.$store.getters.eventsByDay(this.day.format('YYYY-MM-DD'))
+      return data.map((el) => {
+        return { id: el.id, name: el.activity.name, type: el.activity.type }
+      })
     }
   },
   methods: {
     colorClass (code) {
       return this.getBootstrapColor(code)
+    },
+    triggerAddEvent () {
+      this.$emit('addEvent', this.day)
+    },
+    deleteEvent (eventId) {
+      this.$store.commit('DELETE_EVENT', eventId)
     }
   }
+
 }
 </script>
-
 <style scoped>
-
-.day-container {
-  display: grid;
+.event-container {
   grid-gap: 2px;
   align-content: flex-start;
-  color: white;
-  margin: 0 auto;
-  min-width: 0;
-  width: 100%;
-  background: rgb(232, 255, 27);
+  padding: 3px;
+
+}
+.event-container:hover {
+  background: rgba(216, 243, 252, 0.952);
 }
 .event {
   display: grid;
+  grid-template-columns: 1fr 1.2rem;
+  padding-left: 3px;
+  color: #FFF;
+  min-height: 1.5rem;
   border-radius: 3px;
+  align-items:center;
   justify-content: center;
   align-content: center;
+  font-size: 12px;
+  font-weight:300;
 }
 .primary {
-  background: #0274d8a1
+  background: #0274d8;
 }
 
 .warning {
-  background:#f0ac4e7c
+  background:#f0ac4e;
 }
 
 .info {
-  background: #5bc0de80
+  background: #5bc0de;
 }
 
 .danger {
-  background: #d9544f6e
+  background: #d9544f;
 }
 
 .success {
-  background: #5cb85c77
+  background: #5cb85c;
 }
 .dark {
-  background: #292b2c6e
+  background: #292b2c;
 }
 
+.today {
+  background: #f8f4b6;
+}
+
+#deleteEvnt {
+  text-align:center;
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
+}
+#deleteEvnt:hover {
+  background: rgba(250, 250, 250, 0.2);
+}
 </style>

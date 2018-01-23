@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <app-header/>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
@@ -13,6 +13,7 @@ export default {
   },
   created () {
     this.$store.dispatch('initActivities')
+    this.$store.dispatch('initEvents')
   }
 }
 </script>

@@ -1,5 +1,14 @@
 <template>
-  <div class="calendar-layout">
+  <div>
+    <!-- Modal Component -->
+    <b-modal v-model="showAddModal"
+             hide-footer
+             no-fade>
+      <span slot="modal-header">{{ addItem.title }}</span>
+      <calender-adder :date="addItem.date"
+                      :show-filter="false"
+                      @newEventFire="handleCreateEvent"></calender-adder>
+    </b-modal>
     <b-row class="mb-1">
       <b-col cols="5">
         <b-button size="sm" @click="changeWeek(-1)"> Previous </b-button>
@@ -10,31 +19,38 @@
         <span> {{ weekDisplay }}</span>
       </b-col>
     </b-row>
-    <div class="grid">
-      <div v-for="(day,key) in week"
-           class="item"
-           :key="key">{{ day.format('ddd (DD)') }}</div>
+    <div class="calendar-grid">
+      <div v-for="(day,key,index) in week"
+           class="grid-item calendar-header"
+           :key="index">{{ day.format('ddd (DD)') }}</div>
       <calendar-item v-for="(day, key) in week"
                      :key="key"
-                     :day="day"/>
+                     :day="day"
+                     @addEvent="handleAddEvent"/>
     </div>
   </div>
 </template>
 <script>
 import moment from 'moment'
 import CalendarItem from './CalendarItem'
+import CalendarAdd from './CalendarAdd'
 export default {
   components: {
-    calendarItem: CalendarItem
+    calendarItem: CalendarItem,
+    calenderAdder: CalendarAdd
   },
   data () {
     return {
-      week: {}
+      week: {},
+      addItem: {},
+      showAddModal: false
     }
   },
   computed: {
     weekDisplay () {
-      return `${this.week.sun.format('MMM. D')} ~  ${this.week.sat.format('MMM. D')}`
+      return `${this.week.sun.format('MMM. D')} ~  ${this.week.sat.format(
+        'MMM. D'
+      )}`
     }
   },
   created () {
@@ -61,29 +77,43 @@ export default {
       let now = this.week.sun.clone()
       let newStart = amt < 0 ? now.subtract(-1 * amt, 'w') : now.add(amt, 'w')
       this.setWeek(newStart)
+    },
+    handleAddEvent (day) {
+      this.addItem.title = 'Add Activity: ' + day.format('ddd, MMM Do')
+      this.addItem.date = day.format('YYYY-MM-DD')
+      this.showAddModal = true
+    },
+    handleCreateEvent (payload) {
+      this.$store.commit('ADD_EVENT', payload)
+      this.showAddModal = false
     }
   }
 }
 </script>
 
-<style>
-  .grid {
-      display: grid;
-      height: 80vh;
-      grid-gap: 1px;
-      grid-template-columns: repeat(7,minmax(0,1fr));
-      grid-template-rows: 30px minmax(20px,1fr);
-      background:grey;
-      border-radius: 5px;
-    }
-  .item {
-  /* We center the contents of these items. You can also do this with flexbox too! */
+<style scoped>
+.calendar-grid {
+  display: grid;
+  height: 75vh;
+  grid-gap: 1px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-rows: 30px minmax(0, 1fr);
+  background: grey;
+  border-radius: 5px;
+}
+
+.grid-item {
   display: grid;
   min-width: 0;
   width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+  white-space: nowrap;
+}
+.calendar-header {
   justify-content: center;
   align-items: center;
-  background: rgba(255, 255, 255, 0.9);
   font-size: 12px;
+  font-weight: 500;
 }
 </style>
