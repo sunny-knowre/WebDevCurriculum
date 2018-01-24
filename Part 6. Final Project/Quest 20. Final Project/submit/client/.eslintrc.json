@@ -1,5 +1,8 @@
 {
   "extends": ["eslint:recommended", "plugin:vue/recommended", "standard"],
+  "parserOptions": {
+        "ecmaVersion": 8 // or 2017
+  },
   "rules": {
     "import/no-unresolved": 0,
     "import/no-unassigned-import": 0,
