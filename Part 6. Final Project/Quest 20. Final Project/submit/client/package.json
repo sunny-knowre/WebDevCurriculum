@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "firebase": "^4.9.0",
     "moment": "^2.20.1",
     "vue": "^2.5.13",
     "vue-fullcalendar": "^1.0.9",

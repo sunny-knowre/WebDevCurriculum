@@ -16,11 +16,8 @@
       <b-list-group-item v-if="activity.description"> {{ activity.description }}</b-list-group-item>
       <b-list-group-item> Metric: {{ activity.metric }}</b-list-group-item>
       <b-list-group-item>
-        <router-link tag="button"
-                     class="btn btn-secondary"
-                     :to="{ name: 'edit',
-                            params: {id: activity.id }}">edit</router-link>
-      </b-list-group-item>
+        <router-link tag="button" class="btn btn-secondary"
+                     :to="{ name: 'edit', params: {id: activity.id }}">edit</router-link> </b-list-group-item>
     </b-list-group>
   </b-card>
 </template>
