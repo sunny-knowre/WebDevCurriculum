@@ -33,7 +33,13 @@ export default {
     ...mapGetters(['activities']),
     filteredData () {
       var filterKey = this.filterKey && this.filterKey.toLowerCase()
-      var data = this.activities
+      var data = []
+      for (const key in this.activities) {
+        if (this.activities.hasOwnProperty(key)) {
+          const element = { id: key, ...this.activities[key] }
+          data.push(element)
+        }
+      }
       if (filterKey) {
         data = data.filter(row => {
           return Object.keys(row).some(key => {
@@ -43,14 +49,6 @@ export default {
                   .toLowerCase()
                   .indexOf(filterKey) > -1
               )
-            } else if (key === 'values') {
-              return Object.keys(row[key]).some(valueKey => {
-                return (
-                  String(row[key][valueKey])
-                    .toLowerCase()
-                    .indexOf(filterKey) > -1
-                )
-              })
             }
           })
         })

@@ -36,7 +36,7 @@ export default {
   methods: {
     deleteActivity () {
       if (confirm('delete for sure?') === true) {
-        this.$store.commit('DELETE_ACTIVITY', this.activity.id)
+        this.$store.dispatch('deleteActivity', this.activity.id)
       }
     }
   }

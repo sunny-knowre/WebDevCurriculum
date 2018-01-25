@@ -11,7 +11,8 @@ export default {
   components: {
     'app-header': Header
   },
-  created () {
+  beforeCreate () {
+    this.$store.dispatch('tryAutoLogin')
     this.$store.dispatch('initActivities')
     this.$store.dispatch('initEvents')
   }

@@ -18,7 +18,7 @@
 export default {
   methods: {
     login () {
-      this.$store.dispatch('loginUser')
+      this.$store.dispatch('loginUser', this.$router)
     },
     async getData () {
       try {

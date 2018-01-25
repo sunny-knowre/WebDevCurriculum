@@ -7,9 +7,9 @@ import Login from './components/Login.vue'
 
 export const routes = [
   { path: '/', component: Home },
-  { path: '/calendar', component: Calendar },
-  { path: '/activities', component: ActivityList },
-  { path: '/progress', component: ProgressBoard },
-  { path: '/activities/:id', name: 'edit', component: ActivityEdit, props: true },
-  { path: '/login', component: Login }
+  { path: '/calendar', name: 'calendar', component: Calendar, meta: {requiresAuth: true} },
+  { path: '/activities', component: ActivityList, meta: {requiresAuth: true} },
+  { path: '/progress', component: ProgressBoard, meta: {requiresAuth: true} },
+  { path: '/activities/:id', name: 'edit', component: ActivityEdit, props: true, meta: {requiresAuth: true} },
+  { path: '/login', name: 'login', component: Login }
 ]

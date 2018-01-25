@@ -1,5 +1,14 @@
-import data from '../../data/activity_types'
-import tags from '../../data/tags'
+import firebase from 'firebase'
+import Vue from 'vue'
+const snapToArray = (snaps) => {
+  let data = []
+  for (const key in snaps) {
+    if (snaps.hasOwnProperty(key)) {
+      data.push(snaps[key])
+    }
+  }
+  return data
+}
 
 const state = {
   activities: []
@@ -10,23 +19,33 @@ const mutations = {
     state.activities = activities
   },
   'SAVE_ACTIVITY' (state, payload) {
-    Object.keys(state.activities).forEach((key) => {
-      let obj = state.activities[key]
-      if (payload.id === obj.id) {
-        state.activities[key] = payload
-      }
-    })
+    state.activities[payload.id] = payload.activity
   },
   'DELETE_ACTIVITY' (state, id) {
-    const record = state.activities.find(element => element.id === id)
-    state.activities.splice(state.activities.indexOf(record), 1)
+    Vue.delete(state.activities, id)
   }
 }
 
 const actions = {
   initActivities: ({commit}) => {
-    commit('SET_ACTIVITIES', data)
-    commit('SET_ACTIVITY_TYPES', tags, {root: true})
+    firebase.database().ref('/activities/').once('value').then(snapshot => {
+      let data = snapshot.val()
+      commit('SET_ACTIVITIES', data)
+    })
+    firebase.database().ref('/tags/').once('value').then(snapshot => {
+      let tags = snapToArray(snapshot.val())
+      commit('SET_ACTIVITY_TYPES', tags, {root: true})
+    })
+  },
+  saveActivity: ({commit}, payload) => {
+    firebase.database().ref('/activities/' + payload.id).set(
+      payload.activity
+    )
+    commit('SAVE_ACTIVITY', payload)
+  },
+  deleteActivity: ({commit}, id) => {
+    firebase.database().ref('/activities/' + id).remove()
+    commit('DELETE_ACTIVITY', id)
   }
 }
 
@@ -35,11 +54,11 @@ const getters = {
     return state.activities
   },
   getClonedActivity: (state) => (id) => {
-    const record = state.activities.find(act => act.id === Number(id))
+    let record = state.activities[id]
     return Object.assign({}, record)
   },
   activityColor: (state) => (id) => {
-    const record = state.activities.find(act => act.id === id)
+    const record = state.activities[id]
     const colors = {
       1: 'primary',
       2: 'warning',

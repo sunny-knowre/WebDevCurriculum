@@ -94,7 +94,6 @@ export default {
   data () {
     return {
       loading: false,
-      activity: null,
       error: null,
       showTool: false
     }
@@ -111,14 +110,17 @@ export default {
     },
     bsColor () {
       return this.getBootstrapColor(this.activity.type)
+    },
+    activity () {
+      return this.$store.getters.getClonedActivity(this.id)
     }
   },
   created () {
-    this.fetchActivity()
+
   },
   methods: {
     onSave () {
-      this.$store.commit('SAVE_ACTIVITY', this.activity)
+      this.$store.dispatch('saveActivity', { id: this.id, activity: this.activity })
       this.showTool = true
       setTimeout(() => { this.showTool = false }, 700)
     },
@@ -129,7 +131,7 @@ export default {
     fetchActivity () {
       this.error = this.activity = null
       this.loading = true
-      const record = this.$store.getters.getClonedActivity(this.id)
+
       this.loading = false
       if (record) {
         this.activity = record

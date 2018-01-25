@@ -2,19 +2,14 @@ import firebase from 'firebase'
 
 const state = {
   isLoggedIn: false,
-  user: [],
-  refreshToken: '',
-  accestoken: null,
-  idToken: null
+  user: {},
+  token: null
 }
 
 const mutations = {
-  'LOGIN_USER' (state, {idToken, accessToken, user}) {
-    console.log(user)
+  'LOGIN_USER' (state, { token, user }) {
     state.isLoggedIn = true
-    state.idToken = idToken
-    state.accessToken = accessToken
-    state.refreshToken = user.refreshToken
+    state.token = token
     state.user = {
       id: user.uid,
       photo: user.photoURL,
@@ -24,29 +19,46 @@ const mutations = {
   },
   'LOGOUT_USER' (state) {
     state.isLoggedIn = false
-    state.refreshToken = ''
     state.user = []
+    state.token = null
   }
 }
 
 const actions = {
-  loginUser: async ({commit}) => {
+  loginUser: async ({commit}, router) => {
     let provider = new firebase.auth.GoogleAuthProvider()
     try {
       let result = await firebase.auth().signInWithPopup(provider)
-      console.log(result)
-      let accessToken = result.credential.accessToken
-      let idToken = result.credential.idToken
+      let token = result.credential
       let user = result.user
-      commit('LOGIN_USER', { idToken, accessToken, user })
+      const expiresIn = new Date(new Date().getTime() + 24 * 60 * 1000)
+      const local = {token, user, expiresIn}
+      localStorage.setItem('vueAppStorage', JSON.stringify(local))
+      commit('LOGIN_USER', { token, user })
+      router.replace('calendar')
     } catch (err) {
       console.log(err)
     }
   },
-  logoutUser: async ({commit}) => {
+  logoutUser: async ({commit}, router) => {
     try {
       await firebase.auth().signOut()
+      localStorage.removeItem('vueAppStorage')
       commit('LOGOUT_USER')
+      router.replace('login')
+    } catch (err) {
+      console.log(err)
+    }
+  },
+  tryAutoLogin: async ({commit}) => {
+    try {
+      const local = JSON.parse(localStorage.getItem('vueAppStorage'))
+      if (!local) return
+
+      const expireDate = local.expiresIn
+      const now = new Date()
+      if (now >= expireDate) return
+      commit('LOGIN_USER', {token: local.token, user: local.user})
     } catch (err) {
       console.log(err)
     }
@@ -62,7 +74,7 @@ const getters = {
     return state.user
   },
   idToken: (state) => {
-    return state.accessToken
+    return state.token
   }
 }
 
