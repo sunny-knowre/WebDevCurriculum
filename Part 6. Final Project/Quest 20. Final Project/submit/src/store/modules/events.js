@@ -8,11 +8,17 @@ const mutations = {
   'SET_EVENTS' (state, events) {
     state.events = events
   },
-  'ADD_EVENT' (state, {id, activityId, scheduledDate}) {
-    Vue.set(state.events, id, {activityId, scheduledDate})
+  'ADD_EVENT' (state, {id, value, skipped, activityId, scheduledDate}) {
+    Vue.set(state.events, id, { value: 0, skipped: false, activityId, scheduledDate })
   },
   'DELETE_EVENT' (state, id) {
     Vue.delete(state.events, id)
+  },
+  'SET_EVENT_VALUE' (state, payload) {
+    Vue.set(state.events[payload.id], 'value', payload.value)
+  },
+  'SKIP_EVENT' (state, id) {
+    Vue.set(state.events[id], 'skipped', true)
   }
 }
 
@@ -27,15 +33,29 @@ const actions = {
   addEvent: ({commit, getters}, payload) => {
     const path = '/events/' + getters.userInfo.id + '/'
     const newEventKey = firebase.database().ref(path).push().key
-    firebase.database().ref(path + newEventKey).update(payload)
-    commit('ADD_EVENT', { id: newEventKey, ...payload })
+    firebase.database().ref(path + newEventKey).update({ value: 0, skipped: false, ...payload }).then(() => {
+      commit('ADD_EVENT', { id: newEventKey, ...payload })
+    })
   },
   deleteEvent: ({commit, getters}, id) => {
     const path = '/events/' + getters.userInfo.id + '/' + id
     firebase.database().ref(path).remove()
     commit('DELETE_EVENT', id)
+  },
+  logItem: ({commit, getters}, payload) => {
+    const path = '/events/' + getters.userInfo.id + '/' + payload.id
+    firebase.database().ref(path).update({
+      value: payload.value
+    })
+    commit('SET_EVENT_VALUE', payload)
+  },
+  skipItem: ({commit, getters}, id) => {
+    const path = '/events/' + getters.userInfo.id + '/' + id
+    firebase.database().ref(path).update({
+      skipped: true
+    })
+    commit('SKIP_EVENT', id)
   }
-
 }
 
 const getters = {
@@ -45,11 +65,12 @@ const getters = {
     for (const key in state.events) {
       if (state.events.hasOwnProperty(key)) {
         const event = state.events[key]
-        if (event.scheduledDate === day) {
+        if (event.scheduledDate === day && !event.skipped) {
           const id = key
           const name = activities[event.activityId].name
           const type = activities[event.activityId].type
-          data.push({ id, name, type })
+          const metric = activities[event.activityId].metric
+          data.push({ id, ...event, name, type, metric })
         }
       }
     }

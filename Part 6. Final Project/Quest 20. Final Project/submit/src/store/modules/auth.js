@@ -34,6 +34,7 @@ const actions = {
       const expiresIn = new Date(new Date().getTime() + 24 * 60 * 1000)
       const local = {token, user, expiresIn}
       localStorage.setItem('vueAppStorage', JSON.stringify(local))
+
       commit('LOGIN_USER', { token, user })
       router.replace('calendar')
     } catch (err) {
