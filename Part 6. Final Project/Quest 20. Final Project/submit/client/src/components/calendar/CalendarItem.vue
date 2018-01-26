@@ -23,9 +23,7 @@ export default {
     },
     events () {
       let data = this.$store.getters.eventsByDay(this.day.format('YYYY-MM-DD'))
-      return data.map((el) => {
-        return { id: el.id, name: el.activity.name, type: el.activity.type }
-      })
+      return data
     }
   },
   methods: {
@@ -36,7 +34,7 @@ export default {
       this.$emit('addEvent', this.day)
     },
     deleteEvent (eventId) {
-      this.$store.commit('DELETE_EVENT', eventId)
+      this.$store.dispatch('deleteEvent', eventId)
     }
   }
 

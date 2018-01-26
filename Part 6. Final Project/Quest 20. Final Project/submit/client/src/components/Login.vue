@@ -19,14 +19,6 @@ export default {
   methods: {
     login () {
       this.$store.dispatch('loginUser', this.$router)
-    },
-    async getData () {
-      try {
-        let result = await axios.get('https://vuejs-http-685b2.firebaseio.com/activities.json')
-        console.log(result)
-      } catch (err) {
-        console.log(err)
-      }
     }
   }
 }

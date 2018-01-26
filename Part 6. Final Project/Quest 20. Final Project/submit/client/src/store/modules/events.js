@@ -1,6 +1,5 @@
-import types from '../../data/activity_types'
-import schedule from '../../data/user_schedule'
 import firebase from 'firebase'
+import Vue from 'vue'
 const state = {
   events: []
 }
@@ -9,15 +8,11 @@ const mutations = {
   'SET_EVENTS' (state, events) {
     state.events = events
   },
-  'ADD_EVENT' (state, payload) {
-    let newEventId = Math.max(...state.events.map(o => o.id), 1) + 1
-    let event = types.find(act => act.id === payload.activityId)
-    let newEvent = { id: newEventId, activity: event, date: payload.date }
-    state.events.push(newEvent)
+  'ADD_EVENT' (state, {id, activityId, scheduledDate}) {
+    Vue.set(state.events, id, {activityId, scheduledDate})
   },
   'DELETE_EVENT' (state, id) {
-    const record = state.events.find(element => element.id === id)
-    state.events.splice(state.events.indexOf(record), 1)
+    Vue.delete(state.events, id)
   }
 }
 
@@ -28,16 +23,37 @@ const actions = {
       let data = snapshot.val()
       commit('SET_EVENTS', data)
     })
+  },
+  addEvent: ({commit, getters}, payload) => {
+    const path = '/events/' + getters.userInfo.id + '/'
+    const newEventKey = firebase.database().ref(path).push().key
+    firebase.database().ref(path + newEventKey).update(payload)
+    commit('ADD_EVENT', { id: newEventKey, ...payload })
+  },
+  deleteEvent: ({commit, getters}, id) => {
+    const path = '/events/' + getters.userInfo.id + '/' + id
+    firebase.database().ref(path).remove()
+    commit('DELETE_EVENT', id)
   }
 
 }
 
 const getters = {
-  events: state => {
-    return state.events
-  },
-  eventsByDay: (state) => (day) => {
-    return state.events.filter(event => { return event.date === day })
+  eventsByDay: (state, getters) => (day) => {
+    const activities = getters.activities
+    let data = []
+    for (const key in state.events) {
+      if (state.events.hasOwnProperty(key)) {
+        const event = state.events[key]
+        if (event.scheduledDate === day) {
+          const id = key
+          const name = activities[event.activityId].name
+          const type = activities[event.activityId].type
+          data.push({ id, name, type })
+        }
+      }
+    }
+    return data
   }
 }
 

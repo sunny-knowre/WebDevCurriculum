@@ -4,15 +4,23 @@
     <b-navbar-brand href="#">Activity Tracker</b-navbar-brand>
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav class="ml-auto">
-        <b-nav-item to="/" active-class="active" exact>Home</b-nav-item>
-        <b-nav-item to="/calendar" active-class="active">Calendar</b-nav-item>
-        <b-nav-item to="/activities" active-class="active">Activities</b-nav-item>
-        <b-nav-item to="/progress" active-class="active">Progress</b-nav-item>
+        <b-nav-item to="/"
+                    active-class="active"
+                    exact
+                    v-if="isLoggedIn">Today</b-nav-item>
+        <b-nav-item to="/calendar"
+                    active-class="active"
+                    v-if="isLoggedIn">Calendar</b-nav-item>
+        <b-nav-item to="/activities"
+                    active-class="active"
+                    v-if="isLoggedIn">Activities</b-nav-item>
+        <b-nav-item to="/progress"
+                    active-class="active"
+                    v-if="isLoggedIn">Progress</b-nav-item>
         <b-nav-item to="/login"
                     v-if="!isLoggedIn"
                     active-class="active">Login</b-nav-item>
         <b-nav-item-dropdown v-if="isLoggedIn" right>
-          <!-- Using button-content slot -->
           <template slot="button-content">
             <em>{{ username }}</em>
           </template>

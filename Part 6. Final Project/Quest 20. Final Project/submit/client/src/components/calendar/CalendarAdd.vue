@@ -47,7 +47,13 @@ export default {
     filteredData () {
       var filterKey = this.filterKey.toLowerCase()
       var typeKey = this.activityTypeFilter
-      let data = this.activities
+      var data = []
+      for (const key in this.activities) {
+        if (this.activities.hasOwnProperty(key)) {
+          const element = { id: key, ...this.activities[key] }
+          data.push(element)
+        }
+      }
       if (filterKey) {
         data = data.filter(row => {
           return Object.keys(row).some(key => {
@@ -77,7 +83,7 @@ export default {
   },
   methods: {
     addActivity (id) {
-      this.$emit('newEventFire', {activityId: id, date: this.date})
+      this.$emit('newEventFire', {activityId: id, scheduledDate: this.date})
     },
     bsColor (code) {
       return this.getBootstrapColor(code)

@@ -26,7 +26,7 @@
       <calendar-item v-for="(day, key) in week"
                      :key="key"
                      :day="day"
-                     @addEvent="handleAddEvent"/>
+                     @addEvent="lauchAddModal"/>
     </div>
   </div>
 </template>
@@ -78,13 +78,13 @@ export default {
       let newStart = amt < 0 ? now.subtract(-1 * amt, 'w') : now.add(amt, 'w')
       this.setWeek(newStart)
     },
-    handleAddEvent (day) {
+    lauchAddModal (day) {
       this.addItem.title = 'Add Activity: ' + day.format('ddd, MMM Do')
       this.addItem.date = day.format('YYYY-MM-DD')
       this.showAddModal = true
     },
     handleCreateEvent (payload) {
-      this.$store.commit('ADD_EVENT', payload)
+      this.$store.dispatch('addEvent', payload)
       this.showAddModal = false
     }
   }

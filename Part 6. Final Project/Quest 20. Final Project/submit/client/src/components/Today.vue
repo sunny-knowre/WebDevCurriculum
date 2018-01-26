@@ -6,7 +6,6 @@
   </b-container>
 </template>
 <script>
-import axios from 'axios'
 import firebase from 'firebase'
 export default {
   data () {
@@ -30,21 +29,23 @@ export default {
         { id: 6, name: 'auxiliary', color: 'grey' }
       ],
       events: [
-        { activityId: '-L3ftfMNQgWg0LmaGWyq', scheduled_date: '2018-01-21' },
-        { activityId: '-L3ftfMNQgWg0LmaGWyq', scheduled_date: '2018-01-22' },
-        { activityId: '-L3ftfMNQgWg0LmaGWyq', scheduled_date: '2018-01-22' },
-        { activityId: '-L3ftfMNQgWg0LmaGWyq', scheduled_date: '2018-01-22' },
-        { activityId: '-L3ftfMNQgWg0LmaGWyq', scheduled_date: '2018-01-23' },
-        { activityId: '-L3ftfMNQgWg0LmaGWyq', scheduled_date: '2018-01-23' },
-        { activityId: '-L3ftfMNQgWg0LmaGWyq', scheduled_date: '2018-01-24' }
+        { activityId: '-L3ftfMOVeCfOMeGFkUL', scheduledDate: '2018-01-21' },
+        { activityId: '-L3ftfMOVeCfOMeGFkUL', scheduledDate: '2018-01-22' },
+        { activityId: '-L3ftfMOVeCfOMeGFkUL', scheduledDate: '2018-01-22' },
+        { activityId: '-L3ftfMOVeCfOMeGFkUL', scheduledDate: '2018-01-22' },
+        { activityId: '-L3ftfMOVeCfOMeGFkUL', scheduledDate: '2018-01-23' },
+        { activityId: '-L3ftfMOVeCfOMeGFkUL', scheduledDate: '2018-01-23' },
+        { activityId: '-L3ftfMOVeCfOMeGFkUL', scheduledDate: '2018-01-24' }
       ]
     }
   },
   methods: {
     getData () {
-      this.activities.forEach(tag => {
-        firebase.database().ref('/activities/').push(tag)
+      this.events.forEach(tag => {
+        firebase.database().ref('/events/V5fqXJKSgmUjFDYBg1khjW3c7402/').push(tag)
+        // firebase.database().ref('/events/').remove()
       })
+      console.log('done')
     }
   }
 }
