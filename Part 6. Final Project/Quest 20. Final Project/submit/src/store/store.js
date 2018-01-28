@@ -9,16 +9,26 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    tags: []
+    tags: [],
+    loading: false
   },
   mutations: {
     'SET_ACTIVITY_TYPES' (state, payload) {
       state.tags = payload
+    },
+    'LOADING_CONTENT' (state) {
+      state.loading = true
+    },
+    'DONE_LOADING' (state) {
+      state.loading = false
     }
   },
   getters: {
     activityTypes: (state) => {
       return state.tags
+    },
+    isLoading: (state) => {
+      return state.loading
     }
   },
   modules: {

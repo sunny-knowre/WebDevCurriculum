@@ -6,10 +6,49 @@ import Calendar from './components/calendar/Calendar.vue'
 import Login from './components/Login.vue'
 
 export const routes = [
-  { path: '/', component: Today, meta: {requiresAuth: true} },
-  { path: '/calendar', name: 'calendar', component: Calendar, meta: {requiresAuth: true} },
-  { path: '/activities', component: ActivityList, meta: {requiresAuth: true} },
-  { path: '/progress', component: ProgressBoard, meta: {requiresAuth: true} },
-  { path: '/activities/:id', name: 'edit', component: ActivityEdit, props: true, meta: {requiresAuth: true} },
-  { path: '/login', name: 'login', component: Login }
+  {
+    path: '*',
+    redirect: '/today'
+  },
+  {
+    path: '/',
+    redirect: '/today'
+  },
+  {
+    path: '/today',
+    name: 'today',
+    component: Today,
+    meta: {requiresAuth: true}
+  },
+  {
+    path:
+    '/calendar',
+    name: 'calendar',
+    component: Calendar,
+    meta: {requiresAuth: true}
+  },
+  {
+    path: '/activities',
+    name: 'activities',
+    component: ActivityList,
+    meta: {requiresAuth: true}
+  },
+  {
+    path: '/progress',
+    name: 'progress',
+    component: ProgressBoard,
+    meta: {requiresAuth: true}
+  },
+  {
+    path: '/activities/:id',
+    name: 'edit',
+    component: ActivityEdit,
+    props: true,
+    meta: {requiresAuth: true}
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  }
 ]

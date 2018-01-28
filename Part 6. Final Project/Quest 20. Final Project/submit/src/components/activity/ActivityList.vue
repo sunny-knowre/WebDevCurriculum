@@ -1,10 +1,15 @@
 <template>
   <b-container>
     <b-row class="mb-4">
-      <b-input-group left="Filter">
-        <b-form-input placeholder="Search"
-                      v-model="filterKey"/>
-      </b-input-group>
+      <b-col cols="9" class="px-0">
+        <b-input-group left="Filter">
+          <b-form-input placeholder="Search"
+                        v-model="filterKey"/>
+        </b-input-group>
+      </b-col>
+      <b-col cols="3">
+        <b-button @click.stop.prevent="addActivity">add new</b-button>
+      </b-col>
     </b-row>
     <b-row>
       <b-card-group columns>
@@ -27,6 +32,11 @@ export default {
   data () {
     return {
       filterKey: ''
+    }
+  },
+  methods: {
+    addActivity () {
+      this.$store.dispatch('addActivity')
     }
   },
   computed: {
@@ -58,6 +68,3 @@ export default {
   }
 }
 </script>
-<style>
-
-</style>

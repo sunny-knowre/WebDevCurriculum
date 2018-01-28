@@ -2,14 +2,12 @@ import firebase from 'firebase'
 
 const state = {
   isLoggedIn: false,
-  user: {},
-  token: null
+  user: null
 }
 
 const mutations = {
-  'LOGIN_USER' (state, { token, user }) {
+  'LOGIN_USER' (state, user) {
     state.isLoggedIn = true
-    state.token = token
     state.user = {
       id: user.uid,
       photo: user.photoURL,
@@ -19,26 +17,26 @@ const mutations = {
   },
   'LOGOUT_USER' (state) {
     state.isLoggedIn = false
-    state.user = []
-    state.token = null
+    state.user = null
   }
 }
 
 const actions = {
   loginUser: async ({commit}, router) => {
     let provider = new firebase.auth.GoogleAuthProvider()
+    provider.setCustomParameters({
+      prompt: 'select_account'
+    })
     try {
       let result = await firebase.auth().signInWithPopup(provider)
-      let token = result.credential
       let user = result.user
       const expiresIn = new Date(new Date().getTime() + 24 * 60 * 1000)
-      const local = {token, user, expiresIn}
+      const local = { user, expiresIn }
       localStorage.setItem('vueAppStorage', JSON.stringify(local))
-
-      commit('LOGIN_USER', { token, user })
-      router.replace('calendar')
+      commit('LOGIN_USER', user)
+      router.replace('today')
     } catch (err) {
-      console.log(err)
+      console.log('login error', {err})
     }
   },
   logoutUser: async ({commit}, router) => {
@@ -48,21 +46,16 @@ const actions = {
       commit('LOGOUT_USER')
       router.replace('login')
     } catch (err) {
-      console.log(err)
+      console.log('logout error', err)
     }
   },
-  tryAutoLogin: async ({commit}) => {
-    try {
-      const local = JSON.parse(localStorage.getItem('vueAppStorage'))
-      if (!local) return
-
-      const expireDate = local.expiresIn
-      const now = new Date()
-      if (now >= expireDate) return
-      commit('LOGIN_USER', {token: local.token, user: local.user})
-    } catch (err) {
-      console.log(err)
-    }
+  tryAutoLogin: ({commit}) => {
+    const local = JSON.parse(localStorage.getItem('vueAppStorage'))
+    if (!local) return
+    const expireDate = local.expiresIn
+    const now = new Date()
+    if (now >= expireDate) return
+    commit('LOGIN_USER', local.user)
   }
 
 }
@@ -74,8 +67,8 @@ const getters = {
   userInfo: (state) => {
     return state.user
   },
-  idToken: (state) => {
-    return state.token
+  isAuthenticated: (state) => {
+    return !(state.user === null)
   }
 }
 

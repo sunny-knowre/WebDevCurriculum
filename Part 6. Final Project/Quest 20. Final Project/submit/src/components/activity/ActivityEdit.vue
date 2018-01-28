@@ -1,91 +1,80 @@
 <template>
   <b-container>
-    <div class="loading" v-if="loading">
-      Loading...
-    </div>
-    <div v-if="error" class="error">
-      {{ error }}
-    </div>
-    <div v-if="activity">
-      <b-row class="mb-3">
-        <b-col class="pl-3">
-          <b-button-toolbar>
-            <b-button-group class="mx-1">
-              <b-btn to="/activities">&lsaquo;</b-btn>
-            </b-button-group>
-            <b-button-group size="sm" class="mx-2">
-              <b-btn id="saveButton"
-                     variant="outline-success"
-                     @click.prevent="onSave">Save</b-btn>
-              <b-btn variant="outline-danger" @click.prevent="cancelForm">Cancel</b-btn>
-              <b-tooltip disabled
-                         :show.sync="showTool"
-                         target="saveButton"
-                         placement="bottom">Saved!</b-tooltip>
-            </b-button-group>
-          </b-button-toolbar>
-        </b-col>
-      </b-row>
-      <b-card :border-variant="bsColor"
-              :header-bg-variant="bsColor"
-              :header="activity.name"
-
-              header-text-variant="white"
-              align="center">
-        <b-form>
-          <b-form-group id="name"
-                        horizontal
-                        :label-cols="2"
-                        label-size="sm"
-                        label="Name"
-                        label-for="name">
-            <b-form-input id="input1"
-                          type="text"
-                          v-model="activity.name"
-                          required
-                          placeholder="Enter name"/>
-          </b-form-group>
-          <b-form-group id="desc"
-                        horizontal
-                        :label-cols="2"
-                        label-size="sm"
-                        label="Description"
-                        label-for="desc">
-            <b-form-input id="input3"
-                          type="text"
-                          v-model="activity.description"
-                          required
-                          placeholder="Enter description"/>
-          </b-form-group>
-          <b-form-group id="metric"
-                        horizontal
-                        :label-cols="2"
-                        label-size="sm"
-                        label="Metric"
-                        label-for="metric">
-            <b-form-input id="input2"
-                          type="text"
-                          v-model="activity.metric"
-                          required
-                          placeholder="Enter units to measure by"/>
-          </b-form-group>
-          <b-form-group id="type"
-                        horizontal
-                        :label-cols="2"
-                        label-size="sm"
-                        label="Type"
-                        label-for="type">
-            <b-form-select v-model="activity.type"
-                           :options="types"
-                           class="mb-3"/>
-          </b-form-group>
-
-        </b-form>
-      </b-card>
-    </div>
+    <b-row class="mb-3">
+      <b-col class="pl-3">
+        <b-button-toolbar>
+          <b-button-group class="mx-1">
+            <b-btn to="/activities">&lsaquo;</b-btn>
+          </b-button-group>
+          <b-button-group size="sm" class="mx-2">
+            <b-btn id="saveButton"
+                   variant="outline-success"
+                   @click.prevent="onSave">Save</b-btn>
+            <b-btn variant="outline-danger" @click.prevent="cancelForm">Cancel</b-btn>
+            <b-tooltip disabled
+                       :show.sync="showTool"
+                       target="saveButton"
+                       placement="bottom">Saved!</b-tooltip>
+          </b-button-group>
+        </b-button-toolbar>
+      </b-col>
+    </b-row>
+    <b-card :border-variant="bsColor"
+            :header-bg-variant="bsColor"
+            :header="'Name: ' + activity.name"
+            header-text-variant="white"
+            align="center">
+      <b-form>
+        <b-form-group id="name"
+                      horizontal
+                      :label-cols="2"
+                      label-size="sm"
+                      label="Name"
+                      label-for="name">
+          <b-form-input id="input1"
+                        type="text"
+                        v-model="activity.name"
+                        required
+                        placeholder="Enter name"/>
+        </b-form-group>
+        <b-form-group id="desc"
+                      horizontal
+                      :label-cols="2"
+                      label-size="sm"
+                      label="Description"
+                      label-for="desc">
+          <b-form-input id="input3"
+                        type="text"
+                        v-model="activity.description"
+                        required
+                        placeholder="Enter description"/>
+        </b-form-group>
+        <b-form-group id="metric"
+                      horizontal
+                      :label-cols="2"
+                      label-size="sm"
+                      label="Metric"
+                      label-for="metric">
+          <b-form-input id="metric"
+                        type="text"
+                        v-model="activity.metric"
+                        required
+                        placeholder="Enter units to measure by"/>
+        </b-form-group>
+        <b-form-group id="type"
+                      horizontal
+                      :label-cols="2"
+                      label-size="sm"
+                      label="Type"
+                      label-for="type">
+          <b-form-select v-model="activity.type"
+                         :options="types"
+                         class="mb-3"/>
+        </b-form-group>
+      </b-form>
+    </b-card>
   </b-container>
 </template>
-
 <script>
 import { bootstrapColor } from '../../mixins'
 export default {
@@ -93,8 +82,7 @@ export default {
   props: ['id'],
   data () {
     return {
-      loading: false,
-      error: null,
+      activity: null,
       showTool: false
     }
   },
@@ -110,13 +98,10 @@ export default {
     },
     bsColor () {
       return this.getBootstrapColor(this.activity.type)
-    },
-    activity () {
-      return this.$store.getters.getClonedActivity(this.id)
     }
   },
   created () {
-
+    this.activity = this.$store.getters.getClonedActivity(this.id)
   },
   methods: {
     onSave () {
@@ -127,17 +112,6 @@ export default {
     cancelForm () {
       this.activity = this.$store.getters.getClonedActivity(this.id)
       this.$router.push('/activities')
-    },
-    fetchActivity () {
-      this.error = this.activity = null
-      this.loading = true
-
-      this.loading = false
-      if (record) {
-        this.activity = record
-      } else {
-        this.error = 'activity not found'
-      }
     }
   }
 }

@@ -1,6 +1,6 @@
 import firebase from 'firebase'
 import Vue from 'vue'
-const snapToArray = (snaps) => {
+const ObjToArray = (snaps) => {
   let data = []
   for (const key in snaps) {
     if (snaps.hasOwnProperty(key)) {
@@ -11,7 +11,7 @@ const snapToArray = (snaps) => {
 }
 
 const state = {
-  activities: []
+  activities: null
 }
 
 const mutations = {
@@ -21,31 +21,66 @@ const mutations = {
   'SAVE_ACTIVITY' (state, payload) {
     state.activities[payload.id] = payload.activity
   },
+  'ADD_ACTIVITY' (state, {id, payload}) {
+    console.log(id, payload)
+    // Vue.set(state.activities, id, payload)
+  },
   'DELETE_ACTIVITY' (state, id) {
     Vue.delete(state.activities, id)
   }
 }
 
 const actions = {
-  initActivities: ({commit}) => {
-    firebase.database().ref('/activities/').once('value').then(snapshot => {
-      let data = snapshot.val()
+  initActivities: async ({commit}) => {
+    try {
+      let activities = await firebase.database().ref('/activities/').once('value')
+      let data = activities.val()
       commit('SET_ACTIVITIES', data)
-    })
-    firebase.database().ref('/tags/').once('value').then(snapshot => {
-      let tags = snapToArray(snapshot.val())
+    } catch (err) {
+      console.log('init activities error', err)
+    }
+    try {
+      let snapshot = await firebase.database().ref('/tags/').once('value')
+      let tags = ObjToArray(snapshot.val())
       commit('SET_ACTIVITY_TYPES', tags, {root: true})
-    })
+    } catch (err) {
+      console.log('get tags error', err)
+    }
   },
-  saveActivity: ({commit}, payload) => {
-    firebase.database().ref('/activities/' + payload.id).set(
-      payload.activity
-    )
-    commit('SAVE_ACTIVITY', payload)
+  addActivity: async ({commit, getters}) => {
+    const path = '/activities/'
+    try {
+      const newActivity = await firebase.database().ref(path).push().key
+      let payload = {
+        description: 'new description',
+        metric: '',
+        name: 'new activity',
+        type: 1
+      }
+      await firebase.database().ref(path + newActivity).update(payload)
+
+      commit('ADD_ACTIVITY', { id: newActivity, payload })
+    } catch (err) {
+      console.log('add event', err)
+    }
   },
-  deleteActivity: ({commit}, id) => {
-    firebase.database().ref('/activities/' + id).remove()
-    commit('DELETE_ACTIVITY', id)
+  saveActivity: async ({commit}, payload) => {
+    try {
+      await firebase.database().ref('/activities/' + payload.id).set(
+        payload.activity
+      )
+      commit('SAVE_ACTIVITY', payload)
+    } catch (err) {
+      console.log('error saving', payload, err)
+    }
+  },
+  deleteActivity: async ({commit}, id) => {
+    try {
+      await firebase.database().ref('/activities/' + id).remove()
+      commit('DELETE_ACTIVITY', id)
+    } catch (err) {
+      console.log('error deleting', id, err)
+    }
   }
 }
 
@@ -68,6 +103,9 @@ const getters = {
       6: 'dark'
     }
     return colors[record.type]
+  },
+  activitiesLoaded: (state) => {
+    return !(state.activities === null)
   }
 }
 

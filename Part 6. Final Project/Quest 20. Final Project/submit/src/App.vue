@@ -1,20 +1,40 @@
 <template>
   <div class="container">
     <app-header/>
-    <router-view />
+    <div v-if="auth">
+      <span v-if="loading">loading ...</span>
+      <router-view v-else></router-view>
+    </div>
+    <login v-else></login>
   </div>
 </template>
 
 <script>
 import Header from './components/Header.vue'
+import Login from './components/Login.vue'
 export default {
   components: {
-    'app-header': Header
+    'app-header': Header,
+    login: Login
   },
-  beforeCreate () {
+  computed: {
+    auth () {
+      return this.$store.getters.isAuthenticated
+    },
+    loading () {
+      return this.$store.getters.isLoading
+    }
+  },
+  created () {
     this.$store.dispatch('tryAutoLogin')
-    this.$store.dispatch('initActivities')
-    this.$store.dispatch('initEvents')
+  },
+  mounted () {
+    let auth = this.$store.getters.isAuthenticated
+    if (auth) {
+      this.$store.commit('LOADING_CONTENT')
+      this.$store.dispatch('initActivities')
+      this.$store.dispatch('initEvents')
+    }
   }
 }
 </script>

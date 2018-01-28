@@ -17,7 +17,7 @@
       <b-btn v-for="activity in filteredData"
              :key="activity.id"
              :variant="bsColor(activity.type)"
-             @click="addActivity(activity.id)"
+             @click="addActivity(activity)"
              class="m-1"
              style="cursor:pointer">{{ activity.name }}</b-btn>
     </b-row>
@@ -82,8 +82,8 @@ export default {
     }
   },
   methods: {
-    addActivity (id) {
-      this.$emit('newEventFire', {activityId: id, scheduledDate: this.date})
+    addActivity (activity) {
+      this.$emit('newEventFire', {activityId: activity.id, scheduledDate: this.date, type: activity.type})
     },
     bsColor (code) {
       return this.getBootstrapColor(code)

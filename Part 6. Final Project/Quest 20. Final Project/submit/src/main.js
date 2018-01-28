@@ -12,22 +12,22 @@ firebase.initializeApp(config)
 
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
-let app
+
 const router = new VueRouter({
   routes,
   mode: 'history'
 })
+
 router.beforeEach((to, from, next) => {
   const currentUser = firebase.auth().currentUser
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-  if (requiresAuth && !currentUser) {
-    next('/login')
-  } else if (requiresAuth && currentUser) {
-    next()
-  } else {
-    next()
-  }
+
+  if (requiresAuth && !currentUser) next('/login')
+  else if (requiresAuth && currentUser) next()
+  else next()
 })
+
+let app
 firebase.auth().onAuthStateChanged((user) => {
   if (!app) {
     app = new Vue({

@@ -4,9 +4,13 @@
     <div v-for="(val, key) in events"
          :class="[colorClass(val.type), 'event']"
          :key="key"
+         :style="val.logged ? { opacity: 0.5 } : { opacity: 'blue' }"
          @click.prevent.stop>
-      <div> {{ val.name }}</div>
-      <a @click.prevent.stop="deleteEvent(val.id)" id="deleteEvnt">x</a>
+      <div v-if="val.logged">✓ {{ val.name }}</div>
+      <div v-else> {{ val.name }} </div>
+      <a v-if="!val.logged"
+         id="deleteEvnt"
+         @click.prevent.stop="deleteEvent(val.id)">x</a>
     </div>
 
   </div>
@@ -89,7 +93,6 @@ export default {
 .today {
   background: #f8f4b6;
 }
-
 #deleteEvnt {
   text-align:center;
   cursor: pointer;

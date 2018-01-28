@@ -4,7 +4,7 @@
     <b-navbar-brand href="#">Activity Tracker</b-navbar-brand>
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav class="ml-auto">
-        <b-nav-item to="/"
+        <b-nav-item to="/today"
                     active-class="active"
                     exact
                     v-if="isLoggedIn">Today</b-nav-item>
